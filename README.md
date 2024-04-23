@@ -77,7 +77,7 @@ You should see something like this:
 
 ![][screenshot1]
 
-By default the app will autoconnect, you can change this behaviour by editing the XForms instance 'mqtt' - contained within the HTML file, change ```autoconnect`` to 'false'.
+By default the app will autoconnect, you can change this behaviour by editing the XForms instance 'mqtt' - contained within the HTML file, change ```autoconnect``` to 'false'.
 
 ``` {.xml}
 	<xf:instance id="mqtt">
