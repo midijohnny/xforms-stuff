@@ -1,0 +1,328 @@
+<?xml
+	version="1.0"
+	encoding="UTF-8"?>
+<?xml-stylesheet
+	href="declarative4all/build/xsl/xsltforms.xsl"
+	type="text/xsl"?>
+<?xsltforms-options
+	debug="yes"?>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:ht="http://www.w3.org/1999/xhtml"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:xf="http://www.w3.org/2002/xforms"   
+      xmlns:ev="http://www.w3.org/2001/xml-events"
+	  xmlns:mq="http://example.org/mqtt"
+	  lang="en">
+<head>
+	<title>MQTT AND XForms</title>
+	<style type="text/css">
+		<![CDATA[
+		table, th, td { border: 1px solid black; width:50%; border-collapse: collapse; }
+		xforms-input[xf-readonly] > xforms-body > input { color: grey; }
+/]]>	
+	</style>
+   	<meta
+		charset="utf-8"/>
+   	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1"/>
+
+	<script
+		src="js/paho-mqtt.js"
+		type="text/javascript">
+	</script>
+
+
+	<script
+		src="js/integration.js"
+		type="text/javascript">
+	</script>
+
+	<xf:model id="model">
+
+	<xf:instance id="mqtt">
+		<client xmlns="">
+
+			<connection
+				connected="false"
+				hostname="localhost"
+				port="9001"
+				clientID="browser"
+				autoconnect="true"
+			/>
+
+			<pub topic="camera/take_picture"/>
+			<pub topic="topic1"/>
+			<pub topic="topic2"/>
+			<pub topic="topic3"/>
+			<pub topic="topic4"/>
+			<pub topic="echo"/>
+
+			<sub topic="camera/image_received"/>
+			<sub topic="topic6"/>
+			<sub topic="echo"/>
+
+			<log/>
+	
+			<message
+				topic=""
+				payload="hello world"
+				comment="Outgoing message"/>
+		</client>
+	</xf:instance>
+
+	<xf:instance id="shared" comment="Buffer between JS/Xforms">
+		<shared xmlns="">
+			<message topic="" payload=""/>
+			<logentry dt="" note=""  topic="-" payload="-"/>
+		</shared>
+	</xf:instance>
+
+	<xf:instance id="template" comment="Clone this node for log entry shape">
+		<templates xmlns="">
+			<logentry dt="" note=""  topic="-" payload="-"/>
+		</templates>
+	</xf:instance>
+
+	<xf:bind
+		ref="instance('template')/logentry/@dt"
+		calculate="now()"
+		type="xsd:dateTime"
+		required="true()"/>
+	<xf:bind
+		ref="instance('template')/logentry/@note"
+		required="true()"/>
+
+	<xf:bind
+		ref="instance('shared')/logentry/@dt"
+		calculate="now()"
+		type="xsd:dateTime"
+		required="true()"/>
+
+	<xf:bind
+		ref="instance('template')/logentry/@note"
+		required="true()"/>
+	
+	<xf:bind
+		ref="connection/@port"
+		type="integer"/>
+	<xf:bind
+		ref="connection/@connected"
+		type="boolean"
+		readonly="true()"/>
+
+	<xf:bind
+		ref="connection"
+		readonly="@connected=true()"/>
+
+	<xf:bind
+		ref="connection/@autoconnect"
+		type="boolean"
+		readonly="true()"/>
+
+	<xf:bind
+		ref="pub"
+		constraint="not(@topic='')"/>
+
+	<xf:bind
+		ref="sub"
+		constraint="not(@topic='')"/>
+
+	<xf:bind
+		ref="template/message"
+		required="true()"/>
+
+	<xf:bind
+		ref="template/message/@topic"
+		required="true()"/>
+
+	<xf:action
+	 	ev:event="xforms-ready">
+		<xf:load resource="javascript:addListeners()"/>
+		<xf:insert
+			comment="Writes log entry"
+			context="/log"
+			nodeset="logentry"
+			origin="instance('template')/logentry"
+			position="after"
+			at="count(logentry)"/>
+		<xf:setvalue ref="log/logentry[last()]/@note" value="'init'"/>
+		<xf:setvalue ref="message/@topic" value="../../pub[1]/@topic"/>
+				<xf:dispatch
+						if="connection/@autoconnect=true()"
+						targetid="model"
+						name="mqtt-do-connect"/>
+	</xf:action>
+
+	<xf:action
+			ev:event="mqtt-connect">
+		<xf:setvalue
+			ref="connection/@connected"
+			value="true()"/>
+		<xf:insert
+			comment="Writes log entry"
+			context="/log"
+			nodeset="logentry"
+			origin="instance('template')/logentry"
+			position="after"
+			at="count(logentry)"/>
+		<xf:setvalue ref="log/logentry[last()]/@note" value="'mqtt-connect'"/>
+
+		<xf:setvalue ref="template/message/@topic" value="../../../pub[1]/@topic"/>
+		<xf:dispatch
+			targetid="model"
+			name="mqtt-do-subscribe"/>
+	</xf:action>
+
+	<xf:action
+		ev:event="mqtt-connection-lost">
+		<xf:setvalue
+			ref="connection/@connected"
+			value="false()"/>
+	<xf:insert
+			comment="Writes log entry"
+			context="/log"
+			nodeset="logentry"
+			origin="instance('template')/logentry"
+			position="after"
+			at="count(logentry)"/>
+        <xf:setvalue
+			ref="log/logentry[last()]/@note"
+			value="'mqtt-connection-lost'"/>
+	</xf:action>
+
+	<xf:action
+		ev:event="mqtt-message-sent">
+	<xf:insert
+		comment="Writes log entry"
+		context="log"
+		nodeset="logentry"
+		origin="instance('template')/logentry"
+		position="after"
+		at="count(logentry)"/>
+        <xf:setvalue ref="log/logentry[last()]/@note" value="'mqtt-message-sent'"/>
+        <xf:setvalue ref="log/logentry[last()]/@topic" value="../../../message/@topic"/>
+        <xf:setvalue ref="log/logentry[last()]/@payload" value="../../../message/@payload"/>
+	</xf:action>
+
+	<xf:action
+		ev:event="mqtt-do-write-log">
+	<xf:insert
+		comment="Writes log entry - used from Javascript"
+		context="log"
+		nodeset="logentry"
+		origin="instance('shared')/logentry"
+		position="after"
+		at="count(logentry)"/>
+	</xf:action>
+
+	</xf:model>
+</head>
+<body>
+	<h1> MQTT CLIENT TEST </h1>
+
+		<xf:group ref="connection">
+			<xf:input ref="@connected">
+				<xf:label>CONNECTED?</xf:label>
+			</xf:input>
+		</xf:group>
+
+			<xf:group ref="connection">
+				<xf:label>CONNECTION DETAILS</xf:label>
+					<xf:output value="link"/>
+					<xf:input ref="@hostname">
+						<xf:label>hostname</xf:label>
+					</xf:input>
+					<xf:input ref="@port">
+						<xf:label>port</xf:label>
+					</xf:input>
+					<xf:input ref="@clientID">
+						<xf:label>clientID</xf:label>
+					</xf:input>
+
+					<xf:trigger id="t_do_connect">
+						<xf:label>CONNECT</xf:label>
+						<xf:action ev:event="DOMActivate">
+							<xf:dispatch targetid="model" name="mqtt-do-connect"/>
+						</xf:action>
+					</xf:trigger>
+			</xf:group>
+
+			<xf:group id="control" ref="connection[@connected=true()]">
+					<xf:group ref="..">
+
+					<xf:input ref="message/@payload">
+						<xf:label>Message</xf:label>
+					</xf:input>
+
+					<xf:select1 ref="message/@topic">
+						<xf:label>Topic</xf:label>
+						<xf:itemset
+							nodeset="../../pub/@topic">
+							<xf:value ref="."/>
+							<xf:label ref="."/>
+						</xf:itemset>
+					</xf:select1>
+
+					<xf:trigger id="t_send_message">
+						<xf:label>SEND MESSAGE</xf:label>
+						<xf:action ev:event="DOMActivate">
+							<xf:dispatch targetid="model" name="mqtt-do-send"/>
+						</xf:action>
+					</xf:trigger>
+					<xf:trigger id="t_do_disconnect">
+							<xf:label>DISCONNECT</xf:label>
+							<xf:action ev:event="DOMActivate">
+								<xf:dispatch targetid="model" name="mqtt-do-disconnect"/>
+							</xf:action>
+					</xf:trigger>
+				</xf:group>
+		</xf:group>
+
+		<xf:group>
+
+		<table>
+			<thead>
+				<tr> <th>dt</th> <th>note</th> <th>topic</th> <th>payload</th> </tr>
+				<tr>
+			<xf:trigger id="t_clear_log">
+				<xf:label>CLEAR LOG</xf:label>
+				<xf:action ev:event="DOMActivate">
+					<xf:delete ref="log/logentry"/>
+				</xf:action>
+			</xf:trigger>
+
+				</tr>
+			</thead>
+		<tbody>
+			<xf:repeat ref="log/logentry">
+				<tr>
+					<td> <xf:output value="@dt"/>      </td>
+					<td> <xf:output value="@note"/>    </td>
+					<td> <xf:output value="@topic"/> </td>
+					<td> <xf:output value="@payload"/>   </td>
+					<td>
+						<xf:trigger>
+      						<xf:label>Delete</xf:label>
+      						<xf:delete ev:event="DOMActivate" nodeset="." at="1" />
+   						</xf:trigger>
+					</td>
+				</tr>
+		</xf:repeat>
+		</tbody>
+	</table>
+</xf:group>
+
+<script type="text/javascript">
+	function addListeners() {
+		var model=document.querySelector('#model');
+		model.addEventListener('mqtt-do-connect',    do_connect);
+		model.addEventListener('mqtt-do-subscribe',  do_subscribe);
+		model.addEventListener('mqtt-do-disconnect', do_disconnect);
+		model.addEventListener('mqtt-do-send',       do_send);
+	}
+</script>
+
+
+</body>
+</html>
