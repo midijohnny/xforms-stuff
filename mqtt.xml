@@ -248,8 +248,7 @@
 					</xf:trigger>
 			</xf:group>
 
-			<xf:group id="control" ref="connection[@connected=true()]">
-					<xf:group ref="..">
+			<xf:group id="control" ref="connection[@connected=true()]/..">
 
 					<xf:input ref="message/@payload">
 						<xf:label>Message</xf:label>
@@ -276,7 +275,6 @@
 								<xf:dispatch targetid="model" name="mqtt-do-disconnect"/>
 							</xf:action>
 					</xf:trigger>
-				</xf:group>
 		</xf:group>
 
 		<xf:group>
