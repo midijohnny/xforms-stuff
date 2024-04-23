@@ -68,6 +68,10 @@
 				topic=""
 				payload="hello world"
 				comment="Outgoing message"/>
+
+		<icon name="trashcan">&#128465;</icon>
+		<icon name="cross">&#10006;</icon>
+		<icon name="send-arrow">&#8626;</icon>
 		</client>
 	</xf:instance>
 
@@ -242,6 +246,7 @@
 
 					<xf:trigger id="t_do_connect">
 						<xf:label>CONNECT</xf:label>
+						<xf:hint if="@connected=false">Connect to MQTT Broker</xf:hint>
 						<xf:action ev:event="DOMActivate">
 							<xf:dispatch targetid="model" name="mqtt-do-connect"/>
 						</xf:action>
@@ -263,14 +268,16 @@
 						</xf:itemset>
 					</xf:select1>
 
-					<xf:trigger id="t_send_message">
-						<xf:label>SEND MESSAGE</xf:label>
+					<xf:trigger id="t_publish_message">
+						<xf:label><xf:output value="icon[@name='send-arrow']"/></xf:label>
+						<xf:hint>Publish Message</xf:hint>
 						<xf:action ev:event="DOMActivate">
 							<xf:dispatch targetid="model" name="mqtt-do-send"/>
 						</xf:action>
 					</xf:trigger>
 					<xf:trigger id="t_do_disconnect">
 							<xf:label>DISCONNECT</xf:label>
+							<xf:hint>Disconnect from MQTT Broker</xf:hint>
 							<xf:action ev:event="DOMActivate">
 								<xf:dispatch targetid="model" name="mqtt-do-disconnect"/>
 							</xf:action>
@@ -281,15 +288,16 @@
 
 		<table>
 			<thead>
-				<tr> <th>dt</th> <th>note</th> <th>topic</th> <th>payload</th> </tr>
-				<tr>
-			<xf:trigger id="t_clear_log">
-				<xf:label>CLEAR LOG</xf:label>
+				<tr> <th>dt</th> <th>note</th> <th>topic</th> <th>payload</th>
+			<th>
+			<xf:trigger id="t_clear_log" appearance="minimal">
+      			<xf:label><xf:output value="icon[@name='trashcan']"/></xf:label>
+				<xf:hint>Clear all log entries</xf:hint>
 				<xf:action ev:event="DOMActivate">
 					<xf:delete ref="log/logentry"/>
 				</xf:action>
 			</xf:trigger>
-
+			</th>
 				</tr>
 			</thead>
 		<tbody>
@@ -300,8 +308,9 @@
 					<td> <xf:output value="@topic"/> </td>
 					<td> <xf:output value="@payload"/>   </td>
 					<td>
-						<xf:trigger>
-      						<xf:label>Delete</xf:label>
+						<xf:trigger appearance="minimal">
+      						<xf:label><xf:output value="../../icon[@name='cross']"/></xf:label>
+							<xf:hint>Delete log entry</xf:hint>
       						<xf:delete ev:event="DOMActivate" nodeset="." at="1" />
    						</xf:trigger>
 					</td>
