@@ -205,7 +205,7 @@ The app only sends and receives text messages: this is missing a trick.
 It could send and recieved XML messages - received messages could then update XForms model automatically.
 Perhaps having a map of custom, app-specific events - based on the MQTT topics would be more useful.
 
-[mqtt.xml]:								blob/main/mqtt.xml
+[mqtt.xml]:								mqtt.xml
 [XForms]:								https://www.w3.org/TR/xforms
 [XSLTForms]:    							http://www.agencexml.com/xsltforms
 [HiveMQ]:								https://www.hivemq.com/mqtt/public-mqtt-broker/
