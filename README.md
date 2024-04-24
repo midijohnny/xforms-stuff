@@ -16,8 +16,17 @@ For instance [HiveMQ] provide one.
 Just edit the [mqtt.xml] (or just fill in the form directly of course) with their connection details.
 At the time of writing :
 
+```
 hostname: broker.hivemq.com
 port:8000
+```
+
+You can use [Mosquitto_Sub] / [Mosquitto_Pub] commands (see below) for testing with this.
+
+## Tip:
+
+You can send messages between different browser tabs - but use a different 'clientID' for each.
+The broker will disconnect any existing client if a new connection is made with the same ID.
 
 ## Setup for Mosquitto
 
@@ -167,20 +176,32 @@ tcp6       0      0 :::9001                 :::*                    LISTEN
 
 ## Getting dependencies.
 
-For what its worth - there is a simple 'Makefile' to download the dependencies.
+For what its worth - there is a simple [Makefile] to download the [XSLTForms] and [Paho] libraries.
+So you can just run 'make' from the project directory to fetch these.
 
-``` {.make}
-XSLTFORMS=declarative4all/build/xsl/xsltforms.xsl
-PAHOJS=js/paho-mqtt.js
-mqtt.xml: ${XSLTFORMS} ${PAHOJS}
-
-${XSLTFORMS}:
-	git clone https://github.com/AlainCouthures/declarative4all.git
-
-${PAHOJS}:
-	mkdir -p js
-	curl https://raw.githubusercontent.com/eclipse/paho.mqtt.javascript/master/src/paho-mqtt.js --output js/paho-mqtt.js --location
+``` {.bash}
+$ make
 ```
+
+Output should be something like:
+
+```
+git clone https://github.com/AlainCouthures/declarative4all.git
+Cloning into 'declarative4all'...
+remote: Enumerating objects: 8166, done.
+remote: Counting objects: 100% (1568/1568), done.
+remote: Compressing objects: 100% (719/719), done.
+remote: Total 8166 (delta 1040), reused 1138 (delta 835), pack-reused 6598
+Receiving objects: 100% (8166/8166), 13.89 MiB | 8.31 MiB/s, done.
+Resolving deltas: 100% (5694/5694), done.
+mkdir -p js
+curl https://raw.githubusercontent.com/eclipse/paho.mqtt.javascript/master/src/paho-mqtt.js --output js/paho-mqtt.js --location
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 90293  100 90293    0     0   266k      0 --:--:-- --:--:-- --:--:--  266k
+```
+
+
 
 ### Useful links:
 
@@ -206,6 +227,7 @@ It could send and recieved XML messages - received messages could then update XF
 Perhaps having a map of custom, app-specific events - based on the MQTT topics would be more useful.
 
 [mqtt.xml]:								mqtt.xml
+[Makefile]:								Makefile
 [XForms]:								https://www.w3.org/TR/xforms
 [XSLTForms]:    							http://www.agencexml.com/xsltforms
 [HiveMQ]:								https://www.hivemq.com/mqtt/public-mqtt-broker/
