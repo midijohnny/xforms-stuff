@@ -16,8 +16,17 @@ For instance [HiveMQ] provide one.
 Just edit the [mqtt.xml] (or just fill in the form directly of course) with their connection details.
 At the time of writing :
 
+```
 hostname: broker.hivemq.com
 port:8000
+```
+
+You can use [Mosquitto_Sub] / [Mosquitto_Pub] commands (see below) for testing with this.
+
+## Tip:
+
+You can send messages between different browser tabs - but use a different 'clientID' for each.
+The broker will disconnect any existing client if a new connection is made with the same ID.
 
 ## Setup for Mosquitto
 
