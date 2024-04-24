@@ -9,6 +9,15 @@ The app has two client-side dependencies:
 It also requires an MQTT broker with Websocket support.
 I used [Mosquitto].
 
+## Use public test MQTT server.
+
+You can also use public internet-facing MQTT test brokers - just remember that your data isn't private.
+For instance [HiveMQ] provide one.
+Just edit the [mqtt.xml] (or just fill in the form directly of course) with their connection details.
+At the time of writing :
+
+hostname: broker.hivemq.com
+port:8000
 
 ## Setup for Mosquitto
 
@@ -196,18 +205,19 @@ The app only sends and receives text messages: this is missing a trick.
 It could send and recieved XML messages - received messages could then update XForms model automatically.
 Perhaps having a map of custom, app-specific events - based on the MQTT topics would be more useful.
 
-
-[XForms]:									https://www.w3.org/TR/xforms
+[mqtt.xml]:								blob/main/mqtt.xml
+[XForms]:								https://www.w3.org/TR/xforms
 [XSLTForms]:    							http://www.agencexml.com/xsltforms
-[MQTT]:   									https://en.wikipedia.org/wiki/MQTT
+[HiveMQ]:								https://www.hivemq.com/mqtt/public-mqtt-broker/
+[MQTT]:   								https://en.wikipedia.org/wiki/MQTT
 [Websockets]:								https://en.wikipedia.org/wiki/WebSocket
-[Paho]:   									https://eclipse.dev/paho/index.php?page=clients/js/index.php
+[Paho]:   								https://eclipse.dev/paho/index.php?page=clients/js/index.php
 [Mosquitto]:								https://mosquitto.org/
 [Mosquitto_Sub]:							https://mosquitto.org/man/mosquitto_sub-1.html
 [Mosquitto_Pub]:							https://mosquitto.org/man/mosquitto_pub-1.html
-[CDN]:										https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js
-[XForms: A Tutorial]:						https://homepages.cwi.nl/~steven/xforms11-for-html-authors/
-[Beginners Guide To The MQTT Protocol]:		http://www.steves-internet-guide.com/mqtt/
+[CDN]:									https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js
+[XForms: A Tutorial]:							https://homepages.cwi.nl/~steven/xforms11-for-html-authors/
+[Beginners Guide To The MQTT Protocol]:					http://www.steves-internet-guide.com/mqtt/
 [SourceForge]:								https://sourceforge.net/projects/xsltforms/
 
 [screenshot1]: img/screenshot1.png
