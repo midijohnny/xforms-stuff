@@ -192,6 +192,9 @@ The [Paho] library lists out explicit error codes - such as "AMQJSC0000I OK.", "
 There is no limit of the number of logging entries that will get written - this could be a problem if the browser is left unattended and is receiving messages.
 It would be nice if the number of log self-managed itself - to automatically clear our entries when the 'buffer' goes over a certain limit. (and/or throw away old messages).
 
+The app only sends and receives text messages: this is missing a trick. 
+It could send and recieved XML messages - received messages could then update XForms model automatically.
+Perhaps having a map of custom, app-specific events - based on the MQTT topics would be more useful.
 
 
 [XForms]:									https://www.w3.org/TR/xforms
