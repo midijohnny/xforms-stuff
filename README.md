@@ -11,7 +11,7 @@ I used [Mosquitto].
 
 ## Use public test MQTT server.
 
-You can also use public internet-facing MQTT test brokers - just remember that your data isn't private.
+You can use public internet-facing MQTT test brokers - just remember that your data isn't private.
 For instance [HiveMQ] provide one.
 Just edit the [mqtt.xml] (or just fill in the form directly of course) with their connection details.
 At the time of writing :
@@ -25,13 +25,13 @@ You can use [Mosquitto_Sub] / [Mosquitto_Pub] commands (see below) for testing w
 
 ## Tip:
 
-You can send messages between different browser tabs - but use a different 'clientID' for each.
-The broker will disconnect any existing client if a new connection is made with the same ID.
+You can send messages between different browser tabs - but use a different ```clientID``` for each.
+The broker will disconnect any existing client that has the same ```clientID```.
 
 ## Setup for Mosquitto
 
 There is no support for authentication - so the broker must configured to allow anonymous access.
-Mosquitto can deliver the app via HTTP if the option 'http_dir' is setup.
+Mosquitto can deliver the app via HTTP if the option ```http_dir``` is setup.
 Alternatively - you can run a separate web-server (it doesn't matter which) to deliver the app.
 
 Here's an example of the configuration settings:
