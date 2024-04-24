@@ -52,7 +52,7 @@ http_dir /home/joebloggs/www
 
 The 'http_dir' can be anything you want - that's where the files go.
 
-On my Ubuntu system the configuration filepath is /etc/mosquitto/mosquitto.conf and requires root access to edit.
+On my Ubuntu system the configuration filepath is ```/etc/mosquitto/mosquitto.conf``` and requires root access to edit.
 After changing the configuration the broker needs to be restarted:
 
 ``` {.bash}
