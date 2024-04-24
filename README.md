@@ -11,14 +11,20 @@ I used [Mosquitto].
 
 ## Use public test MQTT server.
 
-You can use public internet-facing MQTT test brokers - just remember that your data isn't private.
-For instance [HiveMQ] provide one.
-Just edit the [mqtt.xml] (or just fill in the form directly of course) with their connection details.
+You can use public internet-facing MQTT test brokers, for [HiveMQ] or [EMQX].
+Remember when testing with public endpoint that your data isn't private.
+Just edit the [mqtt.xml] (or just fill in the form directly of course) with the connection details.
+
 At the time of writing :
 
 ```
 hostname: broker.hivemq.com
 port:8000
+```
+
+```
+hostname: broker.emqx.io
+port:8083
 ```
 
 You can use [Mosquitto_Sub] / [Mosquitto_Pub] commands (see below) for testing with this.
@@ -231,6 +237,7 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [XForms]:								https://www.w3.org/TR/xforms
 [XSLTForms]:    							http://www.agencexml.com/xsltforms
 [HiveMQ]:								https://www.hivemq.com/mqtt/public-mqtt-broker/
+[EMQX]:									https://www.emqx.com/en/mqtt/public-mqtt5-broker
 [MQTT]:   								https://en.wikipedia.org/wiki/MQTT
 [Websockets]:								https://en.wikipedia.org/wiki/WebSocket
 [Paho]:   								https://eclipse.dev/paho/index.php?page=clients/js/index.php
