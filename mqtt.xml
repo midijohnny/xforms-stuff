@@ -89,13 +89,16 @@
 	</xf:instance>
 
 	<xf:bind
-		ref="instance('template')/logentry/@dt"
-		calculate="now()"
-		type="xsd:dateTime"
-		required="true()"/>
-	<xf:bind
-		ref="instance('template')/logentry/@note"
-		required="true()"/>
+		ref="instance('template')">
+		<xf:bind
+			ref="logentry/@dt"
+			calculate="now()"
+			type="xsd:dateTime"
+			required="true()"/>
+			<xf:bind
+				ref="logentry/@note"
+				required="true()"/>
+	</xf:bind>
 
 	<xf:bind
 		ref="instance('shared')/logentry/@dt"
