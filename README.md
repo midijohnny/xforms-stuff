@@ -235,19 +235,19 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [mqtt.xml]:								mqtt.xml
 [Makefile]:								Makefile
 [XForms]:								https://www.w3.org/TR/xforms
-[XSLTForms]:    							http://www.agencexml.com/xsltforms
+[XSLTForms]:    						http://www.agencexml.com/xsltforms
 [HiveMQ]:								https://www.hivemq.com/mqtt/public-mqtt-broker/
 [EMQX]:									https://www.emqx.com/en/mqtt/public-mqtt5-broker
 [MQTT]:   								https://en.wikipedia.org/wiki/MQTT
-[Websockets]:								https://en.wikipedia.org/wiki/WebSocket
+[Websockets]:							https://en.wikipedia.org/wiki/WebSocket
 [Paho]:   								https://eclipse.dev/paho/index.php?page=clients/js/index.php
-[Mosquitto]:								https://mosquitto.org/
-[Mosquitto_Sub]:							https://mosquitto.org/man/mosquitto_sub-1.html
-[Mosquitto_Pub]:							https://mosquitto.org/man/mosquitto_pub-1.html
+[Mosquitto]:							https://mosquitto.org/
+[Mosquitto_Sub]:						https://mosquitto.org/man/mosquitto_sub-1.html
+[Mosquitto_Pub]:						https://mosquitto.org/man/mosquitto_pub-1.html
 [CDN]:									https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js
-[XForms: A Tutorial]:							https://homepages.cwi.nl/~steven/xforms11-for-html-authors/
-[Beginners Guide To The MQTT Protocol]:					http://www.steves-internet-guide.com/mqtt/
-[SourceForge]:								https://sourceforge.net/projects/xsltforms/
+[XForms: A Tutorial]:					https://homepages.cwi.nl/~steven/xforms11-for-html-authors/
+[Beginners Guide To The MQTT Protocol]:	http://www.steves-internet-guide.com/mqtt/
+[SourceForge]:							https://sourceforge.net/projects/xsltforms/
 
 [screenshot1]: img/screenshot1.png
 [screenshot2]: img/screenshot2.png
