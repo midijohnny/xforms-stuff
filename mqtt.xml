@@ -38,7 +38,7 @@
 		type="text/javascript">
 	</script>
 
-	<xf:model id="model">
+	<xf:model id="mqtt_model">
 
 	<xf:instance id="mqtt">
 		<client xmlns="">
@@ -89,21 +89,22 @@
 	</xf:instance>
 
 	<xf:bind
-		ref="instance('template')">
-		<xf:bind
-			ref="logentry/@dt"
-			calculate="now()"
-			type="xsd:dateTime"
-			required="true()"/>
-			<xf:bind
-				ref="logentry/@note"
-				required="true()"/>
-	</xf:bind>
+		ref="instance('template')/logentry/@dt"
+		calculate="now()"
+		type="xsd:dateTime"
+		required="true()"/>
+	<xf:bind
+		ref="instance('template')/logentry/@note"
+		required="true()"/>
 
 	<xf:bind
 		ref="instance('shared')/logentry/@dt"
 		calculate="now()"
 		type="xsd:dateTime"
+		required="true()"/>
+
+	<xf:bind
+		ref="instance('template')/logentry/@note"
 		required="true()"/>
 	
 	<xf:bind
@@ -153,7 +154,7 @@
 		<xf:setvalue ref="message/@topic" value="../../pub[1]/@topic"/>
 				<xf:dispatch
 						if="connection/@autoconnect=true()"
-						targetid="model"
+						targetid="mqtt_model"
 						name="mqtt-do-connect"/>
 	</xf:action>
 
@@ -173,7 +174,7 @@
 
 		<xf:setvalue ref="template/message/@topic" value="../../../pub[1]/@topic"/>
 		<xf:dispatch
-			targetid="model"
+			targetid="mqtt_model"
 			name="mqtt-do-subscribe"/>
 	</xf:action>
 
@@ -245,9 +246,9 @@
 
 					<xf:trigger id="t_do_connect">
 						<xf:label>CONNECT</xf:label>
-						<xf:hint>Connect to MQTT Broker</xf:hint>
+						<xf:hint if="@connected=false">Connect to MQTT Broker</xf:hint>
 						<xf:action ev:event="DOMActivate">
-							<xf:dispatch targetid="model" name="mqtt-do-connect"/>
+							<xf:dispatch targetid="mqtt_model" name="mqtt-do-connect"/>
 						</xf:action>
 					</xf:trigger>
 			</xf:group>
@@ -271,14 +272,14 @@
 						<xf:label><xf:output value="icon[@name='send-arrow']"/></xf:label>
 						<xf:hint>Publish Message</xf:hint>
 						<xf:action ev:event="DOMActivate">
-							<xf:dispatch targetid="model" name="mqtt-do-send"/>
+							<xf:dispatch targetid="mqtt_model" name="mqtt-do-send"/>
 						</xf:action>
 					</xf:trigger>
 					<xf:trigger id="t_do_disconnect">
 							<xf:label>DISCONNECT</xf:label>
 							<xf:hint>Disconnect from MQTT Broker</xf:hint>
 							<xf:action ev:event="DOMActivate">
-								<xf:dispatch targetid="model" name="mqtt-do-disconnect"/>
+								<xf:dispatch targetid="mqtt_model" name="mqtt-do-disconnect"/>
 							</xf:action>
 					</xf:trigger>
 		</xf:group>
@@ -321,11 +322,11 @@
 
 <script type="text/javascript">
 	function addListeners() {
-		var model=document.querySelector('#model');
-		model.addEventListener('mqtt-do-connect',    do_connect);
-		model.addEventListener('mqtt-do-subscribe',  do_subscribe);
-		model.addEventListener('mqtt-do-disconnect', do_disconnect);
-		model.addEventListener('mqtt-do-send',       do_send);
+		var mqtt_model=document.querySelector('#mqtt_model');
+		mqtt_model.addEventListener('mqtt-do-connect',    do_connect);
+		mqtt_model.addEventListener('mqtt-do-subscribe',  do_subscribe);
+		mqtt_model.addEventListener('mqtt-do-disconnect', do_disconnect);
+		mqtt_model.addEventListener('mqtt-do-send',       do_send);
 	}
 </script>
 
