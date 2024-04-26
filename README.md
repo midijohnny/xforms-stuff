@@ -136,8 +136,8 @@ By default the app will autoconnect, you can change this behaviour by editing th
 	</xf:instance>
 ```
 
-See the 'binds' as well - in particular know that the 'connection/@connected' flag is automatically set to 'true' when connected, and 'false' when not.
-So - the UI can automatically react to changes from this setting.
+See the 'binds' as well - in particular know that the ```connection/@connected``` flag is automatically set to ```true``` when connected, and ```false``` when not.
+So - the UI can automatically react to changes to this flag.
 
 Try this:
 
