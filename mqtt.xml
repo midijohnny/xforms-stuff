@@ -5,7 +5,7 @@
 	href="declarative4all/build/xsl/xsltforms.xsl"
 	type="text/xsl"?>
 <?xsltforms-options
-	debug="yes"?>
+	debug="no"?>
 <html xmlns="http://www.w3.org/1999/xhtml" 
 	  xmlns:ht="http://www.w3.org/1999/xhtml"
       xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -17,10 +17,17 @@
 	<title>MQTT AND XForms</title>
 	<style type="text/css">
 		<![CDATA[
-		table, th, td { border: 1px solid black; width:50%; border-collapse: collapse; }
-		xforms-input[xf-readonly] > xforms-body > input { color: grey; }
+			xforms-input[xf-readonly] > xforms-body > input { color: grey; }
+			.table											{ display: table; border-collapse: collapse; margin: 0 auto }
+			.tr												{ display: table-row; }
+			.td, .th										{ float: left; width: 310px; display: table-cell; padding: 2px; border: 1px solid #aaa  }
+			.icon											{ width: 50px; }
+    		.th												{ font-weight: bold; background-color: #ccc; }
+			.td, .th										{ height: 20px }
+			#r1 > xforms-repeat-item[xf-selected='true']	{ background-color : #ddd }
 /]]>	
 	</style>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
    	<meta
 		charset="utf-8"/>
    	<meta
@@ -147,9 +154,7 @@
 			comment="Writes log entry"
 			context="/log"
 			nodeset="logentry"
-			origin="instance('template')/logentry"
-			position="after"
-			at="count(logentry)"/>
+			origin="instance('template')/logentry"/>
 		<xf:setvalue ref="log/logentry[last()]/@note" value="'init'"/>
 		<xf:setvalue ref="message/@topic" value="../../pub[1]/@topic"/>
 				<xf:dispatch
@@ -167,9 +172,7 @@
 			comment="Writes log entry"
 			context="/log"
 			nodeset="logentry"
-			origin="instance('template')/logentry"
-			position="after"
-			at="count(logentry)"/>
+			origin="instance('template')/logentry"/>
 		<xf:setvalue ref="log/logentry[last()]/@note" value="'mqtt-connect'"/>
 
 		<xf:setvalue ref="template/message/@topic" value="../../../pub[1]/@topic"/>
@@ -187,9 +190,7 @@
 			comment="Writes log entry"
 			context="/log"
 			nodeset="logentry"
-			origin="instance('template')/logentry"
-			position="after"
-			at="count(logentry)"/>
+			origin="instance('template')/logentry"/>
         <xf:setvalue
 			ref="log/logentry[last()]/@note"
 			value="'mqtt-connection-lost'"/>
@@ -202,7 +203,7 @@
 		context="log"
 		nodeset="logentry"
 		origin="instance('template')/logentry"
-		position="after"
+		_position="after"
 		at="count(logentry)"/>
         <xf:setvalue ref="log/logentry[last()]/@note" value="'mqtt-message-sent'"/>
         <xf:setvalue ref="log/logentry[last()]/@topic" value="../../../message/@topic"/>
@@ -255,10 +256,6 @@
 
 			<xf:group id="control" ref="connection[@connected=true()]/..">
 
-					<xf:input ref="message/@payload">
-						<xf:label>Message</xf:label>
-					</xf:input>
-
 					<xf:select1 ref="message/@topic">
 						<xf:label>Topic</xf:label>
 						<xf:itemset
@@ -268,13 +265,23 @@
 						</xf:itemset>
 					</xf:select1>
 
+					<br/>
+
+					<xf:input ref="message/@payload">
+						<xf:label>Message</xf:label>
+					</xf:input>
+	
+					<br/>
 					<xf:trigger id="t_publish_message">
-						<xf:label><xf:output value="icon[@name='send-arrow']"/></xf:label>
+						<xf:label><span class="material-symbols-outlined"> send </span> </xf:label>
 						<xf:hint>Publish Message</xf:hint>
 						<xf:action ev:event="DOMActivate">
 							<xf:dispatch targetid="mqtt_model" name="mqtt-do-send"/>
 						</xf:action>
 					</xf:trigger>
+				
+					<br/>
+
 					<xf:trigger id="t_do_disconnect">
 							<xf:label>DISCONNECT</xf:label>
 							<xf:hint>Disconnect from MQTT Broker</xf:hint>
@@ -284,41 +291,39 @@
 					</xf:trigger>
 		</xf:group>
 
-		<xf:group>
+			<br/>
 
-		<table>
-			<thead>
-				<tr> <th>dt</th> <th>note</th> <th>topic</th> <th>payload</th>
-			<th>
-			<xf:trigger id="t_clear_log" appearance="minimal">
-      			<xf:label><xf:output value="icon[@name='trashcan']"/></xf:label>
-				<xf:hint>Clear all log entries</xf:hint>
-				<xf:action ev:event="DOMActivate">
-					<xf:delete ref="log/logentry"/>
-				</xf:action>
-			</xf:trigger>
-			</th>
-				</tr>
-			</thead>
-		<tbody>
-			<xf:repeat ref="log/logentry">
-				<tr>
-					<td> <xf:output value="@dt"/>      </td>
-					<td> <xf:output value="@note"/>    </td>
-					<td> <xf:output value="@topic"/> </td>
-					<td> <xf:output value="@payload"/>   </td>
-					<td>
-						<xf:trigger appearance="minimal">
-      						<xf:label><xf:output value="../../icon[@name='cross']"/></xf:label>
-							<xf:hint>Delete log entry</xf:hint>
-      						<xf:delete ev:event="DOMActivate" nodeset="." at="1" />
-   						</xf:trigger>
-					</td>
-				</tr>
-		</xf:repeat>
-		</tbody>
-	</table>
-</xf:group>
+			<div class="table">
+                <div class="row">
+                    <div class="th">dt</div>
+                    <div class="th">note</div>
+                    <div class="th">topic</div>
+                    <div class="th">payload</div>
+					<div class="th icon">
+						<xf:trigger id="t_clear_log" appearance="minimal">
+      						<span class="material-symbols-outlined"> delete </span>
+							<xf:hint>Clear all log entries</xf:hint>
+							<xf:delete ref="log/logentry" ev:event="DOMActivate"/>
+						</xf:trigger>
+                	</div>
+				</div>
+                <xf:repeat id="r1" ref="log/logentry">
+                    <div class="tr">
+						<div class="td"><xf:output value="@dt"/></div>
+						<div class="td"><xf:output value="@note"/></div>
+						<div class="td"><xf:output value="@topic"/></div>
+						<div class="td"><xf:output value="@payload"/></div>
+						<div class="td icon">
+							<xf:trigger appearance="minimal">
+      							<span class="material-symbols-outlined"> remove </span>
+								<xf:hint>Delete log entry</xf:hint>
+      							<xf:delete ev:event="DOMActivate" nodeset="." at="1" />
+   							</xf:trigger>
+						</div>
+                    </div>
+                </xf:repeat>
+            </div>
+
 
 <script type="text/javascript">
 	function addListeners() {
