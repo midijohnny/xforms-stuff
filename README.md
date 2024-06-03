@@ -54,6 +54,7 @@ create [XForms] components, using [Xforms] itself.
 
 The example here lets you create a [select1] fragment - you can add/update/delete values/items.
 You resultant XML is shown in 'raw' form as you edit, and you can download the XML fragment once done.
+
 ![][screenshot_maker]
 
 ## MQTT Integration
@@ -314,7 +315,7 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [select1]: https://en.wikibooks.org/wiki/XForms/Select1
 [maker.xml]: maker.xml
 
-[screenshot_maker]: img/screenshot_maker.png
+[screenshot_maker]: img/maker.png
 
 [TensorFlow.js]: https://www.tensorflow.org/js
 [CDN]: https://en.wikipedia.org/wiki/Content_delivery_network
