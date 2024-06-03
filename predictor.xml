@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet
+	href="declarative4all/build/xsl/xsltforms.xsl"
+	type="text/xsl"?>
+<?xsltforms-options
+	debug="no"?>
+<html
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xf="http://www.w3.org/2002/xforms"   
+	xmlns:ev="http://www.w3.org/2001/xml-events">
+<head>
+	<meta
+		charset="utf-8"/>
+   	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1"/>
+
+	<meta charset="utf-8" />
+	<title>Testing mobilenet JS tensorflow</title>
+
+	<style type="text/css">
+    <![CDATA[
+		.table                                          	{ display: table; border-collapse: collapse; margin: 0 auto }
+		.tr                                             	{ display: table-row; }
+		.td, .th                                        	{ float: left;  display: table-cell; padding: 2px; border: 1px solid #555  }
+		.th                                             	{ font-weight: bold; background-color: #aaa; }
+		.td, .th                                        	{ height: 20px }
+
+		.title												{ width: 500px }
+		.author												{ width: 150px }
+		.licence											{ width: 150px }
+		.classname											{ width: 300px; height: auto }
+		.probability										{ width: 500px }
+
+		xforms-input[xf-readonly] > xforms-body > input		{ color: grey; }
+		xforms-body > img 									{ border : 5px solid black; }
+			
+		#r_images > xforms-repeat-item[xf-selected='true']   { background-color : #ddd }
+
+		.grid-container { display: grid; grid-template-columns: auto auto auto; }
+		.grid-item { }
+
+	/]]>
+    </style>
+    <link
+		rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+	<script
+		src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"
+		type="text/javascript">
+	</script>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"
+        type="text/javascript">
+    </script>
+
+	<script type="text/javascript">
+	<![CDATA[
+		let xforms_model;
+		let tf_model;
+
+		function load_model() {
+			xforms_model=document.querySelector('#tensorflow');
+			mobilenet.load().then(
+				m => { 	tf_model=m;
+						XsltForms_xmlevents.dispatch(xforms_model, 'tensorflow-model-loaded');
+				}
+			);
+		}
+
+		function infer() {
+			var img=document.querySelector('#img_1 > xforms-body > img');
+   			tf_model.classify(img).then(
+				predicts => {
+      				console.log('Predictions: ');
+      				console.log(predicts);
+					XsltForms_xmlevents.dispatch(xforms_model, 'tensorflow-clear-predictions');
+					const inst=xforms_model.getInstanceDocument('shared').querySelector('prediction');
+					for (var i = 0; i < predicts.length; i++) {
+						inst.setAttribute('classname',	predicts[i].className);
+						inst.setAttribute('probability',predicts[i].probability);
+						XsltForms_xmlevents.dispatch(xforms_model, 'tensorflow-prediction-entry');
+					}
+				}
+			)}
+	]]>
+	</script>
+
+	<xf:model id="default"/>
+
+	<xf:model id="tensorflow">
+		<xf:instance id="images" src="images/images.xml"/>
+
+		<xf:instance id="shared"> <!-- acts as a buffer between JS and XForms -->
+			<shared xmlns="">
+				<prediction classname="" probability=""/>
+			</shared>
+		</xf:instance>
+
+		<xf:instance id="predictions">
+			<data xmlns="">
+				<predictions>
+					<prediction classname="" probability=""/>
+				</predictions>
+			</data>
+		</xf:instance>
+
+		<xf:action ev:event="tensorflow-model-loaded">
+			<xf:toggle case="model_loaded"/> 
+			<xf:toggle case="show_predictions"/>
+		</xf:action>
+
+		<xf:action ev:event="tensorflow-clear-predictions">
+			<xf:delete
+				ref="instance('predictions')/predictions/prediction[position() &gt; 1]"/>
+		</xf:action>
+
+		<xf:action ev:event="tensorflow-prediction-entry">
+			<xf:insert 
+				ref="instance('predictions')/predictions/prediction"
+				origin="instance('shared')/prediction"/>
+		</xf:action>
+	</xf:model>
+
+
+</head>
+<body>
+	<xf:group model="tensorflow">
+
+		<div float="left">
+			<xf:switch>
+				<xf:case id="model_not_loaded">
+					<xf:trigger id="t_load_model">
+						<xf:label><span class="material-symbols-outlined"> download </span></xf:label>
+						<xf:hint>Load Tensorflow Model</xf:hint>
+						<xf:action ev:event="DOMActivate">
+							<xf:toggle case="model_loading"/>
+							<xf:toggle case="show_loading_message"/>
+							<xf:load resource="javascript:load_model()"/>
+						</xf:action>
+					</xf:trigger>
+				</xf:case>
+				<xf:case id="model_loading">
+					<xf:trigger id="t_loading">
+						<xf:label><span class="material-symbols-outlined"> hourglass </span></xf:label>
+						<xf:hint>Tensorflow Model Loading</xf:hint>
+					</xf:trigger>
+				</xf:case>
+				<xf:case id="model_loaded">
+					<xf:trigger id="t_infer">
+						<xf:hint>Run Tensorflow Model Inference</xf:hint>
+						<xf:label><span class="material-symbols-outlined"> smart_toy </span></xf:label>
+						<xf:action ev:event="DOMActivate">
+							<xf:load resource="javascript:infer()"/>
+						</xf:action>
+					</xf:trigger>
+				</xf:case>
+			</xf:switch>
+		</div>
+
+		<div class="grid-container">
+			<div class="grid-item">
+				<xf:label>
+					<xf:output ref="instance('images')/img[index('r_images')]/@href"/>
+				</xf:label>
+				<div class="table">
+					<div class="tr">
+						<div class="th title">title</div>
+						<div class="th author">author</div>
+						<div class="th licence">licence</div>
+					</div>
+					<xf:repeat id="r_images" ref="instance('images')/img">
+						<div class="tr">
+							<div class="td title"><xf:output	value="@title"/></div>
+							<div class="td author"><xf:output	value="@author"/></div>
+							<div class="td licence"><xf:output	value="@licence"/></div>
+						</div>
+					</xf:repeat>
+				</div>
+			</div>
+			<div class="grid-item">
+				<xf:output
+					id="img_1"
+					value="concat(
+									'images/',
+									instance('images')/img[index('r_images')]/@src)"
+					mediatype="image/*"/>
+			</div>
+		</div>
+
+		<xf:switch>
+			<xf:case id="hide_predictions">
+				<p> Click button above to load TensorFlowJS Model </p>
+			</xf:case>
+			<xf:case id="show_loading_message">
+				<p> TensorFlowJS Model is loading </p>
+			</xf:case>
+			<xf:case id="show_predictions">
+				<p> Select image and press button to run inference </p>
+				<div class="table">
+            		<div class="tr">
+                		<div class="th classname">classname</div>
+                		<div class="th probability">probability</div>
+            		</div>
+					<xf:repeat id="r_predictions" ref="instance('predictions')/predictions/prediction[position() &gt; 1]">
+						<div class="tr">
+							<div class="td classname"><xf:output ref="@classname"/></div>
+							<div class="td probability"><xf:output ref="@probability"/></div>
+						</div>
+					</xf:repeat>
+				</div>
+			</xf:case>
+		</xf:switch>
+
+	</xf:group>
+
+</body>
+</html>
