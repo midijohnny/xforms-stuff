@@ -1,0 +1,137 @@
+<?xml
+	version="1.0"
+	encoding="UTF-8"?>
+<?xml-stylesheet
+	href="declarative4all/build/xsl/xsltforms.xsl"
+	type="text/xsl"?>
+<?xsltforms-options
+	debug="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:ht="http://www.w3.org/1999/xhtml"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:xf="http://www.w3.org/2002/xforms"   
+      xmlns:ev="http://www.w3.org/2001/xml-events"
+	  xmlns:mq="http://example.org/mqtt"
+	  lang="en">
+<head>
+	<style type="text/css">
+		<![CDATA[
+			body > xforms-form > xforms-body > form > pre > code.xml > xforms-output > xforms-body { font-weight: bold }
+		]]>
+	</style>
+	<xf:model>
+
+		<xf:instance id="result">
+			<data xmlns="">
+				<output/>
+				<download/>
+			</data>
+		</xf:instance>
+		<xf:bind 
+			ref="output"    
+			calculate="transform(instance('select1')/select1, serialize(instance('xsl')), 'true')"
+			type="xs:string"/>
+		<xf:bind
+			ref="download"
+			calculate="concat('data:application/xml,', ../output)"/>
+
+		<xf:instance id="xsl">
+			<xsl:stylesheet
+				version="1.0"
+				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+			    xmlns:xf="http://www.w3.org/2002/xforms"   
+			    xmlns:ev="http://www.w3.org/2001/xml-events">
+			<xsl:output
+				method="xml"
+				indent="yes"
+				omit-xml-declaration="yes"/> 
+			
+			<xsl:template match="*">
+				<xsl:element name="{local-name(.)}" namespace="http://www.w3.org/2002/xforms">
+					<xsl:copy-of select="@*|text()"/>
+					<xsl:apply-templates select="*"/>
+				</xsl:element>
+			</xsl:template>
+			
+			</xsl:stylesheet>
+		</xf:instance>
+
+		<xf:instance id="select1">
+			<data xmlns="">
+				<select1 ref="selected" appearance="minimal">
+					<item>
+						<label>APPLE</label>
+						<value>apple</value>
+					</item>
+				</select1>
+			</data>
+		</xf:instance>
+
+	</xf:model>
+</head>
+<body>
+
+	<xf:group ref="instance('select1')/select1">
+		<fieldset>
+			<legend><xf:label>select1</xf:label></legend>
+
+			<xf:input ref="@ref">
+				<xf:label>ref</xf:label>
+			</xf:input>
+
+			<xf:select1 ref="@appearance">
+				<xf:label>appearance</xf:label>
+				<xf:item>
+					<xf:label>minimal</xf:label>
+					<xf:value>minimal</xf:value>
+				</xf:item>
+				<xf:item>
+					<xf:label>compact</xf:label>
+					<xf:value>compact</xf:value>
+				</xf:item>
+				<xf:item>
+					<xf:label>full</xf:label>
+					<xf:value>full</xf:value>
+				</xf:item>
+			</xf:select1>
+
+			<table>
+				<thead><tr><th>value</th><th>label</th></tr></thead>
+				<tbody>
+					<xf:repeat id="r1" ref="item">
+						<tr>
+							<td><xf:input ref="label"/></td>
+							<td><xf:input ref="value"/></td>
+							<td>
+								<xf:trigger ref=".[count(../item) &gt; 1]">
+									<xf:label>x</xf:label>
+									<xf:hint>Remove item</xf:hint>
+									<xf:delete ev:event="DOMActivate" ref="."/>
+								</xf:trigger>
+							</td>
+						</tr>
+					</xf:repeat>
+				</tbody>
+			</table>
+			<xf:trigger>
+				<xf:label>+</xf:label>
+				<xf:hint>Add new item</xf:hint>
+				<xf:insert ev:event="DOMActivate" ref="item[index('r1')]"/>
+			</xf:trigger>
+		</fieldset>
+		
+	</xf:group>
+		
+	<fieldset>
+		<legend><xf:label>output</xf:label></legend>
+
+		<pre>
+			<code class="xml">
+				<xf:output value="output"/>
+			</code>
+		</pre>
+		<a href="{download}" download="fragment.xml">DOWNLOAD</a>
+	</fieldset>
+
+</body>
+</html>
