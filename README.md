@@ -215,7 +215,7 @@ XForms realizes immediately that the connection is lost - and will magically de-
 ### Side note.
 
 There seem to be multiple versions of the [Paho] libraries out there; some refer to the 'Paho.MQTT.Client' and others just 'Paho.Client'.
-I'm using the latter - since I had some issues understanding how to retrieve the payload from the [CDN] version (which requires 'Paho.MQTT.Client').
+I'm using the latter - since I had some issues understanding how to retrieve the payload from the [PahoCDN] version (which requires 'Paho.MQTT.Client').
 
 [XSLTForms] is available from a number of places as well - the version I'm using reports to be 1.7.
 And I choose this particular download location (github) because I could automatically download - and it seems to be the latest version publically available.
@@ -303,7 +303,7 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [Mosquitto]:							https://mosquitto.org/
 [Mosquitto_Sub]:						https://mosquitto.org/man/mosquitto_sub-1.html
 [Mosquitto_Pub]:						https://mosquitto.org/man/mosquitto_pub-1.html
-[CDN]:									https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js
+[PahoCDN]:									https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js
 [XForms: A Tutorial]:					https://homepages.cwi.nl/~steven/xforms11-for-html-authors/
 [Beginners Guide To The MQTT Protocol]:	http://www.steves-internet-guide.com/mqtt/
 [SourceForge]:							https://sourceforge.net/projects/xsltforms/
@@ -312,10 +312,13 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [screenshot2]: img/screenshot2.png
 
 [select1]: https://en.wikibooks.org/wiki/XForms/Select1
+[maker.xml]: maker.xml
 
 [TensorFlow.js]: https://www.tensorflow.org/js
 [CDN]: https://en.wikipedia.org/wiki/Content_delivery_network
 [Material Symbols and Icons]: https://fonts.google.com/icons
 [Creative Commons]: https://creativecommons.org/
+[predictor.xml]: predictor.xml
+
 
 [screenshot_tensorflow1]: img/jstensorflow.png
