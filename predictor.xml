@@ -21,24 +21,25 @@
 
 	<style type="text/css">
     <![CDATA[
-		.table                                          	{ display: table; border-collapse: collapse; margin: 0 auto }
+		.table                                          	{ display: table; border-collapse: collapse;  }
 		.tr                                             	{ display: table-row; }
 		.td, .th                                        	{ float: left;  display: table-cell; padding: 2px; border: 1px solid #555  }
 		.th                                             	{ font-weight: bold; background-color: #aaa; }
 		.td, .th                                        	{ height: 20px }
 
-		.title												{ width: 500px }
-		.author												{ width: 150px }
-		.licence											{ width: 150px }
+		.title												{ width: 300px; height: auto }
+		.author												{ width: 350px; height: auto }
+		.licence											{ width: 200px; height: auto }
+		.href												{ width: 500px; height: auto }
 		.classname											{ width: 300px; height: auto }
-		.probability										{ width: 500px }
+		.probability										{ width: 500px; height: auto }
 
 		xforms-input[xf-readonly] > xforms-body > input		{ color: grey; }
-		xforms-body > img 									{ border : 5px solid black; }
+		xforms-body > img 									{ border : 5px solid black; height: 100%; width: 100%; object-fit: contain }
 			
 		#r_images > xforms-repeat-item[xf-selected='true']   { background-color : #ddd }
 
-		.grid-container { display: grid; grid-template-columns: auto auto auto; }
+		.grid-container { display: grid; grid-template-columns: auto auto ; }
 		.grid-item { }
 
 	/]]>
@@ -127,6 +128,7 @@
 
 </head>
 <body>
+
 	<xf:group model="tensorflow">
 
 		<div float="left">
@@ -160,22 +162,18 @@
 			</xf:switch>
 		</div>
 
+
 		<div class="grid-container">
 			<div class="grid-item">
-				<xf:label>
-					<xf:output ref="instance('images')/img[index('r_images')]/@href"/>
-				</xf:label>
 				<div class="table">
 					<div class="tr">
 						<div class="th title">title</div>
 						<div class="th author">author</div>
-						<div class="th licence">licence</div>
 					</div>
 					<xf:repeat id="r_images" ref="instance('images')/img">
 						<div class="tr">
 							<div class="td title"><xf:output	value="@title"/></div>
 							<div class="td author"><xf:output	value="@author"/></div>
-							<div class="td licence"><xf:output	value="@licence"/></div>
 						</div>
 					</xf:repeat>
 				</div>
@@ -189,6 +187,16 @@
 					mediatype="image/*"/>
 			</div>
 		</div>
+					<div class="table">
+						<div class="tr">
+							<div class="th href">href</div>
+							<div class="th licence">licence</div>
+						</div>
+						<div class="tr">
+							<div class="td href"><xf:output ref="instance('images')/img[index('r_images')]/@href"/></div>
+							<div class="td licence"><xf:output ref="instance('images')/img[index('r_images')]/@licence"/></div>
+						</div>
+					</div>
 
 		<xf:switch>
 			<xf:case id="hide_predictions">
