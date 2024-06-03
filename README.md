@@ -1,10 +1,69 @@
 # README
 
+The following are example [Xforms] apps.
+
+## TensorFlow JS Integration.
+
+The file [predictor.xml] is a single page [Xforms] based web app to provide a simple test client for [Tensorflow.js].
+The app has three client-side dependencies:
+
+- [XSLTForms] to provide the [XForms] engine
+- [Tensorflow.js] libraries
+- Google's [Material Symbols and Icons] fonts.
+
+See section below entitled 'Getting dependencies' for downloading and deploying [XSLTForms].
+
+The [Tensorflow.js] library allows you load and run AI Models directly in the browser.
+This example uses a pre-trained [MobileNet] image classifier model.
+These libraries are avaiable directly from a [CDN] - so nothing needs to be explicitly installed.
+
+That is: you can provide an input image, and the model will tell you ('infer') what the image depicts.
+
+The [Xforms] app has an instance called 'images' which contains a list of images and their attribution.
+The corresponding images were downloaded from the [Creative Commons] library.
+To add more images, download to the 'images' subdirectory and add corresponding entries to the file 'images.xml'.
+
+Copy the main file 'predictor.xml' and subdirectory 'images' to a folder:
+
+```
+-> predictor.xml
+  -- images/images.xml
+  -- images/*.jpg (etc)
+```
+
+Start a webserver to serve the files, any webserver will do, for instance:
+
+```
+$ # Any of the following will work
+$ python -m http.server 8080  # or...
+$ php -S 0.0.0.0:8080 # or ...
+$ althttpd # etc etc 
+```
+
+Point your browser to http://localhost:8080/predictor.xml
+You can select images to preview by clicking on the table.
+Click the button to load the TensorFlow model - it will take a few seconds to load.
+Once loaded - the button will change to a 'robot' icon - select an image and click to run an inference on the selected image.
+
+![][screenshot_tensorflow1]
+
+## XForms app to Create XForms.
+
+The file [maker.xml] is a single page [Xforms] based web app to provide a simple proof-of-concept - that it is possible to
+create [XForms] components, using [Xforms] itself.
+
+The example here lets you create a [select1] fragment - you can add/update/delete values/items.
+You resultant XML is shown in 'raw' form as you edit, and you can download the XML fragment once done.
+
+
+## MQTT Integration
+
 The file [mqtt.xml] is a single page [XForms] based web app to provide a simple test client for [MQTT] over [Websockets].
-The app has two client-side dependencies:
+The app has three client-side dependencies:
 
 - [XSLTForms] to provide the [XForms] engine
 - [Paho] Javascript library to connect to [MQTT] server.
+- Google's [Material Symbols and Icons] fonts.
 
 It also requires an MQTT broker with Websocket support.
 I used [Mosquitto].
@@ -251,3 +310,12 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 
 [screenshot1]: img/screenshot1.png
 [screenshot2]: img/screenshot2.png
+
+[select1]: https://en.wikibooks.org/wiki/XForms/Select1
+
+[TensorFlow.js]: https://www.tensorflow.org/js
+[CDN]: https://en.wikipedia.org/wiki/Content_delivery_network
+[Material Symbols and Icons]: https://fonts.google.com/icons
+[Creative Commons]: https://creativecommons.org/
+
+[screenshot_tensorflow1]: img/jstensorflow.png
