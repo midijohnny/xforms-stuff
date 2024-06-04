@@ -92,6 +92,7 @@
 						inst.setAttribute('probability',predicts[i].probability);
 						dispatch('tensorflow-prediction-entry');
 					}
+					dispatch('tensorflow-predictions-complete');
 				}
 			)
 			.catch(
@@ -152,6 +153,10 @@
 		<xf:action ev:event="tensorflow-clear-predictions">
 			<xf:delete
 				ref="instance('predictions')/predictions/prediction[position() &gt; 1]"/>
+		</xf:action>
+
+		<xf:action ev:event="tensorflow-predictions-complete">
+			<xf:setvalue ref="instance('message')/message">Select Image and click button to run inference</xf:setvalue>
 		</xf:action>
 
 		<xf:action ev:event="tensorflow-prediction-entry">
