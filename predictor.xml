@@ -35,7 +35,7 @@
 		.probability										{ width: 500px; height: auto }
 
 		xforms-input[xf-readonly] > xforms-body > input		{ color: grey; }
-		xforms-body > img 									{ border : 5px solid black; height: 100%; width: 100%; object-fit: contain }
+		xforms-body > img 									{ border : 5px solid black; height: 224px; object-fit: contain }
 			
 		#r_images > xforms-repeat-item[xf-selected='true']   { background-color : #ddd }
 
@@ -58,17 +58,25 @@
     </script>
 
 	<script type="text/javascript">
-	<![CDATA[
+	<![CDATA[ 
 		let xforms_model;
 		let tf_model;
 
+		function dispatch(event_str) {
+			XsltForms_xmlevents.dispatch(xforms_model, event_str);
+		}
+
 		function load_model() {
 			xforms_model=document.querySelector('#tensorflow');
+			dispatch('tensorflow-model-loading');
 			mobilenet.load().then(
 				m => { 	tf_model=m;
-						XsltForms_xmlevents.dispatch(xforms_model, 'tensorflow-model-loaded');
+						dispatch('tensorflow-model-loaded');
 				}
-			);
+			)
+			.catch(
+				err => { console.error(err); dispatch('tensorflow-load-error'); }
+			)
 		}
 
 		function infer() {
@@ -77,15 +85,19 @@
 				predicts => {
       				console.log('Predictions: ');
       				console.log(predicts);
-					XsltForms_xmlevents.dispatch(xforms_model, 'tensorflow-clear-predictions');
+					dispatch('tensorflow-clear-predictions');
 					const inst=xforms_model.getInstanceDocument('shared').querySelector('prediction');
 					for (var i = 0; i < predicts.length; i++) {
 						inst.setAttribute('classname',	predicts[i].className);
 						inst.setAttribute('probability',predicts[i].probability);
-						XsltForms_xmlevents.dispatch(xforms_model, 'tensorflow-prediction-entry');
+						dispatch('tensorflow-prediction-entry');
 					}
 				}
-			)}
+			)
+			.catch(
+				err => { console.error(err); dispatch('tensorflow-prediction-error'); }
+			)
+		}
 	]]>
 	</script>
 
@@ -108,9 +120,33 @@
 			</data>
 		</xf:instance>
 
+		<xf:instance id="message">
+			<data xmlns="">
+				<message/>
+			</data>
+		</xf:instance>
+
+		<xf:action ev:event="xforms-ready">
+			<xf:setvalue ref="instance('message')/message">Click button to load TensorFlow.js model</xf:setvalue>
+		</xf:action>
+
+		<xf:action ev:event='tensorflow-model-loading'>
+			<xf:setvalue ref="instance('message')/message">Loading TensorFlow.js model</xf:setvalue>
+		</xf:action>
+
 		<xf:action ev:event="tensorflow-model-loaded">
 			<xf:toggle case="model_loaded"/> 
+			<xf:setvalue ref="instance('message')/message">Loaded TensorFlow.js model: Select Image and click button to run inference</xf:setvalue>
 			<xf:toggle case="show_predictions"/>
+		</xf:action>
+
+		<xf:action ev:event="tensorflow-load-error">
+			<xf:toggle case="model_not_loaded"/> 
+			<xf:setvalue ref="instance('message')/message">Failed to load TensorFlow.js model</xf:setvalue>
+		</xf:action>
+
+		<xf:action ev:event="tensorflow-prediction-error">
+			<xf:setvalue ref="instance('message')/message">Inference failed: see console</xf:setvalue>
 		</xf:action>
 
 		<xf:action ev:event="tensorflow-clear-predictions">
@@ -123,6 +159,8 @@
 				ref="instance('predictions')/predictions/prediction"
 				origin="instance('shared')/prediction"/>
 		</xf:action>
+
+
 	</xf:model>
 
 
@@ -139,7 +177,6 @@
 						<xf:hint>Load Tensorflow Model</xf:hint>
 						<xf:action ev:event="DOMActivate">
 							<xf:toggle case="model_loading"/>
-							<xf:toggle case="show_loading_message"/>
 							<xf:load resource="javascript:load_model()"/>
 						</xf:action>
 					</xf:trigger>
@@ -161,7 +198,30 @@
 				</xf:case>
 			</xf:switch>
 		</div>
-
+		<div>
+			<xf:output ref="instance('message')/message"/>
+		</div>
+		<div>
+			<xf:switch>
+				<xf:case id="hide_predictions"/>
+				<xf:case id="show_predictions">
+					<div class="table">
+            			<div class="tr">
+                			<div class="th classname">classname</div>
+                			<div class="th probability">probability</div>
+            			</div>
+						<xf:repeat id="r_predictions" ref="instance('predictions')/predictions/prediction[position() &gt; 1]">
+							<div class="tr">
+								<div class="td classname"><xf:output ref="@classname"/></div>
+								<div class="td probability"><xf:output ref="@probability"/></div>
+							</div>
+						</xf:repeat>
+					</div>
+				</xf:case>
+			</xf:switch>
+		</div>
+		
+		<br/>
 
 		<div class="grid-container">
 			<div class="grid-item">
@@ -181,9 +241,7 @@
 			<div class="grid-item">
 				<xf:output
 					id="img_1"
-					value="concat(
-									'images/',
-									instance('images')/img[index('r_images')]/@src)"
+					ref="instance('images')/img[index('r_images')]/@src"
 					mediatype="image/*"/>
 			</div>
 		</div>
@@ -198,29 +256,6 @@
 						</div>
 					</div>
 
-		<xf:switch>
-			<xf:case id="hide_predictions">
-				<p> Click button above to load TensorFlowJS Model </p>
-			</xf:case>
-			<xf:case id="show_loading_message">
-				<p> TensorFlowJS Model is loading </p>
-			</xf:case>
-			<xf:case id="show_predictions">
-				<p> Select image and press button to run inference </p>
-				<div class="table">
-            		<div class="tr">
-                		<div class="th classname">classname</div>
-                		<div class="th probability">probability</div>
-            		</div>
-					<xf:repeat id="r_predictions" ref="instance('predictions')/predictions/prediction[position() &gt; 1]">
-						<div class="tr">
-							<div class="td classname"><xf:output ref="@classname"/></div>
-							<div class="td probability"><xf:output ref="@probability"/></div>
-						</div>
-					</xf:repeat>
-				</div>
-			</xf:case>
-		</xf:switch>
 
 	</xf:group>
 
