@@ -5,19 +5,20 @@ The following are example [Xforms] apps.
 ## TensorFlow JS Integration.
 
 The file [predictor.xml] is a single page [Xforms] based web app to provide a simple test client for [Tensorflow.js].
-The app has three client-side dependencies:
+The app has four client-side dependencies:
 
 - [XSLTForms] to provide the [XForms] engine
 - [Tensorflow.js] libraries
 - Google's [Material Symbols and Icons] fonts.
+- A pre-trainined model - [MobileNet] : this can be swapped out for a reference to alternative models.
 
 See section below entitled 'Getting dependencies' for downloading and deploying [XSLTForms].
 
-The [Tensorflow.js] library allows you load and run AI Models directly in the browser.
+The [Tensorflow.js] library allows you to load and run AI Models directly in the browser.
 This example uses a pre-trained [MobileNet] image classifier model.
 These libraries are avaiable directly from a [CDN] - so nothing needs to be explicitly installed.
 
-That is: you can provide an input image, and the model will tell you ('infer') what the image depicts.
+Provide an input image, and the model will tell you ('infer') what the image depicts.
 
 The [Xforms] app has an instance called 'images' which contains a list of images and their attribution.
 The corresponding images were downloaded from the [Creative Commons] library.
@@ -53,7 +54,7 @@ The file [maker.xml] is a single page [Xforms] based web app to provide a simple
 create [XForms] components, using [Xforms] itself.
 
 The example here lets you create a [select1] fragment - you can add/update/delete values/items.
-You resultant XML is shown in 'raw' form as you edit, and you can download the XML fragment once done.
+The resultant XML is shown in 'raw' form as you edit, and you can download the XML fragment once done.
 
 ![][screenshot_maker]
 
@@ -320,6 +321,7 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [TensorFlow.js]: https://www.tensorflow.org/js
 [CDN]: https://en.wikipedia.org/wiki/Content_delivery_network
 [Material Symbols and Icons]: https://fonts.google.com/icons
+[MobileNet]: https://keras.io/api/applications/mobilenet/
 [Creative Commons]: https://creativecommons.org/
 [predictor.xml]: predictor.xml
 
