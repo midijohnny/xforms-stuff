@@ -4,7 +4,7 @@
 	Where it is necessary to update the XForms model, we only update a 'buffer' instance.
 	XForms app will copy information from this buffer to the main instance.
 
-	See 'mqtt.xml' also - there is a block of javascript register various event listeners.
+	See 'mqtt.xml' also - there is a block of actions which register themselves for events which call the various 'do_xxxxx' functions below.
 	
 */
 
