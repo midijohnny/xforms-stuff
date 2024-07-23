@@ -21,6 +21,8 @@
 			.table											{ display: table; border-collapse: collapse; margin: 0 auto }
 			.tr												{ display: table-row; }
 			.td, .th										{ float: left; width: 310px; display: table-cell; padding: 2px; border: 1px solid #aaa  }
+			.dt,.topic 										{ width: 200px }
+			.note											{ width: 400px; }
 			.icon											{ width: 50px; }
     		.th												{ font-weight: bold; background-color: #ccc; }
 			.td, .th										{ height: 20px }
@@ -149,7 +151,6 @@
 
 	<xf:action
 	 	ev:event="xforms-ready">
-		<xf:load resource="javascript:addListeners()"/>
 		<xf:insert
 			comment="Writes log entry"
 			context="/log"
@@ -219,6 +220,19 @@
 		origin="instance('shared')/logentry"
 		position="after"
 		at="count(logentry)"/>
+	</xf:action>
+
+	<xf:action ev:event="mqtt-do-connect">
+		<xf:load resource="javascript:do_connect()"/>
+	</xf:action>
+	<xf:action ev:event="mqtt-do-subscribe">
+		<xf:load resource="javascript:do_subscribe()"/>
+	</xf:action>
+	<xf:action ev:event="mqtt-do-disconnect">
+		<xf:load resource="javascript:do_disconnect()"/>
+	</xf:action>
+	<xf:action ev:event="mqtt-do-send">
+		<xf:load resource="javascript:do_send()"/>
 	</xf:action>
 
 	</xf:model>
@@ -295,10 +309,10 @@
 
 			<div class="table">
                 <div class="row">
-                    <div class="th">dt</div>
-                    <div class="th">note</div>
-                    <div class="th">topic</div>
-                    <div class="th">payload</div>
+                    <div class="th dt">dt</div>
+                    <div class="th note">note</div>
+                    <div class="th topic">topic</div>
+                    <div class="th payload">payload</div>
 					<div class="th icon">
 						<xf:trigger id="t_clear_log" appearance="minimal">
       						<span class="material-symbols-outlined"> delete </span>
@@ -309,10 +323,10 @@
 				</div>
                 <xf:repeat id="r1" ref="log/logentry">
                     <div class="tr">
-						<div class="td"><xf:output value="@dt"/></div>
-						<div class="td"><xf:output value="@note"/></div>
-						<div class="td"><xf:output value="@topic"/></div>
-						<div class="td"><xf:output value="@payload"/></div>
+						<div class="td dt"><xf:output value="@dt"/></div>
+						<div class="td note"><xf:output value="@note"/></div>
+						<div class="td topic"><xf:output value="@topic"/></div>
+						<div class="td payload"><xf:output value="@payload"/></div>
 						<div class="td icon">
 							<xf:trigger appearance="minimal">
       							<span class="material-symbols-outlined"> remove </span>
@@ -323,18 +337,6 @@
                     </div>
                 </xf:repeat>
             </div>
-
-
-<script type="text/javascript">
-	function addListeners() {
-		var mqtt_model=document.querySelector('#mqtt_model');
-		mqtt_model.addEventListener('mqtt-do-connect',    do_connect);
-		mqtt_model.addEventListener('mqtt-do-subscribe',  do_subscribe);
-		mqtt_model.addEventListener('mqtt-do-disconnect', do_disconnect);
-		mqtt_model.addEventListener('mqtt-do-send',       do_send);
-	}
-</script>
-
 
 </body>
 </html>
