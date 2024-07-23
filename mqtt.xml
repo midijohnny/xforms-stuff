@@ -56,7 +56,8 @@
 				connected="false"
 				hostname="localhost"
 				port="9001"
-				clientID="browser"
+				clientPrefix="browser"
+				clientID=""
 				autoconnect="true"
 			/>
 
@@ -83,6 +84,7 @@
 		<icon name="send-arrow">&#8626;</icon>
 		</client>
 	</xf:instance>
+
 
 	<xf:instance id="shared" comment="Buffer between JS/Xforms">
 		<shared xmlns="">
@@ -154,14 +156,18 @@
 		<xf:insert
 			comment="Writes log entry"
 			context="/log"
-			nodeset="logentry"
+			ref="logentry"
 			origin="instance('template')/logentry"/>
 		<xf:setvalue ref="log/logentry[last()]/@note" value="'init'"/>
 		<xf:setvalue ref="message/@topic" value="../../pub[1]/@topic"/>
-				<xf:dispatch
-						if="connection/@autoconnect=true()"
-						targetid="mqtt_model"
-						name="mqtt-do-connect"/>
+		<xf:dispatch
+					if="connection/@autoconnect=true()"
+					targetid="mqtt_model"
+					name="mqtt-do-connect"/>
+		<xf:setvalue
+            ref="instance('mqtt')/connection/@clientID"
+            value="concat( instance('mqtt')/connection/@clientPrefix, '-', 
+                            substring( hmac( random(), random(), 'SHA-1', 'hex'),1,8) )"/>
 	</xf:action>
 
 	<xf:action
