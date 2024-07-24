@@ -11,6 +11,8 @@ Also: it provides for modal dialogs - using the [xf:dialog] element - this featu
 
 So using these techniques, the UI now hopefully is a bit cleaner and simpler.
 
+Additionally: moved the 'client' instance data into an external file - to unclutter the source code somewhat.
+
 
 ## AVTS
 

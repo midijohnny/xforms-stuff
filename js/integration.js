@@ -8,6 +8,8 @@
 	
 */
 
+var client;
+
 // Don't call 'write_log' from here - will loop !
 function dispatch_event(event_str) {
 	console.debug("Dispatch Event", event_str);
@@ -105,6 +107,7 @@ function do_subscribe() {
 
 function onMessageArrived(msg) {
 		console.debug(`onMessageArrived: ${msg.topic}, ${msg.payloadString}`);
+		dispatch_event(`mqtt_${msg.topic}`); // Dispatch a unique event based on the topic.
 		write_log('mqtt-message-received', msg.topic, msg.payloadString);
 };
 
