@@ -22,11 +22,14 @@
 			.tr												{ display: table-row; }
 			.td, .th										{ float: left; width: 310px; display: table-cell; padding: 2px; border: 1px solid #aaa  }
 			.dt,.topic 										{ width: 200px }
-			.note											{ width: 400px; }
+			.note											{ width: 500px; }
 			.icon											{ width: 50px; }
+			.payload										{ width: 200px; }
     		.th												{ font-weight: bold; background-color: #ccc; }
 			.td, .th										{ height: 20px }
 			#r1 > xforms-repeat-item[xf-selected='true']	{ background-color : #ddd }
+
+			.disabled_control { color: grey }
 /]]>	
 	</style>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -49,42 +52,10 @@
 
 	<xf:model id="mqtt_model">
 
-	<xf:instance id="mqtt">
-		<client xmlns="">
-
-			<connection
-				connected="false"
-				hostname="localhost"
-				port="9001"
-				clientPrefix="browser"
-				clientID=""
-				autoconnect="true"
-			/>
-
-			<pub topic="camera/take_picture"/>
-			<pub topic="topic1"/>
-			<pub topic="topic2"/>
-			<pub topic="topic3"/>
-			<pub topic="topic4"/>
-			<pub topic="echo"/>
-
-			<sub topic="camera/image_received"/>
-			<sub topic="topic6"/>
-			<sub topic="echo"/>
-
-			<log/>
-	
-			<message
-				topic=""
-				payload="hello world"
-				comment="Outgoing message"/>
-
-		<icon name="trashcan">&#128465;</icon>
-		<icon name="cross">&#10006;</icon>
-		<icon name="send-arrow">&#8626;</icon>
-		</client>
-	</xf:instance>
-
+	<xf:instance id="mqtt" src="client.xml"/>
+	<xf:bind
+		ref="instance('mqtt')/message/@*"
+		readonly="../../connection/@connected=false()" />
 
 	<xf:instance id="shared" comment="Buffer between JS/Xforms">
 		<shared xmlns="">
@@ -168,6 +139,7 @@
             ref="instance('mqtt')/connection/@clientID"
             value="concat( instance('mqtt')/connection/@clientPrefix, '-', 
                             substring( hmac( random(), random(), 'SHA-1', 'hex'),1,8) )"/>
+
 	</xf:action>
 
 	<xf:action
@@ -244,16 +216,34 @@
 	</xf:model>
 </head>
 <body>
+
+		<div style="float: right; padding: 35px">
+		<xf:group ref="connection">
+			<xf:trigger>
+				<xf:hint>Connection Settings</xf:hint>
+				<xf:label>
+					<span class="material-symbols-outlined">
+						<xf:output value="if(@connected=true(), 'sensors', 'sensors_off')"/>
+					</span>
+				</xf:label>
+				<xf:action ev:event="DOMActivate">
+					<xf:show dialog="connection"/>
+				</xf:action>
+			</xf:trigger>
+		</xf:group>
+		</div>
 	<h1> MQTT CLIENT TEST </h1>
 
-		<xf:group ref="connection">
-			<xf:input ref="@connected">
-				<xf:label>CONNECTED?</xf:label>
-			</xf:input>
-		</xf:group>
 
+		<xf:dialog id="connection">
 			<xf:group ref="connection">
-				<xf:label>CONNECTION DETAILS</xf:label>
+				<xf:trigger style="float: right">
+					<xf:label>X</xf:label>
+						<xf:action ev:event="DOMActivate">
+							<xf:hide dialog="connection"/>
+						</xf:action>
+				</xf:trigger>
+				<xf:label>CONNECTION SETTINGS</xf:label>
 					<xf:output value="link"/>
 					<xf:input ref="@hostname">
 						<xf:label>hostname</xf:label>
@@ -265,17 +255,26 @@
 						<xf:label>clientID</xf:label>
 					</xf:input>
 
+					<br/>
 					<xf:trigger id="t_do_connect">
 						<xf:label>CONNECT</xf:label>
-						<xf:hint if="@connected=false">Connect to MQTT Broker</xf:hint>
+						<xf:hint>Connect to MQTT Broker</xf:hint>
 						<xf:action ev:event="DOMActivate">
 							<xf:dispatch targetid="mqtt_model" name="mqtt-do-connect"/>
 						</xf:action>
 					</xf:trigger>
+					<xf:trigger id="t_do_disconnect">
+							<xf:label class="{if(@connected=false(),'disabled_control','')}">DISCONNECT</xf:label>
+							<xf:hint>Disconnect from MQTT Broker</xf:hint>
+							<xf:action ev:event="DOMActivate" if="@connected=true()">
+								<xf:dispatch targetid="mqtt_model" name="mqtt-do-disconnect"/>
+							</xf:action>
+					</xf:trigger>
+					<br/>
 			</xf:group>
+		</xf:dialog>
 
-			<xf:group id="control" ref="connection[@connected=true()]/..">
-
+			<xf:group id="control">
 					<xf:select1 ref="message/@topic">
 						<xf:label>Topic</xf:label>
 						<xf:itemset
@@ -293,23 +292,17 @@
 	
 					<br/>
 					<xf:trigger id="t_publish_message">
-						<xf:label><span class="material-symbols-outlined"> send </span> </xf:label>
+						<xf:label class="{if(connection/@connected=false(),'disabled_control','')}"> 
+							<span class="material-symbols-outlined"> send </span>
+						</xf:label>
 						<xf:hint>Publish Message</xf:hint>
-						<xf:action ev:event="DOMActivate">
+						<xf:action ev:event="DOMActivate" if="connection/@connected=true()">
 							<xf:dispatch targetid="mqtt_model" name="mqtt-do-send"/>
 						</xf:action>
 					</xf:trigger>
 				
 					<br/>
-
-					<xf:trigger id="t_do_disconnect">
-							<xf:label>DISCONNECT</xf:label>
-							<xf:hint>Disconnect from MQTT Broker</xf:hint>
-							<xf:action ev:event="DOMActivate">
-								<xf:dispatch targetid="mqtt_model" name="mqtt-do-disconnect"/>
-							</xf:action>
-					</xf:trigger>
-		</xf:group>
+			</xf:group>
 
 			<br/>
 

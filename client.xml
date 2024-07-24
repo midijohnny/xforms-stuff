@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<client>
+	<connection connected="false" hostname="localhost" port="9001" clientPrefix="browser" clientID="" autoconnect="true"/>
+		<pub topic="camera/take_picture"/>
+		<pub topic="topic1"/>
+		<pub topic="topic2"/>
+		<pub topic="topic3"/>
+		<pub topic="topic4"/>
+		<pub topic="echo"/>
+		<sub topic="camera/image_received"/>
+		<sub topic="topic6"/>
+		<sub topic="echo"/>
+	<log/>
+	<message topic="" payload="hello world" comment="Outgoing message"/>
+</client>

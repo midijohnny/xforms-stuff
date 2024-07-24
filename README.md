@@ -2,6 +2,83 @@
 
 The following are example [Xforms] apps.
 
+
+## Updated notes for MQTT.XML:
+
+I recently discovered that [XSLTForms] has had a number of XForms 2.0 features back-ported to it.
+In particular - Attribute Value Templates - commonly known as [AVT] - can be used to simplify how controls etc are presented conditionally.
+Also: it provides for modal dialogs - using the xf:dialog element - this feature provides an excellent way of de-cluttering the main screen.
+
+So using these techniques, the UI now hopefully is a bit cleaner and simpler.
+
+
+## AVTS
+
+These can be used (for instance) to dynamically add CSS class identifiers to elements.
+
+For instance: to make a button appear greyed-out.
+
+First define a CSS rule, for instance:
+
+``` {.xml}
+<style type="text/css">
+        <![CDATA[
+
+	.disabled_control { color: grey }
+
+	[...other styles...]
+
+	/]]>
+</style>
+```
+
+On the button(trigger) which you wish to disable - add logic to an AVT on the child label of the trigger.
+Using the [if] function is useful here:
+
+```{.xml}
+<xf:trigger id="t_do_disconnect">
+	<xf:label class="{if(@connected=false(),'disabled_control','')}">DISCONNECT</xf:label>
+	<xf:hint>Disconnect from MQTT Broker</xf:hint>
+	<xf:action ev:event="DOMActivate" if="@connected=true()">
+		<xf:dispatch targetid="mqtt_model" name="mqtt-do-disconnect"/>
+	</xf:action>
+</xf:trigger>
+```
+
+Note: The control over whether the button is active or not - needs be done on the action element itself using the [if attribute].
+The two mechanisms are totally different - but obviously similar in purpose.
+
+# Modal Dialogs
+
+These can be shown or hidden using the xf:show and xf:hide actions respectively.
+The background form is automatically disabled when the modal is shown (and it visibly altered to make this more obvious).
+
+Using a modal dialog allowed us to move the connection details out of the way, but they can be brought up by clicking the connected/disconnected button in the top-right of the UI now.
+
+Note: The modals don't come with any 'close' methods by default - y must include another trigger which performs an xf:hide action.
+I opted to add the action to the modal itself - using a bit of CSS to generate a reasonable 'close' icon:
+
+``` {.xml}
+<xf:dialog id="connection">
+	<xf:group ref="connection">
+		<xf:trigger style="float: right">
+			<xf:label>X</xf:label>
+			<xf:action ev:event="DOMActivate">
+				<xf:hide dialog="connection"/>
+			</xf:action>
+		</xf:trigger>
+[...]
+```
+
+![][s1]
+![][s2]
+![][s3]
+
+
+
+
+
+
 ## TensorFlow JS Integration.
 
 The file [predictor.xml] is a single page [Xforms] based web app to provide a simple test client for [Tensorflow.js].
@@ -327,3 +404,12 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 
 
 [screenshot_tensorflow1]: img/jstensorflow.png
+
+[s1]: img/s1_disconnected.png
+[s2]: img/s2_modal.png
+[s3]: img/s1_disconnected.png
+
+[AVT]: https://www.w3.org/community/xformsusers/wiki/XForms_2.0#Attribute_Value_Templates
+[xf:dialog]: https://www.w3.org/MarkUp/Forms/wiki/The_XForms_Dialog_Module
+[if]: https://www.w3.org/TR/xforms/#fn-if
+[if attribute]: https://www.w3.org/TR/xforms/#action-conditional
