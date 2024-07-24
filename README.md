@@ -407,7 +407,7 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 
 [s1]: img/s1_disconnected.png
 [s2]: img/s2_modal.png
-[s3]: img/s1_disconnected.png
+[s3]: img/s3_connected.png
 
 [AVT]: https://www.w3.org/community/xformsusers/wiki/XForms_2.0#Attribute_Value_Templates
 [xf:dialog]: https://www.w3.org/MarkUp/Forms/wiki/The_XForms_Dialog_Module
