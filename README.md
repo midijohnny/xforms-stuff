@@ -55,8 +55,8 @@ The background form is automatically disabled when the modal is shown (and it vi
 
 Using a modal dialog allowed us to move the connection details out of the way, but they can be brought up by clicking the connected/disconnected button in the top-right of the UI now.
 
-Note: The modals don't come with any 'close' methods by default - y must include another trigger which performs an xf:hide action.
-I opted to add the action to the modal itself - using a bit of CSS to generate a reasonable 'close' icon:
+Note: The modals don't come with any 'close' methods by default - you must include another trigger which performs an xf:hide action.
+I opted to add the action to the modal itself - using a bit of CSS and an 'X' character to generate a reasonable 'close' icon:
 
 ``` {.xml}
 <xf:dialog id="connection">
