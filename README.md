@@ -46,7 +46,7 @@ Using the [if] function is useful here:
 ```
 
 Note: The control over whether the button is active or not - needs be done on the action element itself using the [if attribute].
-The two mechanisms are totally different - but obviously similar in purpose.
+The two mechanisms are totally different - but complimentary.
 
 # Modal Dialogs
 
