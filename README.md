@@ -413,4 +413,4 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [xf:dialog]: https://www.w3.org/MarkUp/Forms/wiki/The_XForms_Dialog_Module
 [if]: https://www.w3.org/TR/xforms/#fn-if
 [if attribute]: https://www.w3.org/TR/xforms/#action-conditional
-[XForms 2.0] : https://www.w3.org/community/xformsusers/wiki/XForms_2.0
+[XForms 2.0]: https://www.w3.org/community/xformsusers/wiki/XForms_2.0
