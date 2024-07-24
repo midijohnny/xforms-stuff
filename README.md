@@ -7,7 +7,7 @@ The following are example [Xforms] apps.
 
 I recently discovered that [XSLTForms] has had a number of [XForms 2.0] features back-ported to it.
 In particular - Attribute Value Templates - commonly known as [AVT] - can be used to simplify how controls etc are presented conditionally.
-Also: it provides for modal dialogs - using the xf:dialog element - this feature provides an excellent way of de-cluttering the main screen.
+Also: it provides for modal dialogs - using the [xf:dialog] element - this feature provides an excellent way of de-cluttering the main screen.
 
 So using these techniques, the UI now hopefully is a bit cleaner and simpler.
 
