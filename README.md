@@ -11,9 +11,9 @@ There is no (explicit) Javascript used in this example, and although some minor 
 
 Screenshots, showing the list of employees, a edit dialog for a single employee and a demonstration of the sidebar being shown.
 
-[list_details]: list_details.png
-[edit_details]: edit_details.png
-[sidebar]:      sidebar.png
+![][list_details]
+![][edit_details]
+![][sidebar]
 
 The theme can be changed by editing the following entry:
 
@@ -443,5 +443,6 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [list_details]: list_details.png
 [edit_details]: edit_details.png
 [sidebar]:      sidebar.png
+[w3css]: https://www.w3schools.com/w3css/
 [w3css list example]: https://www.w3schools.com/w3css/w3css_lists.asp
 [w3css colour themes]: https://www.w3schools.com/w3css/w3css_color_themes.asp
