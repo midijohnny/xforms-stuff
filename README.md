@@ -440,9 +440,9 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [XForms 2.0]: https://www.w3.org/community/xformsusers/wiki/XForms_2.0
 
 [w3x.xml]: w3x.xml
-[list_details]: list_details.png
-[edit_details]: edit_details.png
-[sidebar]:      sidebar.png
+[list_details]: img/list_details.png
+[edit_details]: img/edit_details.png
+[sidebar]:      img/sidebar.png
 [w3css]: https://www.w3schools.com/w3css/
 [w3css list example]: https://www.w3schools.com/w3css/w3css_lists.asp
 [w3css colour themes]: https://www.w3schools.com/w3css/w3css_color_themes.asp
