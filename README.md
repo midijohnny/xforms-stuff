@@ -2,6 +2,28 @@
 
 The following are example [Xforms] apps.
 
+## Using W3 CSS with XForms.
+
+The file [w3x.xml] is a single page app that uses [w3 css] to style a simple XForm-based demonstration.
+The example is based on the [w3css list example].
+
+There is no (explicit) Javascript used in this example, and although some minor CSS tweaks were needed, for the most part everything just fits together nicely.
+
+Screenshots, showing the list of employees, a edit dialog for a single employee and a demonstration of the sidebar being shown.
+
+[list_details]: list_details.png
+[edit_details]: edit_details.png
+[sidebar]:      sidebar.png
+
+The theme can be changed by editing the following entry:
+
+```
+ <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css"/>
+```
+
+Change the 'w3-theme-xxxx' to one of the others listed on the [w3css colour themes] page.
+
+
 
 ## Updated notes for MQTT.XML:
 
@@ -416,3 +438,10 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [if]: https://www.w3.org/TR/xforms/#fn-if
 [if attribute]: https://www.w3.org/TR/xforms/#action-conditional
 [XForms 2.0]: https://www.w3.org/community/xformsusers/wiki/XForms_2.0
+
+[w3x.xml]: w3x.xml
+[list_details]: list_details.png
+[edit_details]: edit_details.png
+[sidebar]:      sidebar.png
+[w3css list example]: https://www.w3schools.com/w3css/w3css_lists.asp
+[w3css colour themes]: https://www.w3schools.com/w3css/w3css_color_themes.asp

@@ -20,9 +20,11 @@
 		name="viewport"
 		content="width=device-width, initial-scale=1"/>
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
-	<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css"/>
+	<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 	<style type="text/css">
 	<![CDATA[
+		#r_employees > xforms-repeat-item[xf-selected='false']		{ filter: brightness(0.6); }
 	]]>
 	</style>
 	<xf:model id="model">
@@ -33,22 +35,45 @@
 				<link xlink:type="simple" xlink:title="W3 CSS"			xlink:href="https://www.w3schools.com/w3css/" />
 				<link xlink:type="simple" xlink:title="XSLTForms 1.7"	xlink:href="https://github.com/AlainCouthures/declarative4all/releases/tag/XSLTForms"/>
 				<link xlink:type="simple" xlink:title="XForms 2.0"	    xlink:href="https://www.w3.org/community/xformsusers/wiki/XForms_2.0"/>
+				<images baseurl="https://www.w3schools.com/w3css/">
+					<link xlink:type="simple" xlink:href="img_avatar1.png"/>
+					<link xlink:type="simple" xlink:href="img_avatar2.png"/>
+					<link xlink:type="simple" xlink:href="img_avatar3.png"/>
+					<link xlink:type="simple" xlink:href="img_avatar4.png"/>
+					<link xlink:type="simple" xlink:href="img_avatar5.png"/>
+					<link xlink:type="simple" xlink:href="img_avatar6.png"/>
+				</images>
 			</app>
 		</xf:instance>
 		<xf:bind ref="sidebar/@state" type="xs:boolean"/>
 		<xf:bind ref="sidebar/@display" calculate="choose(../@state=true(), 'block', 'none')"/>
 		<xf:instance id="employees">
-			<employees xmlns="" baseurl="https://www.w3schools.com/w3css/">
-				<employee name="name"	role="role"			img="img_avatar2.png" template="true"/>
-				<employee name="Mike"	role="Web Designer"	img="img_avatar2.png" template="false"/>
-				<employee name="Jill"	role="Support"		img="img_avatar5.png" template="false"/>
-				<employee name="Jane"	role="Accountant"	img="img_avatar6.png" template="false"/>
+			<employees xmlns="">
+				<employee name="name"	role="role"			img="" template="true"/>
+				<employee name="Mike"	role="Web Designer"	img="img_avatar2.png"/>
+				<employee name="Jill"	role="Support"		img="img_avatar5.png"/>
+				<employee name="Jane"	role="Accountant"	img="img_avatar6.png"/>
 			</employees>
 		</xf:instance>
-		<xf:bind ref="instance('employees')/employee/@template" type="xs:boolean" readonly=".=true()"/>
+		<xf:bind ref="instance('employees')/employee">
+			<xf:bind ref="@template" type="xs:boolean" readonly=".=true()"/>
+			<xf:bind ref="@name" required="true()"/>
+			<xf:bind ref="@role" required="true()"/>
+		</xf:bind>
+
+		<xf:action ev:event="xforms-ready">
+			<xf:setvalue ref="instance('employees')/employee[@template=true()]/@img" value="instance('app')/images/link[1]/@xlink:href"/>
+		</xf:action>
+
+		<xf:submission id="s_dummy" action="javascript:null"  method="post" replace="none">
+			<xf:action ev:event="xforms-submit">
+				<xf:message>DUMMY SUBMISSION</xf:message>
+			</xf:action>
+		</xf:submission>
+
 	</xf:model>
 </head>
-<body>
+<body class="w3-theme-dark">
 
 <div class="w3-bar w3-card w3-theme">
   <xf:trigger appearance="minimal">
@@ -64,7 +89,7 @@
 
 <div class="w3-row">
 	<div class="w3-col l1 w3-sidebar w3-bar-block w3-border-right w3-animate-left" style="display: {sidebar/@display}" id="sidebar">
-		<h3>Links:</h3>
+		<h3 class="w3-theme-dark">Links:</h3>
   		<xf:repeat ref="link" id="r_links">
 			<xf:trigger appearance="minimal">
 				<xf:label ref="@xlink:title"/>
@@ -82,33 +107,96 @@ This page combines XForms and W3 CSS. It uses XSLT 1.7 as the XForms engine.
 XSLTForms 1.7 has some features from V2.0 of XForms (for instance AVT, Dialogs)
 </p>
 <div class="w3-container w3-col l11" id="content">
-  <h2>Avatar List</h2>
   <xf:trigger appearance="minimal">
-	<xf:label class="w3-bat-item w3-button w3-theme w3-large">Add</xf:label>
+	<xf:label class="w3-bat-item w3-button w3-theme w3-large"><i class="material-icons">add</i></xf:label>
+	<xf:hint class="w3-theme-light">New Employee</xf:hint>
 	<xf:action ev:event="DOMActivate">
-		<xf:insert ref="instance('employees')/employee" origin="instance('employees')/employee[1]"/>
+		<xf:insert ref="instance('employees')/employee" origin="instance('employees')/employee[@template=true()]"/>
 		<xf:setvalue ref="instance('employees')/employee[last()]/@template" value="false()"/>
+		<xf:refresh/>
+		<xf:setindex repeat="r_employees" index="1+count(instance('employees')/employee[not(@template=true())])"/>
+		<xf:show dialog="card"/>
 	</xf:action>
   </xf:trigger>
+  <xf:trigger appearance="minimal">
+	<xf:label class="w3-bat-item w3-button w3-theme w3-large"><i class="material-icons">save</i></xf:label>
+	<xf:hint class="w3-theme-light">Save List</xf:hint>
+	<xf:send ev:event="DOMActivate" submission="s_dummy"/>
+  </xf:trigger>
+
   <ul class="w3-ul w3-card-4">
-  <xf:repeat ref="instance('employees')/employee[not(@template=true())]" id="r_employee">
+  <xf:repeat ref="instance('employees')/employee[not(@template=true())]" id="r_employees">
     <li class="w3-bar">
-      	<div class="w3-bar-item w3-right">
-	  		<xf:trigger appearance="minimal">
-				<xf:label class="w3-button w3-theme w3-large">x</xf:label>
-				<xf:delete ev:event="DOMActivate" ref="."/>
-	  		</xf:trigger>
-		</div>
-      	<img src="{concat(../@baseurl, @img)}" class="w3-bar-item w3-circle w3-hide-small" style="width:85px"/>
-      	<div class="w3-bar-item">
-        <span class="w3-large"><xf:output ref="@name"/></span><br/>
-        <span><xf:output ref="@role"/></span>
-      </div>
+      		<div class="w3-bar-item w3-right">
+	  			<xf:trigger appearance="minimal">
+					<xf:label class="w3-button w3-theme w3-large"><i class="material-icons">edit</i></xf:label>
+					<xf:hint class="w3-theme-light">Edit Employee</xf:hint>
+					<xf:action ev:event="DOMActivate">
+						<xf:show dialog="card"/>
+					</xf:action>
+				</xf:trigger>
+				<xf:trigger appearance="minimal">
+					<xf:label class="w3-button w3-theme w3-large w3-margin-left"><i class="material-icons">delete</i></xf:label>
+					<xf:hint class="w3-theme-light">Delete Employee</xf:hint>
+					<xf:delete ev:event="DOMActivate" ref="."/>
+	 			</xf:trigger>
+			</div>
+      		<img src="{concat(instance('app')/images/@baseurl, @img)}" class="w3-bar-item w3-circle w3-hide-small" style="width:85px"/>
+      		<div class="w3-bar-item">
+        		<span class="w3-large"><xf:output ref="@name"/></span><br/>
+        		<span><xf:output ref="@role"/></span>
+			</div>
     </li>
   </xf:repeat>
   </ul>
 </div>
 </div>
+
+<xf:dialog id="card" style="height:400px">
+	<xf:group ref="instance('employees')/employee[1+index('r_employees')]">
+		<div class="w3-card-4 w3-theme">
+			<div class="w3-theme-dark w3-bar-item">	
+				<h3 class="w3-theme-dark w3-center">Employee Details</h3>
+			</div>
+	
+			<div class="w3-container w3-center">
+					<xf:trigger appearance="minimal">
+						<xf:hint class="w3-theme-light">Click to change image</xf:hint>
+						<xf:action ev:event="DOMActivate">
+								<xf:setvalue
+									ref="@img"
+									value="choose(
+										boolean(instance('app')/images/link[@xlink:href=context()/@img]/following-sibling::link),
+										instance('app')/images/link[@xlink:href=context()/@img]/following-sibling::link/@xlink:href,
+										instance('app')/images/link[1]/@xlink:href)"/>
+						</xf:action>
+      						<img src="{concat(instance('app')/images/@baseurl, @img )}" class="w3-bar-item w3-circle w3-hide-small" style="width:85px"/>
+					</xf:trigger>
+      			<div class="w3-bar-item">
+        			<span class="w3-large">
+						<xf:input placeholder="..." ref="@name" incremental="true">
+							<xf:label>Name</xf:label>
+						</xf:input>
+					</span><br/>
+        			<span class="w3-large">
+						<xf:input ref="@role" incremental="true">
+							<xf:label>Role</xf:label>
+						</xf:input>
+					</span>
+      			</div>
+				<div class="w3-panel w3-theme-light">
+				<xf:trigger class="w3-centre w3-button" appearance="minimal">
+					<xf:label>Done</xf:label>
+					<xf:hint class="w3-theme-light">Click to close dialog</xf:hint>
+					<xf:action ev:event="DOMActivate">
+						<xf:hide dialog="card" ev:event="DOMActivate"/>
+					</xf:action>
+				</xf:trigger>
+				</div>
+			</div>
+			</div>
+	</xf:group>
+</xf:dialog>
 
 </body>
 </html> 
