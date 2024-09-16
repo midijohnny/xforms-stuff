@@ -443,6 +443,6 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [list_details]: img/list_details.png
 [edit_details]: img/edit_details.png
 [sidebar]:      img/sidebar.png
-[w3css]: https://www.w3schools.com/w3css/
+[w3 css]: https://www.w3schools.com/w3css/
 [w3css list example]: https://www.w3schools.com/w3css/w3css_lists.asp
 [w3css colour themes]: https://www.w3schools.com/w3css/w3css_color_themes.asp
