@@ -23,6 +23,20 @@ The theme can be changed by editing the following entry:
 
 Change the 'w3-theme-xxxx' to one of the others listed on the [w3css colour themes] page.
 
+## UPDATE:
+
+In fact we can make it so the theme is dynamically selected from a list of theme names, using an AVT on the ```link``` element itself.
+I had to move the ```link``` element from ```head``` to the ```body``` for this to work:
+
+```
+<body class="w3-theme-dark">
+	<link rel="stylesheet" href="https://www.w3schools.com/lib/{instance('app')/theme}"/>
+[...]
+```
+
+Now the theme will change instantly in response to changes in the XForms model. (See the 'app' instance).
+
+![][change_theme]
 
 
 ## Updated notes for MQTT.XML:
@@ -443,6 +457,7 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [list_details]: img/list_details.png
 [edit_details]: img/edit_details.png
 [sidebar]:      img/sidebar.png
+[change_theme.png]: img/change_theme.png
 [w3 css]: https://www.w3schools.com/w3css/
 [w3css list example]: https://www.w3schools.com/w3css/w3css_lists.asp
 [w3css colour themes]: https://www.w3schools.com/w3css/w3css_color_themes.asp

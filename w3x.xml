@@ -20,7 +20,6 @@
 		name="viewport"
 		content="width=device-width, initial-scale=1"/>
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
-	<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css"/>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 	<style type="text/css">
 	<![CDATA[
@@ -31,6 +30,7 @@
 		<xf:instance id="app">
 			<app xmlns="">
 				<sidebar state="false" display=""/>
+				<theme/>
 				<link xlink:type="simple" xlink:title="XForms"			xlink:href="https://en.wikipedia.org/wiki/XForms" />
 				<link xlink:type="simple" xlink:title="W3 CSS"			xlink:href="https://www.w3schools.com/w3css/" />
 				<link xlink:type="simple" xlink:title="XSLTForms 1.7"	xlink:href="https://github.com/AlainCouthures/declarative4all/releases/tag/XSLTForms"/>
@@ -43,6 +43,32 @@
 					<link xlink:type="simple" xlink:href="img_avatar5.png"/>
 					<link xlink:type="simple" xlink:href="img_avatar6.png"/>
 				</images>
+				<!-- A list of w3.css themes. See: https://www.w3schools.com/w3css/w3css_color_themes.asp -->
+				<themes xmlns:xlink="http://www.w3.org/1999/xlink">
+				  <theme xlink:type="simple" xlink:href="w3-theme-red.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-pink.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-purple.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-deep-purple.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-indigo.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-blue.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-light-blue.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-cyan.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-teal.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-green.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-light-green.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-lime.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-khaki.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-yellow.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-amber.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-orange.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-deep-orange.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-blue-grey.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-brown.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-grey.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-dark-grey.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-black.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-w3schools.css"/>
+				</themes>
 			</app>
 		</xf:instance>
 		<xf:bind ref="sidebar/@state" type="xs:boolean"/>
@@ -63,6 +89,8 @@
 
 		<xf:action ev:event="xforms-ready">
 			<xf:setvalue ref="instance('employees')/employee[@template=true()]/@img" value="instance('app')/images/link[1]/@xlink:href"/>
+			<xf:setvalue ref="instance('app')/theme[@template=true()]/@img" value="instance('app')/images/link[1]/@xlink:href"/>
+			<xf:setvalue ref="instance('app')/theme" value="instance('app')/themes/theme[1]/@xlink:href"/>
 		</xf:action>
 
 		<xf:submission id="s_dummy" action="javascript:null"  method="post" replace="none">
@@ -74,6 +102,7 @@
 	</xf:model>
 </head>
 <body class="w3-theme-dark">
+	<link rel="stylesheet" href="https://www.w3schools.com/lib/{instance('app')/theme}"/>
 
 <div class="w3-bar w3-card w3-theme">
   <xf:trigger appearance="minimal">
@@ -89,16 +118,31 @@
 
 <div class="w3-row">
 	<div class="w3-col l1 w3-sidebar w3-bar-block w3-border-right w3-animate-left" style="display: {sidebar/@display}" id="sidebar">
-		<h3 class="w3-theme-dark">Links:</h3>
-  		<xf:repeat ref="link" id="r_links">
+		<xf:group ref="instance('app')">
 			<xf:trigger appearance="minimal">
-				<xf:label ref="@xlink:title"/>
-				<xf:load ev:event="DOMActivate" show="new"> <!-- XSLT 1.7 doesn't seem to understand the 'resource' attribute, using the deprecated child element version instead -->
-					<xf:resource value="@xlink:href"/>
-				</xf:load>
+				<xf:label class="w3-theme-l1"><xf:output ref="theme"/></xf:label>
+				<xf:hint class="w3-theme-light">Click to change theme</xf:hint>
+				<xf:setvalue
+					ev:event="DOMActivate"
+					ref="theme"
+					value="choose(
+								boolean(../themes/theme[@xlink:href=../../theme]/following-sibling::theme),
+								../themes/theme[@xlink:href=../../theme]/following-sibling::theme/@xlink:href,
+                                ../themes/theme[1]/@xlink:href)"/>
 			</xf:trigger>
-  		</xf:repeat>
+			<h3 class="w3-theme-dark">Links:</h3>
+  			<xf:repeat ref="link" id="r_links">
+				<xf:trigger appearance="minimal">
+					<xf:label ref="@xlink:title"/>
+					<xf:load ev:event="DOMActivate" show="new"> <!-- XSLT 1.7 doesn't seem to understand the 'resource' attribute, using the deprecated child element version instead -->
+						<xf:resource value="@xlink:href"/>
+					</xf:load>
+				</xf:trigger>
+  			</xf:repeat>
+		</xf:group>
 	</div>
+
+
 
 <p>
 This page combines XForms and W3 CSS. It uses XSLT 1.7 as the XForms engine.
@@ -162,14 +206,13 @@ XSLTForms 1.7 has some features from V2.0 of XForms (for instance AVT, Dialogs)
 			<div class="w3-container w3-center">
 					<xf:trigger appearance="minimal">
 						<xf:hint class="w3-theme-light">Click to change image</xf:hint>
-						<xf:action ev:event="DOMActivate">
-								<xf:setvalue
-									ref="@img"
-									value="choose(
-										boolean(instance('app')/images/link[@xlink:href=context()/@img]/following-sibling::link),
-										instance('app')/images/link[@xlink:href=context()/@img]/following-sibling::link/@xlink:href,
-										instance('app')/images/link[1]/@xlink:href)"/>
-						</xf:action>
+							<xf:setvalue
+								ev:event="DOMActivate"
+								ref="@img"
+								value="choose(
+									boolean(instance('app')/images/link[@xlink:href=context()/@img]/following-sibling::link),
+									instance('app')/images/link[@xlink:href=context()/@img]/following-sibling::link/@xlink:href,
+									instance('app')/images/link[1]/@xlink:href)"/>
       						<img src="{concat(instance('app')/images/@baseurl, @img )}" class="w3-bar-item w3-circle w3-hide-small" style="width:85px"/>
 					</xf:trigger>
       			<div class="w3-bar-item">
