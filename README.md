@@ -2,7 +2,10 @@
 
 The following are example [Xforms] apps.
 
+
 ## Using W3 CSS with XForms.
+
+### Editable Avatar List
 
 The file [w3x.xml] is a single page app that uses [w3 css] to style a simple XForm-based demonstration.
 The example is based on the [w3css list example].
@@ -37,6 +40,16 @@ I had to move the ```link``` element from ```head``` to the ```body``` for this 
 Now the theme will change instantly in response to changes in the XForms model. (See the 'app' instance).
 
 ![][change_theme]
+
+### Resizing content when sidebar expanded/collapsed.
+
+The file [resize.xml] is a modified example from the W3 CSS site - [Slide the Page Content to the Right] - but instead of Javascript modifying the style,
+we use XForms binds to keep a set of CSS properties to be set in response to the ```sidebar/@state``` being changed.
+
+Aside, one thing I have noticed that goes wrong in these modified examples - the icon-colours don't change (they are always black).
+This means they disappear (until you hover over them) when the w3-theme-black.css is used. 
+
+![][resize]
 
 
 ## Updated notes for MQTT.XML:
@@ -461,3 +474,5 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [w3 css]: https://www.w3schools.com/w3css/
 [w3css list example]: https://www.w3schools.com/w3css/w3css_lists.asp
 [w3css colour themes]: https://www.w3schools.com/w3css/w3css_color_themes.asp
+[Slide the Page Content to the Right]: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_sidebar_shift
+[resize]: img/resize.png
