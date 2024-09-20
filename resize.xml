@@ -1,0 +1,158 @@
+<?xml
+	version="1.0"
+	encoding="UTF-8"?>
+<?xml-stylesheet
+	href="xsltforms-1.7/xsltforms.xsl"
+	type="text/xsl"?>
+<?xsltforms-options
+	debug="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:ht="http://www.w3.org/1999/xhtml"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:xf="http://www.w3.org/2002/xforms"   
+      xmlns:ev="http://www.w3.org/2001/xml-events"
+	  xmlns:xlink="http://www.w3.org/1999/xlink"
+	  lang="en">
+<head>
+	<title>XFORMS + W3.CSS</title>
+   	<meta
+		charset="utf-8"/>
+   	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+	<style>
+	<![CDATA[
+		a:hover { text-decoration: underline }
+	]]>
+	</style>
+
+	<xf:model id="model">
+		<xf:instance id="app">
+			<app xmlns="">
+				<sidebar state="false" display="" maindisplay="" navdisplay=""/>
+				<theme/>
+				<link xlink:type="simple" xlink:title="XForms"			xlink:href="https://en.wikipedia.org/wiki/XForms" />
+				<link xlink:type="simple" xlink:title="W3 CSS"			xlink:href="https://www.w3schools.com/w3css/" />
+				<link xlink:type="simple" xlink:title="XSLTForms 1.7"	xlink:href="https://github.com/AlainCouthures/declarative4all/releases/tag/XSLTForms"/>
+				<link xlink:type="simple" xlink:title="XForms 2.0"	    xlink:href="https://www.w3.org/community/xformsusers/wiki/XForms_2.0"/>
+				<link
+					xlink:type="simple"
+					xlink:title="Slide the Page Content to the Right"
+					xlink:href="https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_sidebar_shift"/>
+				<images baseurl="https://www.w3schools.com/w3css/">
+					<link xlink:type="simple" xlink:title="car" xlink:href="img_car.jpg"/>
+				</images>
+				<!-- A list of w3.css themes. See: https://www.w3schools.com/w3css/w3css_color_themes.asp -->
+				<themes xmlns:xlink="http://www.w3.org/1999/xlink">
+				  <theme xlink:type="simple" xlink:href="w3-theme-red.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-pink.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-purple.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-deep-purple.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-indigo.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-blue.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-light-blue.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-cyan.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-teal.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-green.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-light-green.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-lime.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-khaki.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-yellow.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-amber.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-orange.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-deep-orange.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-blue-grey.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-brown.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-grey.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-dark-grey.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-black.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-w3schools.css"/>
+				</themes>
+			</app>
+		</xf:instance>
+		<xf:bind ref="instance('app')">
+			<xf:bind ref="sidebar/@state" type="xs:boolean"/>
+        	<xf:bind ref="sidebar/@display"		calculate="choose(../@state=true(), 'display: block; width : 25%;',	'display: none')"/>
+        	<xf:bind ref="sidebar/@maindisplay" calculate="choose(../@state=true(), 'margin-left: 25%;',			'margin-left: 0%;')"/>
+        	<xf:bind ref="sidebar/@navdisplay"	calculate="choose(../@state=true(), 'display: none',				'display: inline-block')"/>
+		</xf:bind>
+
+			
+			<xf:action ev:event="xforms-ready">
+				<xf:setvalue ref="instance('app')/sidebar" value="false()"/>
+				<xf:setvalue ref="instance('app')/theme" value="../themes/theme[@xlink:href='w3-theme-teal.css']/@xlink:href"/>
+			</xf:action>
+	</xf:model>
+
+</head>
+<body>
+<xf:group ref="instance('app')">
+	<link rel="stylesheet" href="https://www.w3schools.com/lib/{theme}"/>
+	<div class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-theme-l3" style="{sidebar/@display}" id="mySidebar">
+
+		<xf:trigger appearance="minimal" class="w3-bar-item w3-button w3-large">
+			<xf:label> <i class="material-icons">close</i> Close</xf:label>
+			<xf:action ev:event="DOMActivate">
+        		<xf:setvalue ref="sidebar/@state" value="false()"/>
+    		</xf:action>
+		</xf:trigger>
+		<xf:trigger appearance="minimal">
+				<xf:label><i class="material-icons">palette</i></xf:label>
+                <xf:hint class="w3-theme-light"><xf:output value="concat('Current Theme:', theme)"/></xf:hint>
+                <xf:setvalue
+                    ev:event="DOMActivate"
+                    ref="theme"
+                    value="choose(
+                                boolean(../themes/theme[@xlink:href=../../theme]/following-sibling::theme),
+                                ../themes/theme[@xlink:href=../../theme]/following-sibling::theme/@xlink:href,
+                                ../themes/theme[1]/@xlink:href)"/>
+            </xf:trigger>
+		<xf:repeat ref="link" id="r_links">
+			<xf:trigger appearance="minimal">
+				<xf:label ref="@xlink:title"/>
+					<xf:load ev:event="DOMActivate" show="new">
+						<xf:resource value="@xlink:href"/>
+					</xf:load>
+			</xf:trigger>
+		</xf:repeat>
+	</div>
+
+<div id="main" style="{sidebar/@maindisplay}">
+
+<div class="w3-theme">
+		<xf:trigger appearance="minimal" class="w3-button w3-xlarge" style="{sidebar/@navdisplay}">
+			<xf:label><i class="material-icons">menu</i></xf:label>
+			<xf:action ev:event="DOMActivate">
+        		<xf:setvalue ref="sidebar/@state" value="true()"/>
+			</xf:action>
+		</xf:trigger>
+	
+  <div class="w3-container">
+    <h1>My Page</h1>
+  </div>
+</div>
+
+<xf:group ref="images/link[@xlink:title='car']">
+   <img src="{concat(../@baseurl, @xlink:href)}" alt="{@title}" style="width:50%"/>
+</xf:group>
+
+<div class="w3-container">
+	<p>This is modified version of the 
+		<xf:group ref="link[@xlink:title='Slide the Page Content to the Right']" style="display: inline-block">
+			<a href="{@xlink:href}">
+				<xf:output ref="@xlink:title" style="text-decoration: underline;"/>
+			</a>
+		</xf:group> example on the W3 CSS page.
+	</p>
+	<p> Instead of Javascript being used to control the styling directly - the CSS changes are mapped to an XForms model.</p>
+	<p> See: <code>instance('app')/sidebar.</code> </p>
+	<p> XForms binds are used to generate the appropriate styling - and AVTs based on these bound values are applied to the elements in question </p>
+
+</div>
+</div>
+
+</xf:group>
+</body>
+</html>
