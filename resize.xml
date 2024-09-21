@@ -96,14 +96,14 @@
 	<link rel="stylesheet" href="{concat(themes/@baseurl,theme)}"/>
 	<div class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-theme-l3" style="{sidebar/@display}" id="mySidebar">
 
-		<xf:trigger appearance="minimal" class="w3-button w3-large material-icons w3-theme">
-			<xf:label ref="icon[@id='i_collapse']"/>
+		<xf:trigger appearance="minimal" class="w3-button w3-large material-icons">
+			<xf:label ref="icon[@id='i_collapse']" class="w3-theme"/>
 			<xf:action ev:event="DOMActivate">
         		<xf:setvalue ref="sidebar/@state" value="false()"/>
     		</xf:action>
 		</xf:trigger>
-		<xf:trigger appearance="minimal" class="w3-button w3-large material-icons w3-theme">
-			<xf:label ref="icon[@id='i_theme']"/>
+		<xf:trigger appearance="minimal" class="w3-button w3-large material-icons">
+			<xf:label ref="icon[@id='i_theme']" class="w3-theme"/>
                 <xf:setvalue
                     ev:event="DOMActivate"
                     ref="theme"
@@ -128,8 +128,8 @@
 <div id="main" style="{sidebar/@maindisplay}">
 
 <div class="w3-theme">
-		<xf:trigger appearance="minimal" class="w3-button w3-xlarge material-icons w3-theme" style="{sidebar/@navdisplay}">
-			<xf:label><xf:output value="icon[@id='i_expand']"/></xf:label> <!-- For some reason, using the "xf:label ref=..." pattern resulted in icon itself being unclickable ?-->
+		<xf:trigger appearance="minimal" class="w3-button w3-xlarge material-icons" style="{sidebar/@navdisplay}">
+			<xf:label class="w3-theme"><xf:output value="icon[@id='i_expand']"/></xf:label> <!-- For some reason, using the "xf:label ref=..." pattern resulted in icon itself being unclickable ?-->
 			<xf:action ev:event="DOMActivate">
         		<xf:setvalue ref="sidebar/@state" value="true()"/>
 			</xf:action>
