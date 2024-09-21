@@ -45,7 +45,7 @@
 					<link xlink:type="simple" xlink:title="car" xlink:href="img_car.jpg"/>
 				</images>
 				<!-- A list of w3.css themes. See: https://www.w3schools.com/w3css/w3css_color_themes.asp -->
-				<themes xmlns:xlink="http://www.w3.org/1999/xlink">
+				<themes baseurl="https://www.w3schools.com/lib/">
 				  <theme xlink:type="simple" xlink:href="w3-theme-red.css"/>
 				  <theme xlink:type="simple" xlink:href="w3-theme-pink.css"/>
 				  <theme xlink:type="simple" xlink:href="w3-theme-purple.css"/>
@@ -70,8 +70,12 @@
 				  <theme xlink:type="simple" xlink:href="w3-theme-black.css"/>
 				  <theme xlink:type="simple" xlink:href="w3-theme-w3schools.css"/>
 				</themes>
+				<icon id="i_expand">menu</icon>
+				<icon id="i_collapse">close</icon>
+				<icon id="i_theme">palette</icon>
 			</app>
 		</xf:instance>
+
 		<xf:bind ref="instance('app')">
 			<xf:bind ref="sidebar/@state" type="xs:boolean"/>
         	<xf:bind ref="sidebar/@display"		calculate="choose(../@state=true(), 'display: block; width : 25%;',	'display: none')"/>
@@ -89,18 +93,17 @@
 </head>
 <body>
 <xf:group ref="instance('app')">
-	<link rel="stylesheet" href="https://www.w3schools.com/lib/{theme}"/>
+	<link rel="stylesheet" href="{concat(themes/@baseurl,theme)}"/>
 	<div class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-theme-l3" style="{sidebar/@display}" id="mySidebar">
 
-		<xf:trigger appearance="minimal" class="w3-bar-item w3-button w3-large">
-			<xf:label> <i class="material-icons">close</i> Close</xf:label>
+		<xf:trigger appearance="minimal" class="w3-button w3-large material-icons w3-theme">
+			<xf:label ref="icon[@id='i_collapse']"/>
 			<xf:action ev:event="DOMActivate">
         		<xf:setvalue ref="sidebar/@state" value="false()"/>
     		</xf:action>
 		</xf:trigger>
-		<xf:trigger appearance="minimal">
-				<xf:label><i class="material-icons w3-theme-l3">palette</i></xf:label>
-                <xf:hint class="w3-theme-light"><xf:output value="concat('Current Theme:', theme)"/></xf:hint>
+		<xf:trigger appearance="minimal" class="w3-button w3-large material-icons w3-theme">
+			<xf:label ref="icon[@id='i_theme']"/>
                 <xf:setvalue
                     ev:event="DOMActivate"
                     ref="theme"
@@ -109,21 +112,24 @@
                                 ../themes/theme[@xlink:href=../../theme]/following-sibling::theme/@xlink:href,
                                 ../themes/theme[1]/@xlink:href)"/>
             </xf:trigger>
-		<xf:repeat ref="link" id="r_links">
-			<xf:trigger appearance="minimal">
-				<xf:label ref="@xlink:title"/>
-					<xf:load ev:event="DOMActivate" show="new">
-						<xf:resource value="@xlink:href"/>
-					</xf:load>
-			</xf:trigger>
-		</xf:repeat>
+		<div class="w3-panel w3-theme-l4">
+			<h3>Links:</h3>
+			<xf:repeat ref="link" id="r_links">
+				<xf:trigger appearance="minimal">
+					<xf:label ref="@xlink:title"/>
+						<xf:load ev:event="DOMActivate" show="new">
+							<xf:resource value="@xlink:href"/>
+						</xf:load>
+				</xf:trigger>
+			</xf:repeat>
+		</div>
 	</div>
 
 <div id="main" style="{sidebar/@maindisplay}">
 
 <div class="w3-theme">
-		<xf:trigger appearance="minimal" class="w3-button w3-xlarge" style="{sidebar/@navdisplay}">
-			<xf:label><i class="material-icons w3-theme">menu</i></xf:label>
+		<xf:trigger appearance="minimal" class="w3-button w3-xlarge material-icons w3-theme" style="{sidebar/@navdisplay}">
+			<xf:label><xf:output value="icon[@id='i_expand']"/></xf:label> <!-- For some reason, using the "xf:label ref=..." pattern resulted in icon itself being unclickable ?-->
 			<xf:action ev:event="DOMActivate">
         		<xf:setvalue ref="sidebar/@state" value="true()"/>
 			</xf:action>
