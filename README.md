@@ -46,9 +46,6 @@ Now the theme will change instantly in response to changes in the XForms model. 
 The file [resize.xml] is a modified example from the W3 CSS site - [Slide the Page Content to the Right] - but instead of Javascript modifying the style,
 we use XForms binds to keep a set of CSS properties to be set in response to the ```sidebar/@state``` being changed.
 
-Aside, one thing I have noticed that goes wrong in these modified examples - the icon-colours don't change (they are always black).
-This means they disappear (until you hover over them) when the w3-theme-black.css is used. 
-
 ![][resize]
 
 

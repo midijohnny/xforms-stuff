@@ -99,7 +99,7 @@
     		</xf:action>
 		</xf:trigger>
 		<xf:trigger appearance="minimal">
-				<xf:label><i class="material-icons">palette</i></xf:label>
+				<xf:label><i class="material-icons w3-theme-l3">palette</i></xf:label>
                 <xf:hint class="w3-theme-light"><xf:output value="concat('Current Theme:', theme)"/></xf:hint>
                 <xf:setvalue
                     ev:event="DOMActivate"
@@ -123,7 +123,7 @@
 
 <div class="w3-theme">
 		<xf:trigger appearance="minimal" class="w3-button w3-xlarge" style="{sidebar/@navdisplay}">
-			<xf:label><i class="material-icons">menu</i></xf:label>
+			<xf:label><i class="material-icons w3-theme">menu</i></xf:label>
 			<xf:action ev:event="DOMActivate">
         		<xf:setvalue ref="sidebar/@state" value="true()"/>
 			</xf:action>
@@ -138,7 +138,7 @@
    <img src="{concat(../@baseurl, @xlink:href)}" alt="{@title}" style="width:50%"/>
 </xf:group>
 
-<div class="w3-container">
+<div class="w3-container w3-theme-d3">
 	<p>This is modified version of the 
 		<xf:group ref="link[@xlink:title='Slide the Page Content to the Right']" style="display: inline-block">
 			<a href="{@xlink:href}">
