@@ -2,6 +2,67 @@
 
 The following are example [Xforms] apps.
 
+## XML-RPC integration with 'aria2'.
+
+The file [aria2.xml] (a work in progress, still a number of issues to be resolved) is a single page app that communicates requests using [XML-RPC].
+The main motivation for building this demo was to provide a way of downloading XML resources that XForms (actually XMLHTTPRequest) is unable to access due to [CORS] restrictions.
+The example here takes an [OPML] (outline file, used frequently as a [linkbase] of Podcast [RSS] feeds, and then uses 'aria2' to fetch the XML).
+
+
+
+### Notes:
+
+## ISSUE 
+
+The logic needs fixing : when an item is first selected, it doesn't correctly load and refresh the page - switching between another button and back again will work around the issue.
+The problem happens when no locally cached RSS feeds are available - that is - on the first run.
+
+## Running aria2
+
+In order for this app to work at all, 'aria2' must be running on the localhost - and must be allowed to write to the location where the XForms app is served-from.
+Like this:
+
+```
+#!/bin/bash
+# run_aria2.sh
+export TOKEN=supersecret
+export DIR=./rsscache
+aria2c \
+	--enable-rpc=true \
+	--rpc-secret="${TOKEN}" \
+	--rpc-allow-origin-all \
+	--dir ${DIR} \
+	--log=/dev/stdout \
+	--log-level=debug \
+	--on-download-complete=./hook.sh
+```
+
+The 'hook.sh' is optional here and can be ommitted - it could be used to run validation against the downloaded file for instance.
+
+Keep in the mind the security-implications of running this server that has access to the web-root of your web-server.
+Also - it seems that aria2 can write to any location - on a request-by-request basis (rather than having a 'base' directory) - although this is constrained by operating system
+permissions of course - but be careful when specifying the 'dir' parameters.
+
+To run this whole thing more safely - probably best to run in a container such as docker.
+
+The way this is setup (and the logic needs some work at the time of writing):
+
+- The URL (which is restricted to just the RSS feed at this point, but could be expanded to include the cover-art and MP3s themselves) is used to form a checksum.
+  This checksum is then used to provide aria2 with a unique 'GID' - this lets aria2 uniquely identify a particular download.
+  Here we are using it to provide a way to label the downloaded file, and it in effect acts as a cache-identifier.
+- Once the RSS XML is downloaded, XForms makes a second submission to retrieve the information and replace an XForms instance - 'podcast' - which represents the currently loaded 
+podcast.
+- The indvidual episodes of the selected podcast are presented to the user in an xforms:repeat - and an audio element is used to allow the user to play (pause etc) the selected episode.
+
+[W3 CSS] was used to style everything - it works pretty well, but I have some issues (not with W3 CSS itself - the way I'm using it), getting it to render on an iPhone.
+
+Screenshots - shows the sidebar , different styles (w3 css), aria2 calls and with sidebar collapsed in play mode.
+
+![][aria1]
+![][aria2]
+![][aria3]
+![][aria4]
+
 
 ## Using W3 CSS with XForms.
 
@@ -473,3 +534,8 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [w3css colour themes]: https://www.w3schools.com/w3css/w3css_color_themes.asp
 [Slide the Page Content to the Right]: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_sidebar_shift
 [resize]: img/resize.png
+
+[aria1]: img/aria1.png
+[aria2]: img/aria2.png
+[aria3]: img/aria3.png
+[aria4]: img/aria4.png

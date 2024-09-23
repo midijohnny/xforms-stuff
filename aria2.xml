@@ -1,0 +1,622 @@
+<?xml
+	version="1.0"
+	encoding="UTF-8"?>
+<?xml-stylesheet
+	href="xsltforms-1.7/xsltforms.xsl"
+	type="text/xsl"?>
+<?xsltforms-options
+	debug="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:ht="http://www.w3.org/1999/xhtml"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:xf="http://www.w3.org/2002/xforms"   
+      xmlns:ev="http://www.w3.org/2001/xml-events"
+	  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+	  xmlns:xlink="http://www.w3.org/1999/xlink"
+	  lang="en">
+<head>
+   	<meta
+		charset="utf-8"/>
+   	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+	<style>
+	<![CDATA[
+
+	]]>
+	</style>
+	<title>ARIA2 DOWNLOADER</title>
+	<xf:model id="model">
+		<xf:instance id="app">
+			<app xmlns="">
+				<sidebar state="false" display="" maindisplay="" navdisplay=""/>
+				<settings state="false" display="" display_main=""/>
+				<theme/>
+				<header pinned="false" display=""/>
+				<icon id="i_expand">menu</icon>
+				<icon id="i_collapse">close</icon>
+				<icon id="i_theme">palette</icon>
+				<icon id="i_pin">keep</icon>
+				<icon id="i_unpin">keep_off</icon>
+				<icon id="i_settings">settings</icon>
+				<link xlink:type="simple" xlink:title="XForms"			xlink:href="https://en.wikipedia.org/wiki/XForms" />
+				<link xlink:type="simple" xlink:title="W3 CSS"			xlink:href="https://www.w3schools.com/w3css/" />
+				<link xlink:type="simple" xlink:title="XSLTForms 1.7"	xlink:href="https://github.com/AlainCouthures/declarative4all/releases/tag/XSLTForms"/>
+				<link xlink:type="simple" xlink:title="XForms 2.0"	    xlink:href="https://www.w3.org/community/xformsusers/wiki/XForms_2.0"/>
+				<link xlink:type="simple" xlink:title="aria2c RPC"      xlink:href="https://aria2.github.io/manual/en/html/aria2c.html#rpc-interface"/>
+				<link xlink:type="simple" xlink:title="XML-RPC"			xlink:href="https://en.wikipedia.org/wiki/XML-RPC"/>
+				<link xlink:type="simple" xlink:title="CORS"			xlink:href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing"/>
+				<themes baseurl="https://www.w3schools.com/lib/">
+				  <theme xlink:type="simple" xlink:href="w3-theme-red.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-pink.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-purple.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-deep-purple.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-indigo.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-blue.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-light-blue.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-cyan.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-teal.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-green.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-light-green.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-lime.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-khaki.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-yellow.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-amber.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-orange.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-deep-orange.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-blue-grey.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-brown.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-grey.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-dark-grey.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-black.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-w3schools.css"/>
+				</themes>
+				<token>supersecret</token>
+				<endpoint>http://localhost:6800/rpc</endpoint>
+				<dir>./rsscache</dir>
+				<allow-overwrite>true</allow-overwrite>
+				<selected>
+					<gid/>
+					<out/>
+					<local/>
+				</selected>
+			</app>
+		</xf:instance>
+		<xf:bind ref="instance('app')">
+			<xf:bind ref="header">
+				<xf:bind ref="@pinned" type="xs:boolean"/>
+				<xf:bind ref="@display" calculate="choose(../@pinned=true(), 'w3-top','')"/>
+			</xf:bind>
+
+			<xf:bind ref="sidebar/@state" type="xs:boolean"/>
+        	<xf:bind ref="sidebar/@display"
+				calculate="choose(../@state=true(), 'display: block; width : 25%;',	'display: none')"/>
+        	<xf:bind ref="sidebar/@maindisplay"
+				calculate="choose(../@state=true(), 'margin-left: 25%;', 'margin-left: 0%;')"/>
+        	<xf:bind ref="sidebar/@navdisplay"
+				calculate="choose(../@state=true(), 'display: none', 'display: inline-block')"/>
+
+			<xf:bind ref="settings/@state" type="xs:boolean"/>
+			<xf:bind ref="settings/@display"
+				calculate="choose(../@state=true(), 'display: block;',	'display: none')"/>
+			<xf:bind ref="settings/@display_main"
+				calculate="choose(../@state=true(), 'display: none;',	'display: block')"/>
+			
+			<xf:bind ref="selected">
+				<xf:bind ref="gid"
+					calculate="substring( 
+										digest(instance('opml')/body/outline[index('r_opml')]/@xmlUrl,
+										'SHA-1', 'hex' ),1,16)"/>
+				<xf:bind ref="out"
+					calculate="concat(../gid, '.xml')"/>
+				<xf:bind ref="local"
+					calculate="concat(../../dir, '/', ../out)"/>
+			</xf:bind>
+		</xf:bind>
+
+
+		<xf:instance id="podcast">
+			<empty xmlns=""/>
+		</xf:instance>
+
+		<xf:instance id="opml">
+			<opml version="2.0" xmlns="">
+				<head>
+					<title>Podcast Subscriptions</title>
+				</head>
+				<body>
+					<outline
+						title="Codes that Changed the World"
+						xmlUrl="https://podcasts.files.bbci.co.uk/b05qqhqp.rss"/>
+					<outline
+						title="The Only Constant"
+						xmlUrl="https://www.spreaker.com/show/6018689/episodes/feed"/>
+					<outline
+						title="Lex Fridman Podcast"
+						xmlUrl="https://lexfridman.com/feed/podcast/"/>
+					  <outline title="Moral Maze" xmlUrl="https://podcasts.files.bbci.co.uk/b006qk11.rss"/>
+    				<outline
+						title="In Our Time"
+						xmlUrl="https://podcasts.files.bbci.co.uk/b006qykl.rss"/>
+    				<outline
+						title="The Rest Is History"
+						xmlUrl="https://feeds.megaphone.fm/GLT4787413333"/>
+				</body>
+			</opml>
+		</xf:instance>
+		
+		<xf:instance id="addUri">
+		<methodCall xmlns="">
+			<methodName>aria2.addUri</methodName>
+			<params>
+				<param>
+					<value><string/></value>
+				</param>
+				<param>
+				<value>
+					<array>
+					<data>
+						<value><string/></value>
+					</data>
+					</array>
+				</value>
+				</param>
+				<param>
+				<value>
+					<struct>
+					<member>
+						<name>dir</name><value><string/></value>
+					</member>
+					<member>
+						<name>allow-overwrite</name><value><string/></value>
+					</member>
+					<member>
+						<name>out</name><value><string/></value>
+					</member>
+					<member>
+						<name>gid</name>
+						<value>
+							<string/>
+						</value>
+					</member>
+					</struct>
+				</value>
+				</param>
+			</params>
+			</methodCall>
+		</xf:instance>
+
+		<xf:instance id="tellStatus">
+			<methodCall xmlns="">
+  				<methodName>aria2.tellStatus</methodName>
+  				<params>
+    				<param>
+      					<value>
+        					<string/>
+						</value>
+    				</param>
+    				<param>
+						<value>
+							<string/>
+						</value>
+					</param>
+					<param>
+						<value>
+							 <array>
+          						<data>
+									<value>
+              							<string>gid</string>
+            						</value>
+            						<value>
+              							<string>status</string>
+            						</value>
+          						</data>
+        					</array>
+						</value>
+					</param>
+				</params>
+			</methodCall>
+		</xf:instance>
+
+		<xf:bind ref="instance('tellStatus')/params">
+			<xf:bind ref="param[1]">
+				<xf:bind ref="value/string" calculate="concat('token:', instance('app')/token)"/>
+			</xf:bind>
+
+			<xf:bind ref="param[2]">
+				<xf:bind ref="value/string"
+						calculate="instance('app')/selected/gid"/>
+			</xf:bind>
+		</xf:bind>
+		
+		<xf:instance id="addUriHistory">
+			<addUriHistory xmlns="">
+					<methodCall>
+						<methodName>addUri</methodName>
+						<params/>
+					</methodCall>
+					<methodResponse/>
+			</addUriHistory>
+		</xf:instance>
+
+		<xf:bind ref="instance('addUri')/params">
+			<xf:bind ref="param[1]">
+				<xf:bind ref="value/string" calculate="concat('token:', instance('app')/token)"/>
+			</xf:bind>
+			<xf:bind ref="param[2]">
+				<xf:bind ref="value/array/data/value[1]/string"
+					calculate="instance('opml')/body/outline[index('r_opml')]/@xmlUrl"/>
+			</xf:bind>
+			<xf:bind ref="param[3]">
+				<xf:bind ref="value/struct/member">
+				<xf:bind ref="value/string[../../name='gid']" 
+					calculate="instance('app')/selected/gid"/>
+					<xf:bind ref="value/string[../../name='out']"
+						calculate="instance('app')/selected/out"/>
+					<xf:bind ref="value/string[../../name='dir']"
+						calculate="instance('app')/dir"/>
+					<xf:bind ref="value/string[../../name='allow-overwrite']"
+						calculate="instance('app')/allow-overwrite"/>	
+				</xf:bind>
+			</xf:bind>
+		</xf:bind>
+
+
+
+		<xf:submission
+			id="s1"
+			ref="instance('addUri')"
+			method="post"
+			replace="instance"
+			targetref="instance('addUriHistory')/methodResponse">
+			<xf:resource value="instance('app')/endpoint"/>
+			<xf:action ev:event="xforms-submit">
+				<xf:delete ref="instance('addUriHistory')/methodCall/params/param"/>
+				<xf:insert ref="instance('addUriHistory')/methodCall/params" origin="instance('addUri')/params"/> 
+			</xf:action>
+			<xf:action ev:event="xforms-submit-done" if="false()">
+				<xf:message>
+					<xf:output ref="instance('addUriHistory')/methodResponse/params/param[1]/value/string"/>
+				</xf:message>
+			</xf:action>
+		</xf:submission>
+
+<!-- note hardcoded test: also dangerous - could loop...? -->
+		<xf:submission
+			id="s_podcast"
+			serialization="none"
+			method="get"
+			replace="instance"
+			instance="podcast">
+			<xf:resource value="instance('app')/selected/local"/>
+			<xf:action ev:event="xforms-submit-error">
+                <xf:message if="false()"><xf:output value="concat( event('error-type'), ';', event('resource-uri'))"/></xf:message>
+				<xf:send submission="s1">
+					<xf:action ev:event="xforms-submit-done">
+						<xf:send submission="s_podcast"/> <!-- dangerous, loop? -->
+						<xf:setvalue ref="instance('app')/sidebar/@state" value="false()"/>
+						<xf:setvalue ref="instance('app')/header/@pinned" value="true()"/>
+					</xf:action>
+				</xf:send>
+			</xf:action>
+			<xf:action ev:event="xforms-submit">
+				<xf:setvalue ref="instance('app')/sidebar/@state" value="false()"/>
+				<xf:setvalue ref="instance('app')/header/@pinned" value="true()"/>
+				<xf:refresh/>
+			</xf:action>
+		</xf:submission>
+
+		<xf:action ev:event="xforms-ready">
+			<xf:setvalue ref="instance('app')/theme" value="../themes/theme[@xlink:href='w3-theme-indigo.css']/@xlink:href"/>
+			<xf:setvalue ref="instance('addUri')/methodName">aria2.addUri</xf:setvalue>
+			<xf:send submission="s_podcast"/>
+		</xf:action>
+
+	</xf:model>
+</head>
+
+<body class="w3-theme">
+
+	<xf:group ref="instance('app')">
+		<link rel="stylesheet" href="{concat(themes/@baseurl,theme)}"/>
+	</xf:group>
+
+<aside
+	id="sidebar"
+	class="w3-sidebar w3-theme-l3 w3-bar-block w3-animate-left"
+	style="{sidebar/@display}">
+
+		<xf:group ref="instance('app')">
+			<xf:trigger appearance="minimal" class="material-symbols-outlined">
+				<xf:label ref="icon[@id='i_collapse']" class="w3-button w3-theme w3-large"/>
+				<xf:action ev:event="DOMActivate">
+					<xf:setvalue ref="sidebar/@state" value="false()"/>
+				</xf:action>
+			</xf:trigger>
+
+			<xf:trigger appearance="minimal" class="material-symbols-outlined">
+				<xf:label ref="icon[@id='i_theme']" class="w3-button w3-theme w3-large"/>
+					<xf:setvalue
+						ev:event="DOMActivate"
+						ref="theme"
+						value="choose(
+									boolean(../themes/theme[@xlink:href=../../theme]/following-sibling::theme),
+									../themes/theme[@xlink:href=../../theme]/following-sibling::theme/@xlink:href,
+									../themes/theme[1]/@xlink:href)"/>
+			</xf:trigger>
+
+			<xf:trigger appearance="minimal" class="material-symbols-outlined">
+				<xf:label ref="icon[@id='i_settings']" class="w3-button w3-theme w3-large"/>
+				<xf:setvalue
+					ev:event="DOMActivate"
+					ref="settings/@state"
+					value="choose(.=true(), false(), true())"/>
+			</xf:trigger>
+	
+		</xf:group>
+
+		<hr/>
+		<nav>
+			<section class="w3-ul" >
+				<xf:repeat ref="instance('opml')/body/outline" id="r_opml">
+					<xf:trigger appearance="minimal">
+					<li>
+						<xf:output ref="@title" class="w3-button w3-theme-action" />
+					</li>
+					<xf:action ev:event="DOMActivate">
+						<xf:send submission="s_podcast"/>
+					</xf:action>
+					</xf:trigger>
+				</xf:repeat>
+			</section>
+		</nav>
+
+		<xf:group ref="instance('app')">
+			<section class="w3-panel w3-theme-l4" id="links">
+				<h3>Links:</h3>
+				<xf:repeat ref="link" id="r_links">
+					<xf:trigger appearance="minimal">
+						<xf:label ref="@xlink:title"/>
+							<xf:load ev:event="DOMActivate" show="new">
+								<xf:resource value="@xlink:href"/>
+							</xf:load>
+					</xf:trigger>
+				</xf:repeat>
+			</section>
+		</xf:group>
+
+</aside>
+
+
+
+
+<main id="main" class="w3-theme-l2" style="{instance('app')/sidebar/@maindisplay}" >
+	<section id="settings" style="{instance('app')/settings/@display}">
+	
+		<div class="w3-card-4 w3-theme">
+				<div class="w3-theme-dark w3-bar-item">	
+					<h3 class="w3-theme-dark w3-center">Settings</h3>
+				</div>
+				<div class="w3-bar-item w3-center">
+					<xf:group ref="instance('app')">
+						<xf:input ref="token" incremental="true" >
+							<xf:label>Token</xf:label>
+						</xf:input>
+						<xf:input ref="endpoint" incremental="true">
+							<xf:label>endpoint</xf:label>
+						</xf:input>
+						<xf:input ref="dir" incremental="true">
+							<xf:label>dir</xf:label>
+						</xf:input>
+						<xf:input ref="allow-overwrite" incremental="true">
+							<xf:label>allow-overwrite</xf:label>
+						</xf:input>
+					</xf:group>
+				</div>
+		</div> 
+
+		
+		<h1><xf:output ref="instance('addUri')/methodName"/></h1>
+		
+		<xf:repeat ref="instance('addUri')/params/param" id="r_param">
+			<xf:label><xf:output value="concat('Param: ', position())"/></xf:label>
+			<xf:repeat ref="value/string">
+				<xf:output value="normalize-space(.)"/>
+			</xf:repeat>
+			<xf:repeat ref="value/array/data/value" id="r_array_data">
+				<xf:output value="concat(position(), ':', normalize-space(.))"/>
+			</xf:repeat>
+			<xf:repeat ref="value/struct/member" id="r_struct_data">
+				<xf:output ref="value">
+					<xf:label ref="../name" style="display: inline-block"/>
+				</xf:output>
+			</xf:repeat>
+		</xf:repeat>
+		<xf:submit id="s1">
+			<xf:label>addUri</xf:label>
+		</xf:submit>
+
+		<h1><xf:output ref="instance('tellStatus')/methodName"/></h1>
+		
+		<xf:repeat ref="instance('tellStatus')/params/param" id="r_param2">
+			<xf:label><xf:output value="concat('Param: ', position())"/></xf:label>
+			<xf:repeat ref="value/string">
+				<xf:output value="normalize-space(.)"/>
+			</xf:repeat>
+			<xf:repeat ref="value/array/data/value" id="r_array_data">
+				<xf:output value="concat(position(), ':', normalize-space(.))"/>
+			</xf:repeat>
+			<xf:repeat ref="value/struct/member" id="r_struct_data">
+				<xf:output ref="value">
+					<xf:label ref="../name" style="display: inline-block"/>
+				</xf:output>
+			</xf:repeat>
+		</xf:repeat>
+
+
+		<hr/>
+
+		<xf:repeat ref="instance('addUriHistory')/methodCall/params/param" id="r_param">
+			<xf:label><xf:output value="concat('Param: ', position())"/></xf:label>
+			<xf:repeat ref="value/string">
+				<xf:output value="normalize-space(.)"/>
+			</xf:repeat>
+			<xf:repeat ref="value/array/data/value" id="r_array_data">
+				<xf:output value="concat(position(), ':', normalize-space(.))"/>
+			</xf:repeat>
+			<xf:repeat ref="value/struct/member" id="r_struct_data">
+				<xf:output ref="value">
+					<xf:label ref="../name" style="display: inline-block"/>
+				</xf:output>
+			</xf:repeat>
+		</xf:repeat>
+		
+		<hr/>
+
+		<xf:group ref="instance('addUriHistory')/methodResponse" >
+			<xf:repeat ref="params/param" id="r_response">
+				<xf:label><xf:output value="concat('Param: ', position())"/></xf:label>
+				<xf:repeat ref="value/string">
+					<xf:output value="normalize-space(.)"/>
+				</xf:repeat>
+				<xf:repeat ref="value/array/data/value" id="r_resp_array_data">
+					<xf:output value="normalize-space(.)"/>
+				</xf:repeat>
+				<xf:repeat ref="value/struct/member" id="r_resp_struct_data">
+					<xf:output ref="value">
+						<xf:label ref="../name" style="display: inline-block"/>
+					</xf:output>
+				</xf:repeat>
+			</xf:repeat>
+			<xf:group ref="fault" class="w3-panel w3-red">
+
+				<xf:repeat ref="." id="r_response">
+					<xf:label><xf:output value="concat('Param: ', position())"/></xf:label>
+					<xf:repeat ref="value/struct/member" id="r_struct_data">
+						<xf:output ref="value">
+							<xf:label ref="../name" style="display: inline-block"/>
+						</xf:output>
+					</xf:repeat>
+				</xf:repeat>
+
+			</xf:group>
+		</xf:group>
+</section>
+		
+	<section id="podcast" style="{instance('app')/settings/@display_main}">
+	<header class="w3-card-4 w3-bar w3-theme-d4 {instance('app')/header/@display}">
+		<xf:group ref="instance('app')">
+			<xf:trigger
+				appearance="minimal"
+				class="material-symbols-outlined w3-left">
+				<xf:label
+					class="w3-theme w3-button w3-large "
+					style="{sidebar/@navdisplay}"
+					ref="icon[@id='i_expand']"/>
+					<xf:action ev:event="DOMActivate">
+						<xf:setvalue ref="sidebar/@state" value="true()"/>
+						<xf:setvalue ref="header/@pinned" value="false()"/>
+					</xf:action>
+			</xf:trigger>
+
+			<xf:trigger
+				appearance="minimal"
+				class="material-symbols-outlined w3-right">
+				<xf:label
+					class="w3-theme w3-button w3-large "
+					style="sidebar/@navdisplay}"
+					ref="choose(header/@pinned=true(), icon[@id='i_unpin'], icon[@id='i_pin'] )"/>
+
+					<xf:setvalue
+						ev:event="DOMActivate"
+						ref="header/@pinned"
+						value="choose(.=true(), false(), true())"/>
+			</xf:trigger>
+
+		</xf:group>
+	
+
+		<xf:group ref="instance('podcast')">
+				<img
+					src="{channel/itunes:image/@href}"
+					class="w3-bar-item"
+					style="width:85px"/>
+				<div class="w3-bar-item w3-large" style="display: inline-block">
+    				<xf:output ref="channel/title"/>
+  				</div>
+				
+				<div class="w3-bar-item">
+					<xf:group ref="channel/item[index('r_episodes')]">
+						<xf:group ref="enclosure[@type='audio/mpeg']">
+							<audio src="{@url}" controls="true"/>
+						</xf:group>
+						<xf:output ref="title"/>
+					</xf:group>
+				</div>
+</xf:group>
+			</header>
+
+
+<xf:group ref="instance('podcast')">
+			<ul class="w3-ul" >
+				<xf:repeat ref="channel/item" id="r_episodes">
+					<li>
+						<section class="w3-card-4 w3-theme-d1">
+							<header class="w3-container w3-theme-d2">
+								<h3><xf:output ref="title"/></h3>
+							</header>
+							<article class="w3-container">
+									<xf:output value="description"  />
+							</article>
+							<footer class="w3-container">
+								<h5><xf:output ref="pubDate" /></h5>
+							</footer>
+						</section>
+					</li>
+				</xf:repeat>
+			</ul>
+		</xf:group>
+</section>
+
+</main>
+
+	
+<xf:dialog id="settings" >
+	<div class="w3-card-4 w3-theme">
+		<div class="w3-theme-dark w3-bar-item">	
+			<h3 class="w3-theme-dark w3-center">Settings</h3>
+		</div>
+		<div class="w3-bar-item w3-center">
+			<xf:group ref="instance('app')">
+				<xf:input ref="token" incremental="true" >
+					<xf:label>Token</xf:label>
+				</xf:input>
+				<xf:input ref="endpoint" incremental="true">
+					<xf:label>endpoint</xf:label>
+				</xf:input>
+				<xf:input ref="dir" incremental="true">
+					<xf:label>dir</xf:label>
+				</xf:input>
+				<xf:input ref="allow-overwrite" incremental="true">
+					<xf:label>allow-overwrite</xf:label>
+				</xf:input>
+			</xf:group>
+		</div>
+		<div class="w3-panel w3-theme-light">
+				<xf:trigger class="w3-centre w3-button" appearance="minimal">
+					<xf:label>Done</xf:label>
+					<xf:hint class="w3-theme-light">Click to close dialog</xf:hint>
+					<xf:action ev:event="DOMActivate">
+						<xf:hide dialog="settings" ev:event="DOMActivate"/>
+					</xf:action>
+				</xf:trigger>
+			</div>
+		</div> 
+</xf:dialog>
+	
+
+</body>
+</html>
