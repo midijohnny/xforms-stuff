@@ -1,0 +1,426 @@
+<?xml
+	version="1.0"
+	encoding="UTF-8"?>
+<?xml-stylesheet
+	href="xsltforms-1.7/xsltforms.xsl"
+	type="text/xsl"?>
+<?xsltforms-options
+	debug="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:ht="http://www.w3.org/1999/xhtml"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:xf="http://www.w3.org/2002/xforms"   
+      xmlns:ev="http://www.w3.org/2001/xml-events"
+	  xmlns:mq="http://example.org/mqtt"
+	  xmlns:xlink="http://www.w3.org/1999/xlink"
+	  lang="en">
+<head>
+   	<meta
+		charset="utf-8"/>
+   	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
+	<style>
+	<![CDATA[
+		 
+	]]>
+	</style>
+
+	<xf:model id="model">
+		<xf:instance id="app">
+			<app xmlns="">
+				<name>Demo Application</name>
+				<sha1/>
+				<sidebar state="true" display=""/>
+				<main display=""/>
+				<expand_button display=""/>
+				<section name="reflect_instances" enabled="true" display=""/>
+				<section name="reflect_sections" enabled="true" display=""/>
+				<section name="reflect_count_triggers" enabled="true" display=""/>
+				<section name="app_info" enabled="true" display=""/>
+				<section name="notes" enabled="true" display=""/>
+				<theme/>
+				<themes baseurl="https://www.w3schools.com/lib/">
+				  <theme xlink:type="simple" xlink:href="w3-theme-red.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-pink.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-purple.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-deep-purple.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-indigo.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-blue.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-light-blue.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-cyan.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-teal.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-green.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-light-green.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-lime.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-khaki.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-yellow.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-amber.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-orange.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-deep-orange.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-blue-grey.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-brown.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-grey.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-dark-grey.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-black.css"/>
+				  <theme xlink:type="simple" xlink:href="w3-theme-w3schools.css"/>
+				</themes>
+				<icon id="i_menu">menu</icon>
+				<icon id="i_link">link</icon>
+				<icon id="i_theme">palette</icon>
+				<icon id="i_expand">menu</icon>
+				<icon id="i_collapse">close</icon>
+				<icon id="i_localstorage">hard_drive</icon>
+				<icon id="i_save_to_local_storage">download</icon>
+				<icon id="i_load_from_local_storage">upload</icon>
+				<icon id="i_clear_from_local_storage">delete</icon>
+				<link xlink:type="simple" xlink:title="XForms"				xlink:href="https://en.wikipedia.org/wiki/XForms" />
+				<link xlink:type="simple" xlink:title="W3 CSS"				xlink:href="https://www.w3schools.com/w3css/" />
+				<link xlink:type="simple" xlink:title="XSLTForms 1.7"		xlink:href="https://github.com/AlainCouthures/declarative4all/releases/tag/XSLTForms"/>
+				<link xlink:type="simple" xlink:title="xf:setnode"			xlink:href="https://en.wikibooks.org/wiki/XSLTForms/setnode"/>
+				<link xlink:type="simple" xlink:title="XForms 2.0"	    	xlink:href="https://www.w3.org/community/xformsusers/wiki/XForms_2.0"/>
+				<link xlink:type="simple" xlink:title="Window localStorage" xlink:href="https://www.w3schools.com/jsref/prop_win_localstorage.asp"/>
+			</app>
+		</xf:instance>
+		<xf:bind ref="instance('app')">
+			<xf:bind
+				ref="sidebar/@state" type="xs:boolean"/>
+			<xf:bind
+				ref="sidebar/@display"
+				calculate="choose(../@state=true(), 'display: block; width : 25%;',	'display: none')"/>
+			<xf:bind
+				ref="main/@display"
+				calculate="choose(../../sidebar/@state=true(), 
+							'margin-left: 25%', 
+							'margin-left: 0%')"/>
+			<xf:bind ref="section/@enabled" type="xs:boolean"/>
+			<xf:bind
+				ref="section/@display"
+				calculate="choose(../@enabled=true(), 'display: block', 'display: none')"/>
+			<xf:bind
+				ref="expand_button/@display"
+					calculate="choose(../../sidebar/@state=true(), 
+							'display: none', 
+							'display: inline-block')"/>
+
+				
+				<xf:bind
+					ref="sha1"
+					calculate="digest(serialize(instance('this')), 'SHA-1', 'hex')"/>
+		</xf:bind>
+		
+
+		<xf:instance id="this" src="portal.xml" sha1=""/> 
+		
+		<xf:instance id="store">
+			<store xmlns="">
+				<item key="app" value="" load_on_startup="true"/>
+				<message/>
+			</store>
+		</xf:instance>
+		<xf:bind ref="instance('store')/item/@load_on_startup" type="xs:boolean"/>
+
+		<xf:instance id="temp" comment="We first instantiate a copy of cached entry, to check sha1 matches current app..">
+			<empty xmlns=""/>
+		</xf:instance>
+		
+		
+		<xf:action ev:event="save-state">
+			<xf:setvalue
+				ref="instance('store')/item[@key='app']/@value"
+				value="serialize(instance('app'))"/>
+			<xf:load resource="javascript:save_state()"/>
+			<xf:setvalue ref="instance('store')/message">Saved to local storage</xf:setvalue>
+		</xf:action>
+
+
+		<xf:load ev:event="load-state" resource="javascript:load_state()"/>	
+
+		<xf:action ev:event="load-state-hit">
+			<xf:setnode
+				ref="instance('temp')"
+				outer="instance('store')/item[@key='app']/@value"/>
+				<xf:action if="instance('temp')/sha1 = instance('app')/sha1">
+					<xf:setnode
+						ref="instance('app')"
+						outer="instance('store')/item[@key='app']/@value"/>
+					<xf:setvalue ref="instance('store')/message">Loaded From local storage</xf:setvalue>
+				</xf:action>
+				<xf:action if="instance('temp')/sha1 != instance('app')/sha1">
+					<xf:setvalue ref="instance('store')/message">App has changed, deleting old cached entry.</xf:setvalue>
+					<!-- Actually the message above is never going to be seen, as we'll overwrite in the 'clear-state' :-/ -->
+					<xf:dispatch name="clear-state" targetid="model"/>   
+				</xf:action>
+		</xf:action>
+
+		<xf:setvalue
+			ev:event="load-state-miss"
+			ref="instance('store')/message">Nothing to load from local storage</xf:setvalue>
+
+		<xf:action ev:event="clear-state">
+			<xf:load resource="javascript:clear_state()"/>
+			<xf:setvalue ref="instance('store')/message">Cleared local storage</xf:setvalue>
+		</xf:action>
+
+		<xf:action ev:event="xforms-ready">
+			<xf:setvalue ref="instance('app')/theme" value="../themes/theme[1]/@xlink:href"/>
+			<xf:dispatch
+				if="instance('store')/item/@load_on_startup=true()"
+				targetid="model"
+				name="load-state"/>
+		</xf:action>
+
+		<xf:setvalue ev:event="next-theme"
+			ref="instance('app')/theme"
+			value="choose(
+					boolean(../themes/theme[@xlink:href=../../theme]/following-sibling::theme),
+					../themes/theme[@xlink:href=../../theme]/following-sibling::theme/@xlink:href,
+					../themes/theme[1]/@xlink:href)"/>
+
+	</xf:model>
+	<script type="text/javascript">
+	<![CDATA[
+	    // Stores/Loads/Clear the 'app' instance in Browser's 'localstorage'.
+		// This allows the state of the app (theme, whether sidebar is expanded...) to be restored when revisiting the site.
+		// See also the XForms actions that the react to the dispatched messages from this JS.
+		// We also load *this* (assumed to be a single document) xml file and calculate the SHA1 of the document.
+		// The SHA1 is used to check that the cached instance data came from the same version of the app or not.
+		// If the SHA1s don't match, the app instance is *not* instantiated, and the cached entry is removed.
+		function dispatch_event(target, event_str) {
+			XsltForms_xmlevents.dispatch(target, event_str);
+		}
+
+		function save_state() {
+			var xmodel=document.querySelector('#model');
+			var store=xmodel.getInstanceDocument('store');
+			var item=store.querySelector('item[key="app"]');
+			var key=item.getAttribute('key');
+			var val=item.getAttribute('value');
+			console.debug(`key = ${key}, val = ${val}`);
+			window.localStorage.setItem(key, val);
+		}
+
+		function load_state() {
+			var xmodel=document.querySelector('#model');
+			var store=xmodel.getInstanceDocument('store');
+			var app=xmodel.getInstanceDocument('app');
+			var current_sha1=app.querySelector('sha1').getInnerHTML();
+			console.debug(`Current sha1: ${current_sha1}` );
+			var item=store.querySelector('item[key="app"]');
+			var saved_item=window.localStorage.getItem('app');
+			if (null!=saved_item) {
+				var val=item.setAttribute('value', saved_item);
+				dispatch_event(xmodel, 'load-state-hit');
+			}
+			else { dispatch_event(xmodel, 'load-state-miss') }
+		}
+
+		function clear_state() {
+			var saved_item=window.localStorage.getItem('app');
+			if (null!=saved_item) {
+				window.localStorage.removeItem('app');
+			}
+		}
+		]]>
+	</script>
+</head>
+<body class="w3-theme-d3">
+	<xf:group ref="instance('app')">
+		<link rel="stylesheet" href="{concat(themes/@baseurl,theme)}"/>
+
+		<aside
+			id="sidebar"
+			class="w3-sidebar w3-theme-l3 w3-animate-left w3-card-4"
+			style="{sidebar/@display}">
+				<header class="w3-container">
+					<xf:trigger appearance="minimal" class="w3-theme w3-large material-symbols-outlined" >
+					<xf:label ref="icon[@id='i_collapse']" class="w3-large w3-button"/>
+						<xf:setvalue ev:event="DOMActivate" ref="sidebar/@state" value="false()"/>
+					</xf:trigger>
+					<h3>Sidebar</h3>
+				</header>
+				<section id="sidebar_content" class="w3-container" style="{section[@name='sidebar_content']}">
+					<nav class="w3-dropdown-hover" >
+					<xf:trigger
+						id="t_links"
+						appearance="minimal"
+						class="w3-theme w3-large material-symbols-outlined">
+						<xf:label ref="icon[@id='i_link']" class=" w3-large w3-button"/>
+					</xf:trigger>
+
+					<section id="links" class="w3-dropdown-content w3-bar-block">
+						<xf:label>External Links:</xf:label>
+						<xf:repeat ref="link" id="r_links">
+							<xf:trigger
+								id="t_link"
+								appearance="minimal">
+								<xf:label class="w3-bar-item w3-button" ref="@xlink:title"/>
+									<xf:load ev:event="DOMActivate" show="new">
+										<xf:resource value="@xlink:href"/>
+									</xf:load>
+							</xf:trigger>
+						</xf:repeat>
+					</section>
+				</nav>
+				</section>
+
+				<section id="select_sections" class="w3-card">
+					<h3>Select which sections are enabled:</h3>
+					<xf:repeat ref="section">
+						<xf:input ref="@enabled">
+							<xf:label ref="../@name" style="display: inline-block"/>
+						</xf:input>
+					</xf:repeat>
+				</section>
+				
+				<footer class="w3-container w3-theme-d2">
+					footer - tbd
+				</footer>
+		</aside>
+
+
+		<main style="{main/@display}">
+			
+			<header class="w3-panel w3-theme">
+			<xf:trigger
+				appearance="minimal"
+				class="material-symbols-outlined w3-left">
+				<xf:label
+					class="w3-theme w3-button w3-large"
+					style="{expand_button/@display}"
+					ref="icon[@id='i_expand']"/>
+				<xf:setvalue ev:event="DOMActivate" ref="sidebar/@state" value="true()"/>
+			</xf:trigger>
+			<h1 style="display: inline-block"><xf:output ref="name"/></h1>
+
+				
+
+				<nav class="w3-dropdown-hover">
+					<xf:trigger
+						id="t_themes"
+						appearance="minimal" 
+						class="w3-theme w3-large material-symbols-outlined">
+						<xf:label ref="icon[@id='i_theme']" class="w3-theme w3-large w3-button"/>
+						<xf:dispatch ev:event="DOMActivate" name="next-theme" targetid="model"/>
+					</xf:trigger>
+
+					<section id="themes" class="w3-dropdown-content w3-bar-block">
+						<xf:select1 ref="theme" class="w3-bar-item w3-button">
+							<xf:label>Select Theme:</xf:label>
+							<xf:itemset ref="../themes/theme/@xlink:href">
+								<xf:label ref="."/>
+								<xf:value value="concat(../@baseurl,.)"/>
+							</xf:itemset>
+						</xf:select1>
+					</section>
+				</nav>
+
+				<nav class="w3-dropdown-hover">
+					<xf:trigger
+						appearance="minimal" 
+						class="w3-theme w3-large material-symbols-outlined">
+						<xf:label ref="icon[@id='i_localstorage']" class="w3-theme w3-large w3-button"/>
+					</xf:trigger>
+
+				
+					<section id="localstorage_actions" class="w3-dropdown-content w3-bar-block">
+						<xf:trigger
+							appearance="minimal" 
+							class="w3-theme w3-large material-symbols-outlined">
+							<xf:label ref="icon[@id='i_save_to_local_storage']" class="w3-theme w3-large w3-button"/>
+							<xf:dispatch ev:event="DOMActivate" name="save-state" targetid="model"/>
+						</xf:trigger>
+
+						<xf:trigger
+							appearance="minimal" 
+							class="w3-theme w3-large material-symbols-outlined">
+							<xf:label ref="icon[@id='i_load_from_local_storage']" class="w3-theme w3-large w3-button"/>
+							<xf:dispatch ev:event="DOMActivate" name="load-state" targetid="model"/>
+						</xf:trigger>
+
+						<xf:trigger
+							appearance="minimal" 
+							class="w3-theme w3-large material-symbols-outlined">
+							<xf:label ref="icon[@id='i_clear_from_local_storage']" class="w3-theme w3-large w3-button"/>
+							<xf:dispatch ev:event="DOMActivate" name="clear-state" targetid="model"/>
+						</xf:trigger>
+					</section>
+				</nav>
+
+
+				
+			</header>
+
+			<xf:group ref="instance('this')">
+				<h1><xf:label>Info about this XForms App</xf:label></h1>
+				<section
+					id="reflect_instances"
+					class="w3-theme w3-card"
+					style="{instance('app')/section[@name='reflect_instances']/@display}">
+					<h3><xf:label class="w3-theme-l2">List of instances defined:</xf:label></h3>
+					<xf:repeat id="r_app_instances" ref="ht:head/xf:model/xf:instance">
+						<xf:output ref="@id"/>
+					</xf:repeat>
+				</section>
+
+				<section
+					id="reflect_sections"
+					class="w3-theme w3-card"
+					style="{instance('app')/section[@name='reflect_sections']/@display}">
+					<h3><xf:label class="w3-theme-l2">List of sections defined:</xf:label></h3>
+					<xf:repeat id="r_app_sections" ref="ht:body//ht:section">
+						<xf:output ref="@id"/>
+					</xf:repeat>
+				</section>
+
+			<section
+				id="reflect_count_triggers"
+				class="w3-theme w3-card"
+				style="{instance('app')/section[@name='reflect_count_triggers']/@display}">
+				<h3>
+					<xf:label class="w3-theme-l2">
+						<xf:output
+							value="concat(
+									'Number of triggers defined: ',
+									count(ht:body//xf:trigger))"/>
+					</xf:label>
+				</h3>
+			</section>
+
+			<section 
+				id="notes"
+				class="w3-theme w3-card"
+				style="{instance('app')/section[@name='notes']/@display}">
+				<h3>
+					<xf:label class="w3-theme-l2">NOTES:</xf:label>
+				</h3>
+				<p>
+				This demo XForms app uses some XSLT-Forms-specific features (namely 'serialize' function and 'xf:setnode' tag)</p>
+				<p>and some javascript to allow it to save/load from the browser's localStorage. </p>
+				<p>So when the user selects a theme, changes the state of the sidebar or selects which sections to show</p>
+				<p>This state can be restored (automatically on startup, or manually from menu option)</p>
+				<p>This App also loads a copy of its own source code (note, assuming the name is 'portal.xml'!)</p>
+				<p>Doing this allows us to calculate a checksum (SHA1) of the App Source itself, if the checksum of the current app</p>
+				<p>does not match the cached version of the data - then the cached element is discarded.</p>
+				<p>Loading the app itself allows us to examine the structure of the app as well, and this is presented on the app itself</p>
+			</section>
+
+			</xf:group>
+
+			<footer>
+				<section id="app_info" class="w3-card" style="{section[@name='app_info']/@display}">
+					<h3>
+						<xf:label class="w3-theme-l2">App Info:</xf:label>
+					</h3>
+					<xf:output value="concat('SHA1:', sha1)"/>
+					<br/>
+					<xf:output ref="instance('store')/message"/>
+				</section>
+			</footer>
+		</main>
+		
+	</xf:group>
+</body>
+</html>

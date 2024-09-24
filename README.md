@@ -2,6 +2,23 @@
 
 The following are example [Xforms] apps.
 
+## Using Browser Local Storage to save app-state.
+
+The demo app XForms app [portal.xml] uses some XSLT-Forms-specific features (namely 'serialize' function and 'xf:setnode' tag)
+and some javascript to allow it to save/load from the browser's localStorage. 
+
+So when the user selects a theme, changes the state of the sidebar or selects which sections to show
+This state can be restored (automatically on startup, or manually from menu option)
+This App also loads a copy of its own source code (note, assuming the name is 'portal.xml'!)
+Doing this allows us to calculate a checksum (SHA1) of the App Source itself, if the checksum of the current app
+does not match the cached version of the data - then the cached element is discarded.
+
+Loading the app itself allows us to examine the structure of the app as well, and this is presented on the app itself
+
+The App was built using W3.CSS, Google's Material Symbols/Icons and XSLTForms 1.7.
+
+![][local_storage_demo]
+
 ## XML-RPC integration with 'aria2'.
 
 The file [aria2.xml] (a work in progress, still a number of issues to be resolved) is a single page app that communicates requests using [XML-RPC].
@@ -539,3 +556,4 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [aria2]: img/aria2.png
 [aria3]: img/aria3.png
 [aria4]: img/aria4.png
+[local_storage_demo]: img/local_storage_demo.png
