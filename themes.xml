@@ -1,0 +1,26 @@
+<!-- A list of w3.css themes. See: https://www.w3schools.com/w3css/w3css_color_themes.asp -->
+<themes xmlns:xlink="http://www.w3.org/1999/xlink">
+  <theme xlink:type="simple" xlink:href="w3-theme-red.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-pink.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-purple.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-deep-purple.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-indigo.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-blue.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-light-blue.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-cyan.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-teal.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-green.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-light-green.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-lime.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-khaki.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-yellow.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-amber.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-orange.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-deep-orange.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-blue-grey.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-brown.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-grey.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-dark-grey.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-black.css"/>
+  <theme xlink:type="simple" xlink:href="w3-theme-w3schools.css"/>
+</themes>
