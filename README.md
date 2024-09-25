@@ -2,6 +2,16 @@
 
 The following are example [Xforms] apps.
 
+The majority of these can be viewed directly online:
+
+https://midijohnny.github.io/xforms-stuff/maker.xml
+https://midijohnny.github.io/xforms-stuff/predictor.xml
+https://midijohnny.github.io/xforms-stuff/mqtt.xml
+https://midijohnny.github.io/xforms-stuff/w3x.xml
+https://midijohnny.github.io/xforms-stuff/portal.xml
+https://midijohnny.github.io/xforms-stuff/resize.xml
+
+
 ## Using Browser Local Storage to save app-state.
 
 The demo app XForms app [portal.xml] uses some XSLT-Forms-specific features (namely 'serialize' function and 'xf:setnode' tag)
