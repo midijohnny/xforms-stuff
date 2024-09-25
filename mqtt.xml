@@ -2,7 +2,7 @@
 	version="1.0"
 	encoding="UTF-8"?>
 <?xml-stylesheet
-	href="declarative4all/build/xsl/xsltforms.xsl"
+	href="xsltforms-1.7/xsltforms.xsl"
 	type="text/xsl"?>
 <?xsltforms-options
 	debug="no"?>
