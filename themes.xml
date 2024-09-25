@@ -1,5 +1,5 @@
 <!-- A list of w3.css themes. See: https://www.w3schools.com/w3css/w3css_color_themes.asp -->
-<themes xmlns:xlink="http://www.w3.org/1999/xlink">
+<themes xmlns:xlink="http://www.w3.org/1999/xlink" baseurl="https://www.w3schools.com/lib/">
   <theme xlink:type="simple" xlink:href="w3-theme-red.css"/>
   <theme xlink:type="simple" xlink:href="w3-theme-pink.css"/>
   <theme xlink:type="simple" xlink:href="w3-theme-purple.css"/>
