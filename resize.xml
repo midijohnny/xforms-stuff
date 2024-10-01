@@ -78,9 +78,12 @@
 
 		<xf:bind ref="instance('app')">
 			<xf:bind ref="sidebar/@state" type="xs:boolean"/>
-        	<xf:bind ref="sidebar/@display"		calculate="choose(../@state=true(), 'display: block; width : 25%;',	'display: none')"/>
-        	<xf:bind ref="sidebar/@maindisplay" calculate="choose(../@state=true(), 'margin-left: 25%;',			'margin-left: 0%;')"/>
-        	<xf:bind ref="sidebar/@navdisplay"	calculate="choose(../@state=true(), 'display: none',				'display: inline-block')"/>
+        	<xf:bind ref="sidebar/@display"
+				calculate="choose(../@state=true(), 'display: block; width : 25%;',	'display: none')"/>
+        	<xf:bind ref="sidebar/@maindisplay"
+				calculate="choose(../@state=true(), 'margin-left: 25%;', 'margin-left: 0%;')"/>
+        	<xf:bind ref="sidebar/@navdisplay"
+				calculate="choose(../@state=true(), 'display: none', 'display: inline-block')"/>
 		</xf:bind>
 
 			
@@ -111,7 +114,7 @@
                                 boolean(../themes/theme[@xlink:href=../../theme]/following-sibling::theme),
                                 ../themes/theme[@xlink:href=../../theme]/following-sibling::theme/@xlink:href,
                                 ../themes/theme[1]/@xlink:href)"/>
-            </xf:trigger>
+        </xf:trigger>
 		<div class="w3-panel w3-theme-l4">
 			<h3>Links:</h3>
 			<xf:repeat ref="link" id="r_links">
@@ -125,7 +128,7 @@
 		</div>
 	</div>
 
-<div id="main" style="{sidebar/@maindisplay}">
+<main id="main" style="{sidebar/@maindisplay}">
 
 <div class="w3-theme">
 		<xf:trigger appearance="minimal" class="w3-button w3-xlarge material-icons" style="{sidebar/@navdisplay}">
@@ -157,7 +160,7 @@
 	<p> XForms binds are used to generate the appropriate styling - and AVTs based on these bound values are applied to the elements in question </p>
 
 </div>
-</div>
+</main>
 
 </xf:group>
 </body>

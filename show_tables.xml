@@ -1,0 +1,261 @@
+<?xml
+	version="1.0"
+	encoding="UTF-8"?>
+<?xml-stylesheet
+	href="xsltforms-1.7/xsltforms.xsl"
+	type="text/xsl"?>
+<?xsltforms-options
+	debug="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:ht="http://www.w3.org/1999/xhtml"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:xf="http://www.w3.org/2002/xforms"   
+      xmlns:ev="http://www.w3.org/2001/xml-events"
+	  xmlns:xlink="http://www.w3.org/1999/xlink"
+	  xmlns:ui="urn:app.model.ui"
+	  lang="en">
+<head>
+<title>DB Browser Demo</title>
+<!-- note: the use of namespaces on attributes ('ui:expanded' etc) - doesn't work in Firefox? -->
+<!-- This issue seems to be limited to AVTs only though.... ? -->
+   	<meta
+		charset="utf-8"/>
+   	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+	<style>
+	<![CDATA[
+
+ul {
+    list-style-type: none;
+    padding-left: 20px; 
+}
+
+li { list-style-type: none; }
+
+li.collapsed > ul {
+    display: none;	
+}
+
+li.expanded > ul {
+    display: block;
+}
+
+#r_tables > xforms-repeat-item[xf-selected='false']		{ filter: invert(25%); }
+]]>
+	</style>
+
+	<xf:model id="model">
+		<xf:instance id="var">
+			<var xmlns="">
+				<counter/>
+				<table_counter/>
+				<column_counter/>
+			</var>
+		</xf:instance>
+		<xf:instance id="app">
+			<app xmlns="" theme="">
+				<header title="DB BROWSER DEMO" class="w3-container w3-theme-d3">
+					<menu>
+						<menuitem ui:icon="menu" ui:action="toggle-sidebar"/>
+						<menuitem ui:icon="theme" ui:action="next-theme"/>
+						<menuitem ui:icon="previous-table" ui:action="previous-table"/>
+						<menuitem ui:icon="next-table" ui:action="next-table"/>
+					</menu>
+				</header>
+				<sidebar title="Navigation" active="true" width="20" style="" class="w3-sidebar w3-animate-left w3-theme-l3"/>
+				<main class="" style=""/>
+				<icon name="menu">≣</icon>
+				<icon name="theme">🎨</icon>
+				<icon name="next-table">►</icon>
+				<icon name="previous-table">◄</icon>
+				<icon name="tables-expanded">▼ 📂</icon>
+				<icon name="tables-collapsed">▶ 📁</icon>
+				<icon name="table-expanded">▼ 🗎</icon>
+				<icon name="table-collapsed">▶ 🗎</icon>
+				<icon name="column-pk">🔑</icon>
+				<icon name="column-normal">▤</icon>
+				<icon name="column-fk">🔄</icon>
+			</app>
+		</xf:instance>
+		
+		<xf:instance id="themes" src="themes.xml"/>
+
+		<xf:bind ref="instance('app')">
+			<xf:bind ref="sidebar/@active" type="xs:boolean"/>
+			<xf:bind ref="sidebar/@style" calculate="concat('width: ', ../@width, '%;')"/>
+			<xf:bind ref="main/@style"
+				calculate="choose(
+							../../sidebar/@active=true(),
+							concat('margin-left: ', ../../sidebar/@width, '%;'), '')"/>
+			
+		</xf:bind>
+		
+		<xf:instance id="tables" src="tables.xml"/>
+		<xf:instance id="template">
+			<template xmlns="" ui:class="" ui:expanded="false" ui:icon=""/>
+		</xf:instance>
+		<xf:bind ref="instance('template')">
+			<xf:bind ref="@ui:expanded" type="xs:boolean"/>
+		</xf:bind>
+
+		<xf:bind ref="instance('tables')">
+
+			<xf:bind ref="table/sql" readonly="true()"/>
+			
+			<xf:bind
+				ref="@ui:icon | table/@ui:icon | table/column/@ui:icon"
+				calculate="choose(../@ui:expanded ,
+								choose(../@ui:expanded=true(),
+									instance('app')/icon[@name=concat(local-name(current()/..),'-','expanded')],
+									instance('app')/icon[@name=concat(local-name(current()/..),'-','collapsed')]),
+								choose(../@pk='1',
+									instance('app')/icon[@name=concat(local-name(current()/..),'-','pk')],
+									instance('app')/icon[@name=concat(local-name(current()/..),'-','normal')])
+							)"/>
+			<xf:bind
+				ref="//@ui:class"
+				calculate="choose(../@ui:expanded=true(),
+						'expanded',
+						'collapsed')"/>
+		</xf:bind>
+		
+		<xf:action ev:event="xforms-ready">
+		<!-- Add @ui:* attributes to 'table' and 'column' elements in model -->
+		<!-- The @ui:* attributes are used to track whether a node is expanded/collapsed, icon, visibiilty etc -->
+			<xf:insert
+				context="instance('tables')"
+				origin="instance('template')/@ui:*"/>
+			<xf:setvalue ref="instance('var')/table_counter" value="count(instance('tables')/table)"/>
+			<xf:action while="instance('var')/table_counter &gt; 0">
+				<xf:insert
+					context="instance('tables')/table[number(instance('var')/table_counter)]"
+					origin="instance('template')/@ui:*"/>
+
+				<xf:setvalue ref="instance('var')/column_counter"
+					value="count(instance('tables')/table[number(instance('var')/table_counter)]/column)"/>
+				<xf:action while="instance('var')/column_counter &gt; 0">
+					<xf:insert
+					context="instance('tables')/table[number(instance('var')/table_counter)]/column[number(instance('var')/column_counter)]"
+					origin="instance('template')/@ui:icon"/>
+					<xf:setvalue ref="instance('var')/column_counter" value=". - 1"/>
+				</xf:action>
+
+				<xf:setvalue ref="instance('var')/table_counter" value=". - 1"/>
+			</xf:action>
+			<xf:setvalue
+				ref="instance('app')/@theme"
+				value="instance('themes')/theme[1]/@xlink:href"/>
+		</xf:action>
+
+		<xf:setvalue
+			ev:event="toggle-sidebar"
+			ref="instance('app')/sidebar/@active"
+			value="choose(.=true(), false(), true())"/>
+
+		<xf:setvalue ev:event="next-theme"
+			ref="instance('app')/@theme"
+			value="choose(
+					boolean(instance('themes')/theme[@xlink:href=instance('app')/@theme]/following-sibling::theme),
+					instance('themes')/theme[@xlink:href=instance('app')/@theme]/following-sibling::theme/@xlink:href,
+					instance('themes')/theme[1]/@xlink:href)"/>
+
+		<xf:setindex
+			ev:event="next-table"
+			repeat="r_tables"
+			index="choose(index('r_tables')=count(instance('tables')/table), 1, 1+index('r_tables'))"/>
+
+		<xf:setindex
+			ev:event="previous-table"
+			repeat="r_tables"
+			index="choose(index('r_tables')=1, 1+count(instance('tables')/table), index('r_tables')-1)"/>
+	</xf:model>
+</head>
+<body class="w3-theme-d2">
+	<xf:group ref="instance('app')">
+		<link rel="stylesheet" href="{concat(instance('themes')/@baseurl, @theme)}"/>
+
+		<xf:group ref="header">
+			<header class="{@class}">
+				<xf:repeat ref="menu/menuitem" id="r_menuitems">
+					<xf:trigger appearance="minimal" style="display: block">
+						<xf:output ref="../../../icon[@name=current()/@ui:icon]" class="w3-left w3-button"/>
+						<xf:dispatch ev:event="DOMActivate" targetid="model">
+							<xf:name value="instance('app')/header/menu/menuitem[index('r_menuitems')]/@ui:action"/>
+						</xf:dispatch>
+					</xf:trigger>
+				</xf:repeat>
+				
+				<h1 class="w3-center"><xf:output ref="@title"/></h1>
+			</header>
+		</xf:group>
+	
+		<xf:group ref="sidebar[@active=true()]">
+			<aside class="{@class}" style="{@style}">
+				<h1 class="w3-center"><xf:output ref="@title"/></h1>
+				<nav>
+					
+					<xf:select1 ref="../@theme" class="w3-bar-item w3-button">
+							<xf:label>Select Theme:</xf:label>
+							<xf:itemset ref="instance('themes')/theme/@xlink:href">
+								<xf:label ref="."/>
+								<xf:value value="concat(../@baseurl,.)"/>
+							</xf:itemset>
+					</xf:select1>
+					<xf:group ref="instance('tables')">
+						<ul>
+							<li class="{@ui:class}">
+								<xf:trigger appearance="minimal">
+										<xf:output value="concat(@ui:icon, ' ', 'tables')" style="cursor: pointer" />
+										<xf:setvalue
+											ev:event="DOMActivate"
+											ref="@ui:expanded"
+											value="choose(.=true(), false(), true())"/>
+								</xf:trigger>
+								<ul>
+									<xf:repeat id="r_tables" ref="table">
+										<li class="{@ui:class}">
+											<xf:trigger appearance="minimal">
+												<xf:output value="concat(@ui:icon, ' ', @name)" style="cursor: pointer" />
+												<xf:setvalue
+													ev:event="DOMActivate"
+													ref="@ui:expanded"
+													value="choose(.=true(), false(), true())"/>
+											</xf:trigger>
+											<ul>
+												<xf:repeat id="r_columns" ref="column">
+													<li class="col">
+														<xf:repeat id="r_col_info" ref="@name">
+														<xf:output value="concat(../@ui:icon, ' ', .)" style="cursor: pointer" />
+														</xf:repeat>
+													</li>
+												</xf:repeat>
+											</ul>
+										</li>
+									</xf:repeat>
+								</ul>
+							</li>
+						</ul>
+					</xf:group>
+				</nav>
+			</aside>
+		</xf:group>
+
+		<xf:group ref="main">
+			<main style="{@style}" class="{@class}">
+				<section>
+					<xf:group ref="instance('tables')/table[index('r_tables')]/sql">
+						<header><h1><xf:output ref="../@name"/></h1></header>
+						<pre>
+							<xf:output ref="."/>
+						</pre>
+					</xf:group>
+				</section>
+			</main>
+		</xf:group>
+		
+	</xf:group>
+
+</body>
+</html>

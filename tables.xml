@@ -1,0 +1,206 @@
+<tables>
+<table name="albums">
+	<column cid="0" name="AlbumId" type="INTEGER" notnull="1" dflt_value="" pk="1"/>
+	<column cid="1" name="Title" type="NVARCHAR(160)" notnull="1" dflt_value="" pk="0"/>
+	<column cid="2" name="ArtistId" type="INTEGER" notnull="1" dflt_value="" pk="0"/>
+<sql><![CDATA[CREATE TABLE "albums"
+(
+    [AlbumId] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    [Title] NVARCHAR(160)  NOT NULL,
+    [ArtistId] INTEGER  NOT NULL,
+    FOREIGN KEY ([ArtistId]) REFERENCES "artists" ([ArtistId]) 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+)]]></sql></table>
+<table name="artists">
+	<column cid="0" name="ArtistId" type="INTEGER" notnull="1" dflt_value="" pk="1"/>
+	<column cid="1" name="Name" type="NVARCHAR(120)" notnull="0" dflt_value="" pk="0"/>
+<sql><![CDATA[CREATE TABLE "artists"
+(
+    [ArtistId] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    [Name] NVARCHAR(120)
+)]]></sql></table>
+<table name="customers">
+	<column cid="0" name="CustomerId" type="INTEGER" notnull="1" dflt_value="" pk="1"/>
+	<column cid="1" name="FirstName" type="NVARCHAR(40)" notnull="1" dflt_value="" pk="0"/>
+	<column cid="2" name="LastName" type="NVARCHAR(20)" notnull="1" dflt_value="" pk="0"/>
+	<column cid="3" name="Company" type="NVARCHAR(80)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="4" name="Address" type="NVARCHAR(70)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="5" name="City" type="NVARCHAR(40)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="6" name="State" type="NVARCHAR(40)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="7" name="Country" type="NVARCHAR(40)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="8" name="PostalCode" type="NVARCHAR(10)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="9" name="Phone" type="NVARCHAR(24)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="10" name="Fax" type="NVARCHAR(24)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="11" name="Email" type="NVARCHAR(60)" notnull="1" dflt_value="" pk="0"/>
+	<column cid="12" name="SupportRepId" type="INTEGER" notnull="0" dflt_value="" pk="0"/>
+<sql><![CDATA[CREATE TABLE "customers"
+(
+    [CustomerId] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    [FirstName] NVARCHAR(40)  NOT NULL,
+    [LastName] NVARCHAR(20)  NOT NULL,
+    [Company] NVARCHAR(80),
+    [Address] NVARCHAR(70),
+    [City] NVARCHAR(40),
+    [State] NVARCHAR(40),
+    [Country] NVARCHAR(40),
+    [PostalCode] NVARCHAR(10),
+    [Phone] NVARCHAR(24),
+    [Fax] NVARCHAR(24),
+    [Email] NVARCHAR(60)  NOT NULL,
+    [SupportRepId] INTEGER,
+    FOREIGN KEY ([SupportRepId]) REFERENCES "employees" ([EmployeeId]) 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+)]]></sql></table>
+<table name="employees">
+	<column cid="0" name="EmployeeId" type="INTEGER" notnull="1" dflt_value="" pk="1"/>
+	<column cid="1" name="LastName" type="NVARCHAR(20)" notnull="1" dflt_value="" pk="0"/>
+	<column cid="2" name="FirstName" type="NVARCHAR(20)" notnull="1" dflt_value="" pk="0"/>
+	<column cid="3" name="Title" type="NVARCHAR(30)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="4" name="ReportsTo" type="INTEGER" notnull="0" dflt_value="" pk="0"/>
+	<column cid="5" name="BirthDate" type="DATETIME" notnull="0" dflt_value="" pk="0"/>
+	<column cid="6" name="HireDate" type="DATETIME" notnull="0" dflt_value="" pk="0"/>
+	<column cid="7" name="Address" type="NVARCHAR(70)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="8" name="City" type="NVARCHAR(40)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="9" name="State" type="NVARCHAR(40)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="10" name="Country" type="NVARCHAR(40)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="11" name="PostalCode" type="NVARCHAR(10)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="12" name="Phone" type="NVARCHAR(24)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="13" name="Fax" type="NVARCHAR(24)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="14" name="Email" type="NVARCHAR(60)" notnull="0" dflt_value="" pk="0"/>
+<sql><![CDATA[CREATE TABLE "employees"
+(
+    [EmployeeId] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    [LastName] NVARCHAR(20)  NOT NULL,
+    [FirstName] NVARCHAR(20)  NOT NULL,
+    [Title] NVARCHAR(30),
+    [ReportsTo] INTEGER,
+    [BirthDate] DATETIME,
+    [HireDate] DATETIME,
+    [Address] NVARCHAR(70),
+    [City] NVARCHAR(40),
+    [State] NVARCHAR(40),
+    [Country] NVARCHAR(40),
+    [PostalCode] NVARCHAR(10),
+    [Phone] NVARCHAR(24),
+    [Fax] NVARCHAR(24),
+    [Email] NVARCHAR(60),
+    FOREIGN KEY ([ReportsTo]) REFERENCES "employees" ([EmployeeId]) 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+)]]></sql></table>
+<table name="genres">
+	<column cid="0" name="GenreId" type="INTEGER" notnull="1" dflt_value="" pk="1"/>
+	<column cid="1" name="Name" type="NVARCHAR(120)" notnull="0" dflt_value="" pk="0"/>
+<sql><![CDATA[CREATE TABLE "genres"
+(
+    [GenreId] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    [Name] NVARCHAR(120)
+)]]></sql></table>
+<table name="invoice_items">
+	<column cid="0" name="InvoiceLineId" type="INTEGER" notnull="1" dflt_value="" pk="1"/>
+	<column cid="1" name="InvoiceId" type="INTEGER" notnull="1" dflt_value="" pk="0"/>
+	<column cid="2" name="TrackId" type="INTEGER" notnull="1" dflt_value="" pk="0"/>
+	<column cid="3" name="UnitPrice" type="NUMERIC(10,2)" notnull="1" dflt_value="" pk="0"/>
+	<column cid="4" name="Quantity" type="INTEGER" notnull="1" dflt_value="" pk="0"/>
+<sql><![CDATA[CREATE TABLE "invoice_items"
+(
+    [InvoiceLineId] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    [InvoiceId] INTEGER  NOT NULL,
+    [TrackId] INTEGER  NOT NULL,
+    [UnitPrice] NUMERIC(10,2)  NOT NULL,
+    [Quantity] INTEGER  NOT NULL,
+    FOREIGN KEY ([InvoiceId]) REFERENCES "invoices" ([InvoiceId]) 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY ([TrackId]) REFERENCES "tracks" ([TrackId]) 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+)]]></sql></table>
+<table name="invoices">
+	<column cid="0" name="InvoiceId" type="INTEGER" notnull="1" dflt_value="" pk="1"/>
+	<column cid="1" name="CustomerId" type="INTEGER" notnull="1" dflt_value="" pk="0"/>
+	<column cid="2" name="InvoiceDate" type="DATETIME" notnull="1" dflt_value="" pk="0"/>
+	<column cid="3" name="BillingAddress" type="NVARCHAR(70)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="4" name="BillingCity" type="NVARCHAR(40)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="5" name="BillingState" type="NVARCHAR(40)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="6" name="BillingCountry" type="NVARCHAR(40)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="7" name="BillingPostalCode" type="NVARCHAR(10)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="8" name="Total" type="NUMERIC(10,2)" notnull="1" dflt_value="" pk="0"/>
+<sql><![CDATA[CREATE TABLE "invoices"
+(
+    [InvoiceId] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    [CustomerId] INTEGER  NOT NULL,
+    [InvoiceDate] DATETIME  NOT NULL,
+    [BillingAddress] NVARCHAR(70),
+    [BillingCity] NVARCHAR(40),
+    [BillingState] NVARCHAR(40),
+    [BillingCountry] NVARCHAR(40),
+    [BillingPostalCode] NVARCHAR(10),
+    [Total] NUMERIC(10,2)  NOT NULL,
+    FOREIGN KEY ([CustomerId]) REFERENCES "customers" ([CustomerId]) 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+)]]></sql></table>
+<table name="media_types">
+	<column cid="0" name="MediaTypeId" type="INTEGER" notnull="1" dflt_value="" pk="1"/>
+	<column cid="1" name="Name" type="NVARCHAR(120)" notnull="0" dflt_value="" pk="0"/>
+<sql><![CDATA[CREATE TABLE "media_types"
+(
+    [MediaTypeId] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    [Name] NVARCHAR(120)
+)]]></sql></table>
+<table name="playlist_track">
+	<column cid="0" name="PlaylistId" type="INTEGER" notnull="1" dflt_value="" pk="1"/>
+	<column cid="1" name="TrackId" type="INTEGER" notnull="1" dflt_value="" pk="2"/>
+<sql><![CDATA[CREATE TABLE "playlist_track"
+(
+    [PlaylistId] INTEGER  NOT NULL,
+    [TrackId] INTEGER  NOT NULL,
+    CONSTRAINT [PK_PlaylistTrack] PRIMARY KEY  ([PlaylistId], [TrackId]),
+    FOREIGN KEY ([PlaylistId]) REFERENCES "playlists" ([PlaylistId]) 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY ([TrackId]) REFERENCES "tracks" ([TrackId]) 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+)]]></sql></table>
+<table name="playlists">
+	<column cid="0" name="PlaylistId" type="INTEGER" notnull="1" dflt_value="" pk="1"/>
+	<column cid="1" name="Name" type="NVARCHAR(120)" notnull="0" dflt_value="" pk="0"/>
+<sql><![CDATA[CREATE TABLE "playlists"
+(
+    [PlaylistId] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    [Name] NVARCHAR(120)
+)]]></sql></table>
+<table name="sqlite_sequence">
+	<column cid="0" name="name" type="" notnull="0" dflt_value="" pk="0"/>
+	<column cid="1" name="seq" type="" notnull="0" dflt_value="" pk="0"/>
+<sql><![CDATA[CREATE TABLE sqlite_sequence(name,seq)]]></sql></table>
+<table name="sqlite_stat1">
+	<column cid="0" name="tbl" type="" notnull="0" dflt_value="" pk="0"/>
+	<column cid="1" name="idx" type="" notnull="0" dflt_value="" pk="0"/>
+	<column cid="2" name="stat" type="" notnull="0" dflt_value="" pk="0"/>
+<sql><![CDATA[CREATE TABLE sqlite_stat1(tbl,idx,stat)]]></sql></table>
+<table name="tracks">
+	<column cid="0" name="TrackId" type="INTEGER" notnull="1" dflt_value="" pk="1"/>
+	<column cid="1" name="Name" type="NVARCHAR(200)" notnull="1" dflt_value="" pk="0"/>
+	<column cid="2" name="AlbumId" type="INTEGER" notnull="0" dflt_value="" pk="0"/>
+	<column cid="3" name="MediaTypeId" type="INTEGER" notnull="1" dflt_value="" pk="0"/>
+	<column cid="4" name="GenreId" type="INTEGER" notnull="0" dflt_value="" pk="0"/>
+	<column cid="5" name="Composer" type="NVARCHAR(220)" notnull="0" dflt_value="" pk="0"/>
+	<column cid="6" name="Milliseconds" type="INTEGER" notnull="1" dflt_value="" pk="0"/>
+	<column cid="7" name="Bytes" type="INTEGER" notnull="0" dflt_value="" pk="0"/>
+	<column cid="8" name="UnitPrice" type="NUMERIC(10,2)" notnull="1" dflt_value="" pk="0"/>
+<sql><![CDATA[CREATE TABLE "tracks"
+(
+    [TrackId] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    [Name] NVARCHAR(200)  NOT NULL,
+    [AlbumId] INTEGER,
+    [MediaTypeId] INTEGER  NOT NULL,
+    [GenreId] INTEGER,
+    [Composer] NVARCHAR(220),
+    [Milliseconds] INTEGER  NOT NULL,
+    [Bytes] INTEGER,
+    [UnitPrice] NUMERIC(10,2)  NOT NULL,
+    FOREIGN KEY ([AlbumId]) REFERENCES "albums" ([AlbumId]) 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY ([GenreId]) REFERENCES "genres" ([GenreId]) 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY ([MediaTypeId]) REFERENCES "media_types" ([MediaTypeId]) 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+)]]></sql></table>
+</tables>
