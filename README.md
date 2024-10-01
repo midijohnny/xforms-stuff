@@ -13,7 +13,29 @@ The majority of these can be viewed directly online:
 - https://midijohnny.github.io/xforms-stuff/resize.xml
 - https://midijohnny.github.io/xforms-stuff/show_tables.xml
 
-Note: the example 'show_tables.xml' doesn't currently work on Firefox - this seems to be due to the example using namespaced attributes within AVTs.....
+## Tree View Control - 'show_tables.xml'.
+
+This example provides a two-level Tree-View that allows the user to open/expand nodes and view the content of nodes.
+It uses an XML generated from SQLite3 of the 'chinook.db'  - see [schema_xml.sql] and shows tables and columns.
+Different icons are used for different nodes in the tree (so for tables, columns etc).
+UNICODE icons were used for this example, rather than Google Material Symbols etc.
+
+W3.CSS is used for styling.
+
+The UI-state of the tree is held on a separate set of attributes (prefixed as '@ui:icon' etc - so in a different namespace), these are dynamically added
+to the instance data when XForms loads. 
+The idea being is that we could 'decorate' existing models with additional detail in a separate 'dimension.
+
+Note : the tree is not arbitarily-deep or recursive - it is strictly two-level - built with two 'xf:repeat' and uses ul/li semanatics + CSS to render the tree.
+It could be expanded to handle more levels, but they would also be hardcoded - fixed by the number of repeats.
+
+Screenshot:
+
+![][2-Level-Tree]
+
+
+Note: Unfortunately this example 'show_tables.xml' doesn't currently work on Firefox - this appears to be related to the use of namespaced-attributes in AVTs....
+
 
 
 ## Using Browser Local Storage to save app-state.
@@ -571,3 +593,5 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [aria3]: img/aria3.png
 [aria4]: img/aria4.png
 [local_storage_demo]: img/local_storage_demo.png
+[schema_xml.sql]: schema_xml.sql
+[2-Level-Tree]: img/tree_ui.png
