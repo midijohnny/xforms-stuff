@@ -11,6 +11,9 @@ The majority of these can be viewed directly online:
 - https://midijohnny.github.io/xforms-stuff/w3x.xml
 - https://midijohnny.github.io/xforms-stuff/portal.xml
 - https://midijohnny.github.io/xforms-stuff/resize.xml
+- https://midijohnny.github.io/xforms-stuff/show_tables.xml
+
+Note: the example 'show_tables.xml' doesn't currently work on Firefox - this seems to be due to the example using namespaced attributes within AVTs.....
 
 
 ## Using Browser Local Storage to save app-state.
