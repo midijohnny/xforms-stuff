@@ -14,7 +14,12 @@
 	  xmlns:xlink="http://www.w3.org/1999/xlink"
 	  xmlns:ui="urn:app.model.ui"
 	  ui:dummy="dummy"
+	  xlink:dummy="dummy"
 	  lang="en">
+<!-- 
+The 'ui:dummy' and 'xlink:dummy' attributes above are to force Firefox to handle the namespaced attributes used in the instance documents.
+See: https://en.wikibooks.org/wiki/XRX/XSLTForms_and_eXist
+-->
 <head>
 <title>DB Browser Demo</title>
 <!-- note: the use of namespaces on attributes ('ui:expanded' etc) - doesn't work in Firefox? -->
