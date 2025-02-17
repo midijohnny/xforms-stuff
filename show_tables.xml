@@ -13,6 +13,7 @@
       xmlns:ev="http://www.w3.org/2001/xml-events"
 	  xmlns:xlink="http://www.w3.org/1999/xlink"
 	  xmlns:ui="urn:app.model.ui"
+	  ui:dummy="dummy"
 	  lang="en">
 <head>
 <title>DB Browser Demo</title>
@@ -65,7 +66,7 @@ li.expanded > ul {
 					</menu>
 				</header>
 				<sidebar title="Navigation" active="true" width="20" style="" class="w3-sidebar w3-animate-left w3-theme-l3"/>
-				<main class="" style=""/>
+				<main class="w3-card-4 w3-theme-l2" style=""/>
 				<icon name="menu">≣</icon>
 				<icon name="theme">🎨</icon>
 				<icon name="next-table">►</icon>
@@ -172,7 +173,7 @@ li.expanded > ul {
 			index="choose(index('r_tables')=1, 1+count(instance('tables')/table), index('r_tables')-1)"/>
 	</xf:model>
 </head>
-<body class="w3-theme-d2">
+<body>
 	<xf:group ref="instance('app')">
 		<link rel="stylesheet" href="{concat(instance('themes')/@baseurl, @theme)}"/>
 
@@ -242,11 +243,13 @@ li.expanded > ul {
 			</aside>
 		</xf:group>
 
+
+		<div class="w3-container">
 		<xf:group ref="main">
 			<main style="{@style}" class="{@class}">
 				<section>
 					<xf:group ref="instance('tables')/table[index('r_tables')]/sql">
-						<header><h1><xf:output ref="../@name"/></h1></header>
+						<header class="w3-container w3-theme-d4"><h1><xf:output ref="../@name"/></h1></header>
 						<pre>
 							<xf:output ref="."/>
 						</pre>
@@ -254,8 +257,8 @@ li.expanded > ul {
 				</section>
 			</main>
 		</xf:group>
+		</div>
 		
 	</xf:group>
-
 </body>
 </html>
