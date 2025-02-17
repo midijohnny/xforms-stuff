@@ -34,9 +34,15 @@ Screenshot:
 ![][2-Level-Tree]
 
 
-Note: Unfortunately this example 'show_tables.xml' doesn't currently work on Firefox - this appears to be related to the use of namespaced-attributes in AVTs....
+### Update: 
 
+The version differs from the previous version in that it uses an XSLT stylesheet to decorate the input document with 'ui:*' attributes.
+These 'ui:*' attributes are used to keep track of the state of the tree - whether the nodes are expanded, what icon to display for each node.
 
+Using the XSLT stylesheet to do this requires using XSLTForms version 1.7 - which provided the 'setnode' action and the 'transform' function.
+
+The 'ui:dummy' and 'xlink:dummy' attributes defined on the 'html' element are to force Firefox to handle the namespaced attributes used in the instance documents.
+See: https://en.wikibooks.org/wiki/XRX/XSLTForms_and_eXist 
 
 ## Using Browser Local Storage to save app-state.
 
