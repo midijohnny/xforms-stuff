@@ -1,0 +1,23 @@
+<app xmlns:ui="urn:app.model.ui" theme="">
+	<header title="DB BROWSER DEMO" class="w3-container w3-theme-d3">
+		<menu>
+			<menuitem ui:icon="menu" ui:action="toggle-sidebar"/>
+			<menuitem ui:icon="theme" ui:action="next-theme"/>
+			<menuitem ui:icon="previous-table" ui:action="previous-table"/>
+			<menuitem ui:icon="next-table" ui:action="next-table"/>
+		</menu>
+	</header>
+	<sidebar title="Navigation" active="true" width="20" style="" class="w3-sidebar w3-animate-left w3-theme-l3"/>
+	<main class="w3-card-4 w3-theme-l2" style=""/>
+	<icon name="menu">≣</icon>
+	<icon name="theme">🎨</icon>
+	<icon name="next-table">►</icon>
+	<icon name="previous-table">◄</icon>
+	<icon name="tables-expanded">▼ 📂</icon>
+	<icon name="tables-collapsed">▶ 📁</icon>
+	<icon name="table-expanded">▼ 🗎</icon>
+	<icon name="table-collapsed">▶ 🗎</icon>
+	<icon name="column-pk">🔑</icon>
+	<icon name="column-normal">▤</icon>
+	<icon name="column-fk">🔄</icon>
+</app>

@@ -6,24 +6,34 @@
 	type="text/xsl"?>
 <?xsltforms-options
 	debug="no"?>
-<html xmlns="http://www.w3.org/1999/xhtml" 
-	  xmlns:ht="http://www.w3.org/1999/xhtml"
-      xmlns:xs="http://www.w3.org/2001/XMLSchema"
-      xmlns:xf="http://www.w3.org/2002/xforms"   
-      xmlns:ev="http://www.w3.org/2001/xml-events"
-	  xmlns:xlink="http://www.w3.org/1999/xlink"
-	  xmlns:ui="urn:app.model.ui"
-	  ui:dummy="dummy"
-	  xlink:dummy="dummy"
-	  lang="en">
-<!-- 
-The 'ui:dummy' and 'xlink:dummy' attributes above are to force Firefox to handle the namespaced attributes used in the instance documents.
+<html	
+		lang="en"
+		xmlns="http://www.w3.org/1999/xhtml" 
+		xmlns:ht="http://www.w3.org/1999/xhtml"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns:xf="http://www.w3.org/2002/xforms"   
+		xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:xlink="http://www.w3.org/1999/xlink"
+		xmlns:ui="urn:app.model.ui"
+		xmlns:dc="http://purl.org/dc/elements/1.1/"
+		ui:dummy="dummy"
+		xlink:dummy="dummy">
+<dc:title> Example XForms single page app to display a tree-like structure </dc:title>
+<dc:creator>midijohnny</dc:creator>
+<dc:description>
+This is an example single page app that displays a two-level tree structure
+The data rendered is an XML representation of the well-known relational database schema 'chinook'.
+
+The version differs from the previous version in that it uses an XSLT stylesheet to decorate the input document with 'ui:*' attributes.
+These 'ui:*' attributes are used to keep track of the state of the tree - whether the nodes are expanded, what icon to display for each node.
+
+Using the XSLT stylesheet to do this requires using XSLTForms version 1.7 - which provided the 'setnode' action and the 'transform' function.
+
+The 'ui:dummy' and 'xlink:dummy' attributes defined on the 'html' element  are to force Firefox to handle the namespaced attributes used in the instance documents.
 See: https://en.wikibooks.org/wiki/XRX/XSLTForms_and_eXist
--->
+</dc:description>
 <head>
 <title>DB Browser Demo</title>
-<!-- note: the use of namespaces on attributes ('ui:expanded' etc) - doesn't work in Firefox? -->
-<!-- This issue seems to be limited to AVTs only though.... ? -->
    	<meta
 		charset="utf-8"/>
    	<meta
@@ -32,61 +42,18 @@ See: https://en.wikibooks.org/wiki/XRX/XSLTForms_and_eXist
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
 	<style>
 	<![CDATA[
-
-ul {
-    list-style-type: none;
-    padding-left: 20px; 
-}
-
-li { list-style-type: none; }
-
-li.collapsed > ul {
-    display: none;	
-}
-
-li.expanded > ul {
-    display: block;
-}
-
-#r_tables > xforms-repeat-item[xf-selected='false']		{ filter: invert(25%); }
+		ul													{ list-style-type: none; padding-left: 20px; }
+		li													{ list-style-type: none; }
+		li.collapsed > ul									{ display: none; }
+		li.expanded > ul									{ display: block; }
+		#r_tables > xforms-repeat-item[xf-selected='false']	{ filter: invert(25%); }
 ]]>
 	</style>
 
 	<xf:model id="model">
-		<xf:instance id="var">
-			<var xmlns="">
-				<counter/>
-				<table_counter/>
-				<column_counter/>
-			</var>
-		</xf:instance>
-		<xf:instance id="app">
-			<app xmlns="" theme="">
-				<header title="DB BROWSER DEMO" class="w3-container w3-theme-d3">
-					<menu>
-						<menuitem ui:icon="menu" ui:action="toggle-sidebar"/>
-						<menuitem ui:icon="theme" ui:action="next-theme"/>
-						<menuitem ui:icon="previous-table" ui:action="previous-table"/>
-						<menuitem ui:icon="next-table" ui:action="next-table"/>
-					</menu>
-				</header>
-				<sidebar title="Navigation" active="true" width="20" style="" class="w3-sidebar w3-animate-left w3-theme-l3"/>
-				<main class="w3-card-4 w3-theme-l2" style=""/>
-				<icon name="menu">≣</icon>
-				<icon name="theme">🎨</icon>
-				<icon name="next-table">►</icon>
-				<icon name="previous-table">◄</icon>
-				<icon name="tables-expanded">▼ 📂</icon>
-				<icon name="tables-collapsed">▶ 📁</icon>
-				<icon name="table-expanded">▼ 🗎</icon>
-				<icon name="table-collapsed">▶ 🗎</icon>
-				<icon name="column-pk">🔑</icon>
-				<icon name="column-normal">▤</icon>
-				<icon name="column-fk">🔄</icon>
-			</app>
-		</xf:instance>
-		
+		<xf:instance id="app" src="app.xml"/>
 		<xf:instance id="themes" src="themes.xml"/>
+		<xf:instance id="tables" src="tables.xml"/>
 
 		<xf:bind ref="instance('app')">
 			<xf:bind ref="sidebar/@active" type="xs:boolean"/>
@@ -97,19 +64,9 @@ li.expanded > ul {
 							concat('margin-left: ', ../../sidebar/@width, '%;'), '')"/>
 			
 		</xf:bind>
-		
-		<xf:instance id="tables" src="tables.xml"/>
-		<xf:instance id="template">
-			<template xmlns="" ui:class="" ui:expanded="false" ui:icon=""/>
-		</xf:instance>
-		<xf:bind ref="instance('template')">
-			<xf:bind ref="@ui:expanded" type="xs:boolean"/>
-		</xf:bind>
 
 		<xf:bind ref="instance('tables')">
-
 			<xf:bind ref="table/sql" readonly="true()"/>
-			
 			<xf:bind
 				ref="@ui:icon | table/@ui:icon | table/column/@ui:icon"
 				calculate="choose(../@ui:expanded ,
@@ -130,26 +87,10 @@ li.expanded > ul {
 		<xf:action ev:event="xforms-ready">
 		<!-- Add @ui:* attributes to 'table' and 'column' elements in model -->
 		<!-- The @ui:* attributes are used to track whether a node is expanded/collapsed, icon, visibiilty etc -->
-			<xf:insert
-				context="instance('tables')"
-				origin="instance('template')/@ui:*"/>
-			<xf:setvalue ref="instance('var')/table_counter" value="count(instance('tables')/table)"/>
-			<xf:action while="instance('var')/table_counter &gt; 0">
-				<xf:insert
-					context="instance('tables')/table[number(instance('var')/table_counter)]"
-					origin="instance('template')/@ui:*"/>
-
-				<xf:setvalue ref="instance('var')/column_counter"
-					value="count(instance('tables')/table[number(instance('var')/table_counter)]/column)"/>
-				<xf:action while="instance('var')/column_counter &gt; 0">
-					<xf:insert
-					context="instance('tables')/table[number(instance('var')/table_counter)]/column[number(instance('var')/column_counter)]"
-					origin="instance('template')/@ui:icon"/>
-					<xf:setvalue ref="instance('var')/column_counter" value=". - 1"/>
-				</xf:action>
-
-				<xf:setvalue ref="instance('var')/table_counter" value=". - 1"/>
-			</xf:action>
+		<!-- Now using an XSLT to perform this - more suitable for this task -->
+			<xf:setnode 
+					ref="instance('tables')"
+					outer="transform(instance('tables'), 'add_attribs.xsl', false)"/>
 			<xf:setvalue
 				ref="instance('app')/@theme"
 				value="instance('themes')/theme[1]/@xlink:href"/>
