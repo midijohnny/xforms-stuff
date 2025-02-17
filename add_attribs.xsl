@@ -30,7 +30,7 @@
 		<table>
 			<xsl:call-template name="add_attributes"/>
 			<xsl:apply-templates select="column"/>
-			<xsl:copy-of select="*"/>
+			<xsl:copy-of select="*[name()!='column']"/>
 		</table>
 	</xsl:template>
 
