@@ -11,9 +11,10 @@
       xmlns:xs="http://www.w3.org/2001/XMLSchema"
       xmlns:xf="http://www.w3.org/2002/xforms"   
       xmlns:ev="http://www.w3.org/2001/xml-events"
-	  xmlns:mq="http://example.org/mqtt"
 	  xmlns:xlink="http://www.w3.org/1999/xlink"
-	  lang="en">
+	  lang="en"
+	  ht:dummy=""
+	  xlink:dummy="">
 <head>
    	<meta
 		charset="utf-8"/>
@@ -24,7 +25,8 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
 	<style>
 	<![CDATA[
-		 
+		xforms-hint { background-color: black; color : white } 
+		input[type='checkbox'] { width: 2ex; height : 2ex }
 	]]>
 	</style>
 
@@ -206,8 +208,11 @@
 			var xmodel=document.querySelector('#model');
 			var store=xmodel.getInstanceDocument('store');
 			var app=xmodel.getInstanceDocument('app');
-			var current_sha1=app.querySelector('sha1').getInnerHTML();
-			console.debug(`Current sha1: ${current_sha1}` );
+
+			var xpath = "/app/sha1";
+			var current_sha1 = app.evaluate(xpath, app, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+
+			console.debug(`Current sha1: ${current_sha1.textContent}` );
 			var item=store.querySelector('item[key="app"]');
 			var saved_item=window.localStorage.getItem('app');
 			if (null!=saved_item) {
@@ -226,9 +231,10 @@
 		]]>
 	</script>
 </head>
-<body class="w3-theme-d3">
-	<xf:group ref="instance('app')">
-		<link rel="stylesheet" href="{concat(themes/@baseurl,theme)}"/>
+<body>
+	<link rel="stylesheet" href="{concat(themes/@baseurl,theme)}"/>
+	<div class="w3-theme-d3">
+	<xf:group ref="instance('app')" style="display: content">
 
 		<aside
 			id="sidebar"
@@ -281,7 +287,7 @@
 		</aside>
 
 
-		<main style="{main/@display}">
+		<main style="{main/@display}" class="w3-theme-d3">
 			
 			<header class="w3-panel w3-theme">
 			<xf:trigger
@@ -325,25 +331,37 @@
 					</xf:trigger>
 
 				
-					<section id="localstorage_actions" class="w3-dropdown-content w3-bar-block">
+					<section id="localstorage_actions" class="w3-dropdown-content w3-bar-block w3-theme">
 						<xf:trigger
-							appearance="minimal" 
-							class="w3-theme w3-large material-symbols-outlined">
-							<xf:label ref="icon[@id='i_save_to_local_storage']" class="w3-theme w3-large w3-button"/>
+							appearance="minimal"
+							class="w3-bar-item">
+							<xf:hint>Save settings to local storage</xf:hint>
+							<xf:label> 
+								<xf:output value="icon[@id='i_save_to_local_storage']" class="w3-theme w3-large w3-button material-symbols-outlined"/>
+								<span class="w3-theme">Save</span>
+							</xf:label>
 							<xf:dispatch ev:event="DOMActivate" name="save-state" targetid="model"/>
 						</xf:trigger>
 
 						<xf:trigger
 							appearance="minimal" 
-							class="w3-theme w3-large material-symbols-outlined">
-							<xf:label ref="icon[@id='i_load_from_local_storage']" class="w3-theme w3-large w3-button"/>
+							class="w3-bar-item">
+							<xf:label>
+								<xf:output value="icon[@id='i_load_from_local_storage']" class="w3-theme w3-large w3-button material-symbols-outlined"/>
+								<span class="w3-theme">Load</span>
+							</xf:label>
+							<xf:hint>Load settings from local storage</xf:hint>
 							<xf:dispatch ev:event="DOMActivate" name="load-state" targetid="model"/>
 						</xf:trigger>
 
 						<xf:trigger
 							appearance="minimal" 
-							class="w3-theme w3-large material-symbols-outlined">
-							<xf:label ref="icon[@id='i_clear_from_local_storage']" class="w3-theme w3-large w3-button"/>
+							class="w3-bar-item">
+							<xf:label>
+								<xf:output value="icon[@id='i_clear_from_local_storage']" class="w3-theme w3-large w3-button material-symbols-outlined"/>
+								<span class="w3-theme">delete</span>
+							</xf:label>
+							<xf:hint>Delete settings from local storage</xf:hint>
 							<xf:dispatch ev:event="DOMActivate" name="clear-state" targetid="model"/>
 						</xf:trigger>
 					</section>
@@ -391,7 +409,7 @@
 
 			<section 
 				id="notes"
-				class="w3-theme w3-card"
+				class="w3-card"
 				style="{instance('app')/section[@name='notes']/@display}">
 				<h3>
 					<xf:label class="w3-theme-l2">NOTES:</xf:label>
@@ -422,5 +440,6 @@
 		</main>
 		
 	</xf:group>
+	</div>
 </body>
 </html>
