@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="xsltforms-1.7/xsltforms.xsl" type="text/xsl"?>
+<?xsltforms-options debug="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ht="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:dummy="" lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css"/>
+    <style type="text/css"><![CDATA[
+]]></style>
+    <xf:model id="model">
+      <xf:instance id="app">
+        <app xmlns="">
+          <cache-buster/>
+          <example-link xlink:type="simple" xlink:title="" xlink:href="#greeting=hello&amp;greeted=world"/>
+          <example-link-cache-busted xlink:type="simple" xlink:title="" xlink:href=""/>
+          <link xlink:type="simple" xlink:title="XForms" xlink:href="https://en.wikipedia.org/wiki/XForms"/>
+          <link xlink:type="simple" xlink:title="W3 CSS" xlink:href="https://www.w3schools.com/w3css/"/>
+          <link xlink:type="simple" xlink:title="XSLTForms 1.7" xlink:href="https://github.com/AlainCouthures/declarative4all/releases/tag/XSLTForms"/>
+          <link xlink:type="simple" xlink:title="URLSearchParams" xlink:href="https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams"/>
+          <link xlink:type="simple" xlink:title="location.hash" xlink:href="https://www.w3schools.com/jsref/prop_loc_hash.asp"/>
+          <link xlink:type="simple" xlink:title="HTTP Cache" xlink:href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching"/>
+          <link xlink:type="simple" xlink:title="XInclude" xlink:href="https://www.w3.org/TR/xinclude-11/"/>
+          <link xlink:type="simple" xlink:title="XLink" xlink:href="https://www.w3schools.com/xml/xml_xlink.asp"/>
+          <link xlink:type="simple" xlink:title="xmllint" xlink:href="https://linux.die.net/man/1/xmllint"/>
+          <link xlink:type="simple" xlink:title="XmlStarlet" xlink:href="https://xmlstar.sourceforge.net/doc/UG/"/>
+        </app>
+      </xf:instance>
+      <xf:instance id="params">
+        <params xmlns="">
+          <template>
+            <param name="" value=""/>
+          </template>
+          <params/>
+        </params>
+      </xf:instance>
+      <xf:bind ref="instance('app')">
+        <xf:bind ref="example-link-cache-busted">
+          <xf:bind ref="@xlink:title" calculate="/app/example-link/@xlink:href"/>
+          <xf:bind ref="@xlink:href" calculate="concat('?', /app/cache-buster, /app/example-link/@xlink:href)"/>
+        </xf:bind>
+      </xf:bind>
+      <xf:action ev:event="xforms-ready">
+        <xf:message if="false()"> XForms started </xf:message>
+        <xf:setvalue if="false()" ref="instance('app')/cache-buster" value="uuid()"/>
+        <xf:dispatch if="true()" name="process-hash" targetid="model" delay="0"/>
+      </xf:action>
+      <xf:action ev:event="add-param">
+        <xf:message if="false()">
+          <xf:output value="concat('add-param: ', event('k'), ',', event('v') )"/>
+        </xf:message>
+        <xf:setvalue ref="instance('params')/template/param/@name" value="event('k')"/>
+        <xf:setvalue ref="instance('params')/template/param/@value" value="event('v')"/>
+        <xf:delete context="instance('params')/params/param[@name=event('k')]"/>
+        <xf:insert context="instance('params')/params" origin="instance('params')/template/param"/>
+      </xf:action>
+      <xf:action ev:event="process-hash">
+        <xf:setvalue ref="instance('app')/cache-buster" value="uuid()"/>
+        <xf:load if="true()" resource="javascript:process_hash()"/>
+      </xf:action>
+    </xf:model>
+    <script type="text/javascript"><![CDATA[
+	function dispatch_add_param(kv_pair) {
+		/*
+			Configure an xf:action to insert the key/value pairs into an XML instance.
+		*/
+		const model = document.querySelector('#model');
+		XsltForms_xmlevents.dispatch(model,'add-param',null,null,null,null,kv_pair);
+	}
+	function process_hash() {
+		/*
+			Process the 'window.location.hash' (everything after the '#' char).
+			Split the data into key/value pairs.
+			Dispatch 'add-param' event for each key/value pair found.
+		*/
+		const params = new URLSearchParams(window.location.hash.substring(1)); 
+		for (const [k, v] of params) {
+			dispatch_add_param( { "k": k, "v": v } );
+		}
+	}
+]]></script>
+  </head>
+  <body>
+    <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:20%">
+      <aside>
+        <p>
+          <h1>External Links</h1>
+          <xf:repeat ref="instance('app')/link" id="r_links">
+            <xf:trigger id="t_link" appearance="minimal">
+              <xf:label class="w3-bar-item w3-button" ref="@xlink:title"/>
+              <xf:load ev:event="DOMActivate" show="new">
+                <xf:resource value="@xlink:href"/>
+              </xf:load>
+            </xf:trigger>
+          </xf:repeat>
+        </p>
+      </aside>
+    </div>
+    <div style="margin-left:20%">
+      <div class="w3-container w3-teal">
+        <header>
+          <h1> Prepopulate XForms instance at startup using URL hash </h1>
+        </header>
+      </div>
+      <nav>
+        <xf:trigger>
+          <xf:label>Demo</xf:label>
+          <xf:toggle case="case-demo" ev:event="DOMActivate"/>
+        </xf:trigger>
+        <xf:trigger>
+          <xf:label>Notes</xf:label>
+          <xf:toggle case="case-notes" ev:event="DOMActivate"/>
+        </xf:trigger>
+        <xf:trigger>
+          <xf:label>Build Notes</xf:label>
+          <xf:toggle case="case-build" ev:event="DOMActivate"/>
+        </xf:trigger>
+      </nav>
+      <div class="w3-container">
+        <section id="main">
+          <xf:switch>
+            <xf:case id="case-demo">
+              <section id="readme"><h4>Demonstration</h4><p><xf:group ref="instance('params')/params[param]" class="w3-card"><xf:label>Params:</xf:label><xf:repeat ref="param" id="r_params"><xf:input ref="@value"><xf:label ref="../@name"/></xf:input></xf:repeat></xf:group></p><p>
+This demonstrates a mechanism to allow the user to pre-populate an xforms instance - using the data contained within the URL.
+The idea is to allow you to pre-populate your XForms in a dynamically - but in which doesn't rely on having a server providing the information.
+It extracts key/value pairs from the hash (anchor) location of the URL.
+You can also manually edit the URL in your browser bar (you will need to change cache key (see notes) to get it to refresh), it will reload XForms and take account of your params.
+</p><xf:group ref="instance('app')/example-link-cache-busted" class="w3-card"><xf:label>Example Link</xf:label><xf:trigger appearance="minimal"><xf:label class="w3-bar-item w3-button" ref="@xlink:title"/><xf:action ev:event="DOMActivate"><xf:setvalue ref="../cache-buster" value="uuid()"/><xf:load show="replace"><xf:resource value="@xlink:href"/></xf:load></xf:action></xf:trigger></xf:group>
+
+When the page is loaded - xforms will pre-populate the instance with the provided parameters, for instance:
+
+<pre><![CDATA[
+<params>
+	<param name="greeting" value="hello"/>
+	<param name="greeted" value="world"/>
+</params>
+]]></pre>
+
+</section>
+            </xf:case>
+            <xf:case id="case-notes">
+              <section id="notes"><h4>NOTES</h4><h5>No direct manipulation of xml</h5>
+
+Instead of directly modifying XML instances directly in Javascript (which can get messy), we just fire events with property arguments.
+Then we listen for the events 'add-param' and use standard XForm commands (setvalue, delete, insert) to manipulate the instance.
+
+See the file 'process_hash.xml' and the XForms actions 'add-param' and 'xforms-ready'.
+
+In the use case where we load the data directly at load-time ('xforms-ready') - there is no need to delete any params - since everything is reset anyway.
+This delete is there for helping with debug - it is possible to fire the event outside of the 'xforms-ready' event - after the user has manipulated the URL manually for instance,
+and this can result in (semantically) duplicate entries.
+
+<h5>Browser Cache and Refresh behaviour</h5>
+<p>
+The browser will not automatically refresh if the '#' portion of the URL is altered - which is usually what you want.
+However: for this demonstration we have introduce a UUID into the URL (in the query parameter segment) - to force the refresh.
+In doing this - of course XForms is re-loaded - any unpersisted state is lost. (Except the what is captured in the URL).
+</p>
+
+</section>
+            </xf:case>
+            <xf:case id="case-build">
+              <section id="notes">
+                <h4>BUILD NOTES</h4>
+                <p>
+As an aside - this single page app was constructed using separate source files - using XInclude.
+This makes it easier to organize, manage, debug and evolve the app.
+</p>
+                <p>
+I'm statically recombining the components using a combination of 'xmllint' (which understands XInclude) and 'xmlstarlet' (To refactor out repeated namespace definitions)
+</p>
+                <p>
+A simple Makefile is used to chain-up the tools.
+</p>
+                <p> I haven't figured out if there is a more canonical structure, but see hash.xml for  what I have come up with so far</p>
+                <p> This introduces a slight administrative burden - managaging XML namespace prefixes has to be done for every file </p>
+              </section>
+            </xf:case>
+          </xf:switch>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

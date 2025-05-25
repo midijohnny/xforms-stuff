@@ -1,0 +1,9 @@
+<header
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ht="http://www.w3.org/1999/xhtml"
+    xmlns:xf="http://www.w3.org/2002/xforms"   
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  	xmlns:xi="http://www.w3.org/2001/XInclude">
+<h1> Prepopulate XForms instance at startup using URL hash </h1>
+</header>

@@ -1,0 +1,25 @@
+<xf:instance id="app"
+    xmlns:xf="http://www.w3.org/2002/xforms"   
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  	xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+	<app xmlns="">
+		<cache-buster/>
+		<example-link
+			xlink:type="simple"
+			xlink:title=""
+			xlink:href="#greeting=hello&amp;greeted=world"/>
+		<example-link-cache-busted xlink:type="simple" xlink:title="" xlink:href=""/>
+		<link xlink:type="simple" xlink:title="XForms"				xlink:href="https://en.wikipedia.org/wiki/XForms" />
+		<link xlink:type="simple" xlink:title="W3 CSS"				xlink:href="https://www.w3schools.com/w3css/" />
+		<link xlink:type="simple" xlink:title="XSLTForms 1.7"		xlink:href="https://github.com/AlainCouthures/declarative4all/releases/tag/XSLTForms"/>
+		<link xlink:type="simple" xlink:title="URLSearchParams"		xlink:href="https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams"/>
+		<link xlink:type="simple" xlink:title="location.hash"		xlink:href="https://www.w3schools.com/jsref/prop_loc_hash.asp"/>
+		<link xlink:type="simple" xlink:title="HTTP Cache"			xlink:href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching"/>
+		<link xlink:type="simple" xlink:title="XInclude"			xlink:href="https://www.w3.org/TR/xinclude-11/"/>
+		<link xlink:type="simple" xlink:title="XLink"				xlink:href="https://www.w3schools.com/xml/xml_xlink.asp"/>
+		<link xlink:type="simple" xlink:title="xmllint"				xlink:href="https://linux.die.net/man/1/xmllint"/>
+		<link xlink:type="simple" xlink:title="XmlStarlet"			xlink:href="https://xmlstar.sourceforge.net/doc/UG/"/>
+	</app>
+</xf:instance>

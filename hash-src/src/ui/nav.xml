@@ -1,0 +1,20 @@
+<nav
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ht="http://www.w3.org/1999/xhtml"
+    xmlns:xf="http://www.w3.org/2002/xforms"   
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  	xmlns:xi="http://www.w3.org/2001/XInclude">
+	<xf:trigger>
+		<xf:label>Demo</xf:label>
+			<xf:toggle case="case-demo" ev:event="DOMActivate" />
+      </xf:trigger>
+      <xf:trigger>
+         <xf:label>Notes</xf:label>
+         <xf:toggle case="case-notes" ev:event="DOMActivate" />
+      </xf:trigger>
+      <xf:trigger>
+         <xf:label>Build Notes</xf:label>
+         <xf:toggle case="case-build" ev:event="DOMActivate" />
+      </xf:trigger>
+</nav>

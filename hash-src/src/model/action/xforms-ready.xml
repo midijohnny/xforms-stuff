@@ -1,0 +1,10 @@
+<xf:action
+    xmlns:xf="http://www.w3.org/2002/xforms"   
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	ev:event="xforms-ready">
+
+	<xf:message if="false()"> XForms started </xf:message>
+	<xf:setvalue if="false()" ref="instance('app')/cache-buster" value="uuid()"/>
+	<xf:dispatch if="true()" name="process-hash" targetid="model" delay="0"/>
+</xf:action>

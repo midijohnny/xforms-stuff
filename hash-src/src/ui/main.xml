@@ -1,0 +1,20 @@
+<section
+	id="main"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ht="http://www.w3.org/1999/xhtml"
+    xmlns:xf="http://www.w3.org/2002/xforms"   
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  	xmlns:xi="http://www.w3.org/2001/XInclude">
+	<xf:switch>
+			<xf:case id="case-demo">
+				<xi:include href="main/demo.xml"/>
+			</xf:case>
+		<xf:case id="case-notes">
+			<xi:include href="main/notes.xml"/>
+		</xf:case>
+		<xf:case id="case-build">
+			<xi:include href="main/build.xml"/>
+		</xf:case>
+	</xf:switch>
+</section>

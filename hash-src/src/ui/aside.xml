@@ -1,0 +1,22 @@
+<aside
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ht="http://www.w3.org/1999/xhtml"
+    xmlns:xf="http://www.w3.org/2002/xforms"   
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  	xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+<p>
+<h1>External Links</h1>
+<xf:repeat ref="instance('app')/link" id="r_links">
+							<xf:trigger
+								id="t_link"
+								appearance="minimal">
+								<xf:label class="w3-bar-item w3-button" ref="@xlink:title"/>
+									<xf:load ev:event="DOMActivate" show="new">
+										<xf:resource value="@xlink:href"/>
+									</xf:load>
+							</xf:trigger>
+						</xf:repeat>
+</p>
+</aside>

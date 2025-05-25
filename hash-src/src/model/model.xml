@@ -1,0 +1,12 @@
+<xf:model id="model"
+    xmlns:xf="http://www.w3.org/2002/xforms"   
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  	xmlns:xi="http://www.w3.org/2001/XInclude">
+	<xi:include href="instance/app.xml"/>
+	<xi:include href="instance/params.xml"/>
+	<xi:include href="bind/app.xml"/>
+	<xi:include href="action/xforms-ready.xml"/>
+	<xi:include href="action/add-param.xml"/>
+	<xi:include href="action/process-hash.xml"/>
+</xf:model>

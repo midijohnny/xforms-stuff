@@ -1,0 +1,52 @@
+<section
+	id="readme"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ht="http://www.w3.org/1999/xhtml"
+    xmlns:xf="http://www.w3.org/2002/xforms"   
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  	xmlns:xi="http://www.w3.org/2001/XInclude">
+<h4>Demonstration</h4>
+<p>
+	<xf:group ref="instance('params')/params[param]" class="w3-card">
+		<xf:label>Params:</xf:label>
+		<xf:repeat ref="param" id="r_params">
+				<xf:input ref="@value">
+					<xf:label ref="../@name"/>
+				</xf:input>
+		</xf:repeat>
+	</xf:group>
+</p>
+<p>
+This demonstrates a mechanism to allow the user to pre-populate an xforms instance - using the data contained within the URL.
+The idea is to allow you to pre-populate your XForms in a dynamically - but in which doesn't rely on having a server providing the information.
+It extracts key/value pairs from the hash (anchor) location of the URL.
+You can also manually edit the URL in your browser bar (you will need to change cache key (see notes) to get it to refresh), it will reload XForms and take account of your params.
+</p>
+
+
+<xf:group ref="instance('app')/example-link-cache-busted" class="w3-card">
+	<xf:label>Example Link</xf:label>
+	<xf:trigger appearance="minimal">
+		<xf:label class="w3-bar-item w3-button" ref="@xlink:title"/>
+			<xf:action ev:event="DOMActivate">
+				<xf:setvalue ref="../cache-buster" value="uuid()"/>
+				<xf:load show="replace">
+					<xf:resource value="@xlink:href"/>
+				</xf:load>
+			</xf:action>
+	</xf:trigger>
+</xf:group>
+
+When the page is loaded - xforms will pre-populate the instance with the provided parameters, for instance:
+
+<pre>
+<![CDATA[
+<params>
+	<param name="greeting" value="hello"/>
+	<param name="greeted" value="world"/>
+</params>
+]]>
+</pre>
+
+</section>

@@ -1,0 +1,28 @@
+<script type="text/javascript"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ht="http://www.w3.org/1999/xhtml"
+    xmlns:xf="http://www.w3.org/2002/xforms"   
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  	xmlns:xi="http://www.w3.org/2001/XInclude">
+<![CDATA[
+	function dispatch_add_param(kv_pair) {
+		/*
+			Configure an xf:action to insert the key/value pairs into an XML instance.
+		*/
+		const model = document.querySelector('#model');
+		XsltForms_xmlevents.dispatch(model,'add-param',null,null,null,null,kv_pair);
+	}
+	function process_hash() {
+		/*
+			Process the 'window.location.hash' (everything after the '#' char).
+			Split the data into key/value pairs.
+			Dispatch 'add-param' event for each key/value pair found.
+		*/
+		const params = new URLSearchParams(window.location.hash.substring(1)); 
+		for (const [k, v] of params) {
+			dispatch_add_param( { "k": k, "v": v } );
+		}
+	}
+]]>
+</script>

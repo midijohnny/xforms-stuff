@@ -1,0 +1,30 @@
+<section
+	id="notes"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ht="http://www.w3.org/1999/xhtml"
+    xmlns:xf="http://www.w3.org/2002/xforms"   
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  	xmlns:xi="http://www.w3.org/2001/XInclude">
+<h4>NOTES</h4>
+
+<h5>No direct manipulation of xml</h5>
+
+Instead of directly modifying XML instances directly in Javascript (which can get messy), we just fire events with property arguments.
+Then we listen for the events 'add-param' and use standard XForm commands (setvalue, delete, insert) to manipulate the instance.
+
+See the file 'process_hash.xml' and the XForms actions 'add-param' and 'xforms-ready'.
+
+In the use case where we load the data directly at load-time ('xforms-ready') - there is no need to delete any params - since everything is reset anyway.
+This delete is there for helping with debug - it is possible to fire the event outside of the 'xforms-ready' event - after the user has manipulated the URL manually for instance,
+and this can result in (semantically) duplicate entries.
+
+<h5>Browser Cache and Refresh behaviour</h5>
+<p>
+The browser will not automatically refresh if the '#' portion of the URL is altered - which is usually what you want.
+However: for this demonstration we have introduce a UUID into the URL (in the query parameter segment) - to force the refresh.
+In doing this - of course XForms is re-loaded - any unpersisted state is lost. (Except the what is captured in the URL).
+</p>
+
+</section>
+

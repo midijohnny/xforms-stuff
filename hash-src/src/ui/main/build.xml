@@ -1,0 +1,25 @@
+<section
+	id="notes"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ht="http://www.w3.org/1999/xhtml"
+    xmlns:xf="http://www.w3.org/2002/xforms"   
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  	xmlns:xi="http://www.w3.org/2001/XInclude">
+<h4>BUILD NOTES</h4>
+
+<p>
+As an aside - this single page app was constructed using separate source files - using XInclude.
+This makes it easier to organize, manage, debug and evolve the app.
+</p>
+
+<p>
+I'm statically recombining the components using a combination of 'xmllint' (which understands XInclude) and 'xmlstarlet' (To refactor out repeated namespace definitions)
+</p>
+<p>
+A simple Makefile is used to chain-up the tools.
+</p>
+
+<p> I haven't figured out if there is a more canonical structure, but see hash.xml for  what I have come up with so far</p>
+<p> This introduces a slight administrative burden - managaging XML namespace prefixes has to be done for every file </p>
+</section>

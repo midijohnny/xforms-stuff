@@ -1,0 +1,17 @@
+<xf:bind
+	ref="instance('app')"
+    xmlns:xf="http://www.w3.org/2002/xforms"   
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  	xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+	<xf:bind ref="example-link-cache-busted">
+		<xf:bind
+			ref="@xlink:title"
+			calculate="/app/example-link/@xlink:href"/>
+		<xf:bind
+			ref="@xlink:href"
+			calculate="concat('?', /app/cache-buster, /app/example-link/@xlink:href)"/>
+	</xf:bind>
+</xf:bind>

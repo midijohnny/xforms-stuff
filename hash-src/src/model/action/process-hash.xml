@@ -1,0 +1,8 @@
+<xf:action
+    xmlns:xf="http://www.w3.org/2002/xforms"   
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	ev:event="process-hash">
+	<xf:setvalue ref="instance('app')/cache-buster" value="uuid()"/>
+	<xf:load if="true()" resource="javascript:process_hash()"/>
+</xf:action>

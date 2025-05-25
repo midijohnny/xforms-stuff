@@ -1,0 +1,21 @@
+<xf:action
+    xmlns:xf="http://www.w3.org/2002/xforms"   
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	ev:event="add-param">
+
+	<xf:message if="false()">
+		<xf:output value="concat('add-param: ', event('k'), ',', event('v') )"/>
+	</xf:message>
+
+ 	<xf:setvalue
+			ref="instance('params')/template/param/@name"
+			value="event('k')"/>
+   	<xf:setvalue
+			ref="instance('params')/template/param/@value"
+			value="event('v')"/>
+
+	<xf:delete context="instance('params')/params/param[@name=event('k')]"/>
+   	<xf:insert context="instance('params')/params" origin="instance('params')/template/param"/>
+
+</xf:action>
