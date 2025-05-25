@@ -1,3 +1,5 @@
+.bail on
+.headers off
 WITH
 	_tables(tbl_name, tbl_xml) AS (
 		SELECT
