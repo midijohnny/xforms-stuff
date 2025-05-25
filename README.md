@@ -12,6 +12,13 @@ The majority of these can be viewed directly online:
 - https://midijohnny.github.io/xforms-stuff/portal.xml
 - https://midijohnny.github.io/xforms-stuff/resize.xml
 - https://midijohnny.github.io/xforms-stuff/show_tables.xml
+- https://midijohnny.github.io/xforms-stuff/hash.xml
+
+## Pre-initializing XForms models - based on URL.
+
+This example shows how it is possible to dynamically load data into XForms at startup - based on the 'hash' (everything after the '#') in the URL.
+This is done without relying on any server data - and can be be useful to (say) pre-populate a search dialogue based on the data contained in a bookmarkable URL.
+
 
 ## Tree View Control - 'show_tables.xml'.
 
