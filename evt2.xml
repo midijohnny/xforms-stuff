@@ -1,0 +1,65 @@
+<?xml
+	version="1.0"
+	encoding="UTF-8"?>
+<?xml-stylesheet
+	href="xsltforms-1.7/xsltforms.xsl"
+	type="text/xsl"?>
+<?xsltforms-options
+	debug="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:ht="http://www.w3.org/1999/xhtml"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:xf="http://www.w3.org/2002/xforms"   
+      xmlns:ev="http://www.w3.org/2001/xml-events"
+	  lang="en">
+<head>
+	<title>TESTING PASSING XML STRING VIA EVENT</title>
+	<script type="text/javascript">
+	<![CDATA[
+	function do_dispatch_evt() {
+    	const model = document.querySelector('#model');
+    	const xmlString = "<person><fname>joe</fname><lname>bloggs</lname></person>";
+    	try {
+        	const parser = new DOMParser();
+        	const xmlDoc = parser.parseFromString(xmlString, "application/xml");
+        	const parseError = xmlDoc.getElementsByTagName("parsererror");
+        	if (parseError.length > 0) {
+            	throw new Error("Invalid XML in do_dispatch_evt");
+        	}
+        	XsltForms_xmlevents.dispatch(model, 'my-event', null, null, null, null, { "xml": xmlString } );
+    	} catch (e) {
+        	console.warn("Dispatch aborted:", e);
+    	}
+	}
+	]]>
+	</script>
+
+	<xf:model id="model">
+		<xf:action ev:event="my-event">
+			<xf:message if="false()"><xf:output value="event('xml')"/></xf:message>
+			<xf:setnode
+						ref="instance('person')" 
+						outer="event('xml')"/>
+		</xf:action>
+
+		<xf:instance id="person">
+			<person xmlns=""/>
+		</xf:instance>
+	</xf:model>
+
+</head>
+<body>
+	<xf:group ref="instance('person')">
+		<xf:input ref="fname">
+			<xf:label>First name</xf:label>
+		</xf:input>
+		<xf:input ref="lname">
+			<xf:label>Last name</xf:label>
+		</xf:input>
+	</xf:group>
+	<xf:trigger>
+		<xf:label>DISPATCH EVENT</xf:label>
+		<xf:load ev:event="DOMActivate" resource="javascript:do_dispatch_evt()"/>
+	</xf:trigger>
+</body>
+</html>
