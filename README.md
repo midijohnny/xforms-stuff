@@ -13,11 +13,14 @@ The majority of these can be viewed directly online:
 - https://midijohnny.github.io/xforms-stuff/resize.xml
 - https://midijohnny.github.io/xforms-stuff/show_tables.xml
 - https://midijohnny.github.io/xforms-stuff/hash.xml
+- https://midijohnny.github.io/xforms-stuff/evt2.xml
 
-## Pre-initializing XForms models - based on URL.
+## Pre-initializing XForms models - based on URL. ('hash.xml')
 
 This example shows how it is possible to dynamically load data into XForms at startup - based on the 'hash' (everything after the '#') in the URL.
 This is done without relying on any server data - and can be be useful to (say) pre-populate a search dialogue based on the data contained in a bookmarkable URL.
+
+See also the smaller example [evt2.xml] - which passes an serialized XML string in a single dispatch - and uses [xf:setnode] to directly set the instance data.
 
 
 ## Tree View Control - 'show_tables.xml'.
@@ -608,3 +611,4 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 [local_storage_demo]: img/local_storage_demo.png
 [schema_xml.sql]: schema_xml.sql
 [2-Level-Tree]: img/tree_ui.png
+[xf:setnode]: https://en.wikibooks.org/wiki/XSLTForms%2Fsetnode
