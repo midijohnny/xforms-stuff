@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="xsltforms-1.7/xsltforms.xsl"
+	type="text/xsl"?>
+<?xsltforms-options debug="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ht="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:ppg="http://bbc.co.uk/2009/01/ppgRss" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto"/>
+    <style><![CDATA[
+	ul li.collapsed::marker	{ content: "📂"; }
+	ul li.expanded::marker	{ content: "📁"; }
+	ul li.pk::marker		{ content: "🔑"; }
+	ul li.normal::marker	{ content: "▤"; }
+
+	body, h1, h2, h3, h4, h5, h6  { font-family: "Roboto", Sans-serif; }
+	pre {font-family: "Inconsolata", Sans-serif; }
+
+	#r_tables > xforms-repeat-item[xf-selected='true']	{ filter: invert(15%); }
+]]></style>
+    <xf:model id="model">
+      <xf:message if="false()" ev:event="xforms-ready">XForms Loaded</xf:message>
+      <xf:instance id="tables" src="tables.xml"/>
+    </xf:model>
+  </head>
+  <body class="w3-theme">
+    <main class="w3-container">
+      <header class="w3-theme w3-container w3-border-bottom">
+        <xf:group>
+          <h1>
+            <xf:output value="concat('Table:' , /tables/table[index('r_tables')]/@name)"/>
+          </h1>
+        </xf:group>
+      </header>
+      <aside class="w3-theme w3-sidebar w3-bar-block w3-border-right" style="width:20%">
+        <ul>
+          <xf:repeat ref="instance('tables')/table" id="r_tables">
+            <xf:switch>
+              <xf:case id="hide">
+                <xf:trigger appearance="minimal">
+                  <xf:action ev:event="DOMActivate">
+                    <xf:toggle case="show"/>
+                  </xf:action>
+                  <xf:label>
+                    <li class="w3-theme expanded">
+                      <xf:output ref="@name"/>
+                    </li>
+                  </xf:label>
+                </xf:trigger>
+              </xf:case>
+              <xf:case id="show">
+                <xf:trigger appearance="minimal">
+                  <xf:action ev:event="DOMActivate">
+                    <xf:toggle case="hide"/>
+                  </xf:action>
+                  <xf:label>
+                    <li class="w3-theme collapsed">
+                      <xf:output ref="@name"/>
+                    </li>
+                  </xf:label>
+                </xf:trigger>
+                <ul>
+                  <xf:repeat id="r_cols" ref="column">
+                    <li class="{choose(@pk='1', 'pk', 'normal')}">
+                      <xf:output ref="@name"/>
+                    </li>
+                  </xf:repeat>
+                </ul>
+              </xf:case>
+            </xf:switch>
+          </xf:repeat>
+        </ul>
+      </aside>
+      <section class="w3-theme w3-container" style="margin-left:20%">
+        <xf:group>
+          <pre>
+            <xf:output ref="/tables/table[index('r_tables')]/sql"/>
+          </pre>
+        </xf:group>
+      </section>
+    </main>
+  </body>
+</html>
