@@ -12,8 +12,14 @@ The majority of these can be viewed directly online:
 - https://midijohnny.github.io/xforms-stuff/portal.xml
 - https://midijohnny.github.io/xforms-stuff/resize.xml
 - https://midijohnny.github.io/xforms-stuff/show_tables.xml
+- https://midijohnny.github.io/xforms-stuff/show_tables2.xhtml
 - https://midijohnny.github.io/xforms-stuff/hash.xml
 - https://midijohnny.github.io/xforms-stuff/evt2.xml
+
+## Update.
+It turns out we don't need fancy extras like namespaced attributes ('ui' etc) and XSLTs to get xforms to display a half-way decent tree-like explorer.
+We can use just standard xforms (+CSS of course) to produce similar results - and in a much simpler way.
+See [https://midijohnny.github.io/xforms-stuff/show_tables2.xhtml]
 
 ## Pre-initializing XForms models - based on URL. ('hash.xml')
 
