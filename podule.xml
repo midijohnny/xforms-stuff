@@ -188,6 +188,7 @@ Feather is a collection of simply beautiful open-source icons. Each icon is desi
           <link xlink:type="simple" xlink:title="OPML 2.0 spec" xlink:href="https://opml.org/spec2.opml"/>
           <link xlink:type="simple" xlink:title="The Metalink Download Description Format" xlink:href="https://www.rfc-editor.org/rfc/rfc5854"/>
           <link xlink:type="simple" xlink:title="XMLHttpRequest:Living Standard" xlink:href="https://xhr.spec.whatwg.org/"/>
+		  <link xlink:type="simple" xlink:title="CORS.lol : using here to bypass CORS from github pages. (Not necessary when running locally)" xlink:href="https://cors.lol/"/>
         </links>
       </xf:instance>
       <xf:instance xmlns="" id="lku">
