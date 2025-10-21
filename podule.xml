@@ -1,0 +1,820 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="xsltforms-1.7/xsltforms.xsl" type="text/xsl"?>
+<?xsltforms-options debug="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ht="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:ppg="http://bbc.co.uk/2009/01/ppgRss" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:metalink="urn:ietf:params:xml:ns:metalink" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:podule="urn:podule:utils" ht:dummy="" xlink:dummy="" media:dummy="" atom:dummy="" ppg:dummy="" itunes:dummy="" metalink:dummy="" podule:dummy="" dcterms:dummy="" lang="en">
+  <head lang="en">
+    <meta name="referrer" content="no-referrer"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
+    <title>Podule</title>
+    <style type="text/css"><![CDATA[
+	.table											{ display: table; border-collapse: collapse; margin: 0 auto }
+	.tr												{ display: table-row;  }
+	.td, .th										{ float: left; width: 310px; display: table-cell; padding: 1px; border: 1px solid grey ;  }
+	.url											{ width: 600px}
+	.text											{ width: 400px }
+
+.title, .text,  .url {
+    overflow: hidden;    /* hide overflow */
+    white-space: nowrap;  /* prevent wrapping */
+    text-overflow: ellipsis; /* show "…" for clipped text */
+}
+
+
+	
+   	.th												{ font-weight: bold; }
+	.td, .th										{ height: 30px }
+	#r_podcasts > xforms-repeat-item[xf-selected='true']	{  background-color: Highlight; color: HighlightText; }
+
+	#r_episodes > xforms-repeat-item[xf-selected='true']	{  background-color: Highlight; color: HighlightText; }
+
+	#r_external_links > xforms-repeat-item[xf-selected='true']	{  background-color: Highlight; color: HighlightText; }
+
+#r_actions > xforms-repeat-item {
+  display: flex;           /* horizontal alignment: marker + text */
+  align-items: center;     /* vertically center marker and text */
+}
+
+#r_actions > xforms-repeat-item::before {
+  content: "";             /* empty by default */
+  display: inline-block;
+  width: 1em;              /* reserve space for the marker */
+  text-align: center;      /* center the marker in that space */
+}
+
+#r_actions > xforms-repeat-item[xf-selected='true']::before {
+  content: "•";            /* or any character, e.g., "|" or "›" */
+  color: #2196F3;          /* optional color */
+}
+
+.thumbnail xforms-body img {
+  width: 224px;
+  height: 224px;
+  object-fit: contain;
+}
+
+
+
+/]]></style>
+    <xf:model id="app">
+      <xf:instance xmlns="" id="portal">
+        <portal>
+          <?annotation name="greeting" value="hello world"?>
+          <actions>
+            <sidebar active="true" width="" icon="" label="" class="">
+              <active width="18" icon="left_panel_close" label="Collapse sidebar" class=""/>
+              <inactive width="5" icon="left_panel_open" label="Expand sidebar" class="w3-hide"/>
+            </sidebar>
+            <darkmode active="true" class="" icon="" label="">
+              <active class="w3-black" icon="light_mode" label="Select Light"/>
+              <inactive class="" icon="dark_mode" label="Select Dark"/>
+            </darkmode>
+            <debug active="false" icon="" label="">
+              <active icon="pause_circle" label="Disable Debug"/>
+              <inactive icon="play_circle" label="Enable Debug"/>
+            </debug>
+            <config case="config" icon="settings" label="OPML File"/>
+            <downloader_config case="downloader-config" icon="download_for_offline" label="Downloader Config"/>
+            <download_list case="download-list" icon="list" label="Download List"/>
+            <list case="podcasts" icon="podcasts" label="List Podcasts"/>
+            <player case="play-screen" icon="play_circle" label="Player"/>
+            <self case="xforms-app" icon="schema" label="XForms App"/>
+            <links case="external-links" icon="link" label="External Links"/>
+          </actions>
+        </portal>
+      </xf:instance>
+      <xf:bind ref="instance('portal')">
+        <xf:bind ref="actions/*/@active" type="xs:boolean"/>
+        <xf:bind ref="actions/*/@icon" type="xs:string"/>
+        <xf:bind ref="actions/*/@label" type="xs:string"/>
+        <xf:bind ref="actions/*/@class" type="xs:string"/>
+        <xf:bind ref="actions/darkmode">
+          <xf:bind ref="@label" calculate="choose(../@active=true(), ../active/@label, ../inactive/@label)"/>
+          <xf:bind ref="@icon" calculate="choose(../@active=true(), ../active/@icon,  ../inactive/@icon)"/>
+          <xf:bind ref="@class" calculate="choose(../@active=true(), ../active/@class, ../inactive/@class)"/>
+        </xf:bind>
+        <xf:bind ref="actions/sidebar">
+          <xf:bind ref="@label" calculate="choose(../@active=true(), ../active/@label, ../inactive/@label)"/>
+          <xf:bind ref="@icon" calculate="choose(../@active=true(), ../active/@icon,  ../inactive/@icon)"/>
+          <xf:bind ref="@width" calculate="choose(../@active=true(), ../active/@width, ../inactive/@width)"/>
+          <xf:bind ref="@class" calculate="choose(../@active=true(), ../active/@class, ../inactive/@class)"/>
+        </xf:bind>
+        <xf:bind ref="actions/debug">
+          <xf:bind ref="@label" calculate="choose(../@active=true(), ../active/@label, ../inactive/@label)"/>
+          <xf:bind ref="@icon" calculate="choose(../@active=true(), ../active/@icon,  ../inactive/@icon)"/>
+        </xf:bind>
+      </xf:bind>
+      <xf:action ev:event="xforms-ready">
+        <xf:message if="instance('portal')/actions/debug/@active=true()">xforms-ready</xf:message>
+      </xf:action>
+      <xf:action ev:event="xforms-ready">
+        <xf:message if="instance('portal')/actions/debug/@active=true()">xforms-ready</xf:message>
+      </xf:action>
+      <xf:instance id="self" src="index.xhtml"/>
+      <xf:instance xmlns="" id="var">
+        <var>
+          <serialized/>
+        </var>
+      </xf:instance>
+    </xf:model>
+    <xf:model id="podule">
+      <xf:instance id="opml" _src="https://gpodder.net/toplist/30.opml" src="http://podcasts.files.bbci.co.uk/podcasts.opml">
+        <!-- TBD: make this more generic : the BBC happen to use 3 levels (A 'wrapper' stationlist, then by-station wrapper and then the RSS feed) -->
+        <!-- The gPodder list is just a flat top-level list -->
+        <!--
+<xi:include href="data/opml.xml"/>
+-->
+      </xf:instance>
+      <xf:instance xmlns="" id="feed" media:dummy="" atom:dummy="" ppg:dummy="" itunes:dummy="">
+        <feed>
+          <ui>
+            <firstItemInPage/>
+            <currentPage>1</currentPage>
+            <pageSize>10</pageSize>
+            <maxPage/>
+          </ui>
+          <xmlUrl/>
+          <rss/>
+        </feed>
+      </xf:instance>
+      <xf:instance id="metalink" metalink:dummy="">
+        <metalink:metalink>
+          <metalink:file name="www/css/w3.css">
+            <metalink:description><![CDATA[
+W3.CSS is a CSS framework for developing websites and web apps.
+It provides equality for all browsers (Chrome, Edge, Firefox, Safari, Opera) on all devices (Desktop, Laptop, Tablet, Mobile).
+W3.CSS is free, open source, and uses standard CSS only (no JavaScript).
+		]]></metalink:description>
+            <metalink:url>https://www.w3schools.com/w3css/5/w3.css</metalink:url>
+          </metalink:file>
+          <metalink:file name="www/icons/v4.29.2.zip">
+            <metalink:description><![CDATA[
+Feather is a collection of simply beautiful open-source icons. Each icon is designed on a 24x24 grid with an emphasis on simplicity, consistency, and flexibility.	
+		]]></metalink:description>
+            <metalink:url>https://github.com/feathericons/feather/archive/refs/tags/v4.29.2.zip</metalink:url>
+          </metalink:file>
+        </metalink:metalink>
+      </xf:instance>
+      <xf:bind ref="instance('opml')">
+
+</xf:bind>
+      <xf:bind ref="instance('feed')">
+        <xf:bind ref="ui">
+          <xf:bind ref="firstItemInPage" type="xs:integer" calculate="currentPage * pageSize"/>
+          <xf:bind ref="currentPage" type="xs:integer"/>
+          <xf:bind ref="pageSize" type="xs:integer"/>
+          <xf:bind ref="maxPage" type="xs:integer" calculate="count(/feed/rss/channel/item) div ../pageSize"/>
+        </xf:bind>
+      </xf:bind>
+      <xf:bind ref="instance('metalink')" metalink:dummy="">
+        <xf:bind ref="metalink:file/url" type="xs:anyUri"/>
+        <xf:bind ref="metalink:file/@name" type="xs:string" required="true" calculate="concat(  'podcasts/',        podule:sanitizeFilename(string(../dcterms:isPartOf)),        '/',        podule:sanitizeFilename(string(../dcterms:title)),        '.mp3')"/>
+      </xf:bind>
+      <xf:instance id="links">
+        <links xmlns="">
+          <link xlink:type="simple" xlink:title="XSLTForms WikiBook" xlink:href="https://en.wikibooks.org/wiki/XSLTForms"/>
+          <link xlink:type="simple" xlink:title="W3C XForms 1.1 spec" xlink:href="https://www.w3.org/TR/xforms11/"/>
+          <link xlink:type="simple" xlink:title="XForms - Wikipedia" xlink:href="https://en.wikipedia.org/wiki/XForms"/>
+          <link xlink:type="simple" xlink:title="W3 CSS" xlink:href="https://www.w3schools.com/w3css/"/>
+          <link xlink:type="simple" xlink:title="XSLTForms 1.7" xlink:href="https://github.com/AlainCouthures/declarative4all/releases/tag/XSLTForms"/>
+          <link xlink:type="simple" xlink:title="XForms 2.0" xlink:href="https://www.w3.org/community/xformsusers/wiki/XForms_2.0"/>
+          <link xlink:type="simple" xlink:title="aria2c RPC" xlink:href="https://aria2.github.io/manual/en/html/aria2c.html#rpc-interface"/>
+          <link xlink:type="simple" xlink:title="XML-RPC" xlink:href="https://en.wikipedia.org/wiki/XML-RPC"/>
+          <link xlink:type="simple" xlink:title="CORS" xlink:href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing"/>
+          <link xlink:type="simple" xlink:title="Google Fonts" xlink:href="https://fonts.google.com/icons"/>
+          <link xlink:type="simple" xlink:title="BBC Podcast List(opml 1.1)" xlink:href="http://podcasts.files.bbci.co.uk/podcasts.opml"/>
+          <link xlink:type="simple" xlink:title="OPML 2.0 spec" xlink:href="https://opml.org/spec2.opml"/>
+          <link xlink:type="simple" xlink:title="The Metalink Download Description Format" xlink:href="https://www.rfc-editor.org/rfc/rfc5854"/>
+          <link xlink:type="simple" xlink:title="XMLHttpRequest:Living Standard" xlink:href="https://xhr.spec.whatwg.org/"/>
+        </links>
+      </xf:instance>
+      <xf:instance xmlns="" id="lku">
+        <lku>
+          <num>1</num>
+          <selectedOutline/>
+        </lku>
+      </xf:instance>
+      <xf:action ev:event="xforms-ready">
+        <xf:message if="instance('portal')/actions/debug/@active=true()">xforms-ready</xf:message>
+        <xf:setvalue ref="instance('lku')/selectedOutline" value="instance('opml')/body/outline[1]/outline[1]/@text"/>
+      </xf:action>
+      <xf:submission id="s_opml" method="get" replace="instance" instance="opml" serialization="none">
+        <xf:resource value="instance('self')/ht:head/xf:model[@id='podule']/xf:instance[@id='opml']/@src"/>
+      </xf:submission>
+      <xf:submission id="s_feed" method="get" replace="instance" targetref="instance('feed')/rss" serialization="none">
+        <xf:resource value="instance('opml')/body/outline[1]/outline[@text=instance('lku')/selectedOutline]/outline[index('r_podcasts')]/@xmlUrl"/>
+      </xf:submission>
+    </xf:model>
+    <xf:model id="aria">
+      <xf:instance xmlns="" id="ariaclient">
+        <ariaclient>
+          <config>
+            <token>supersecret</token>
+            <endpoint/>
+            <dir>./downloads</dir>
+            <allow-overwrite>true</allow-overwrite>
+            <selected>
+              <gid/>
+              <out/>
+              <local/>
+            </selected>
+          </config>
+          <!--
+			<xi:include href="bld/methods.xml"/>
+			-->
+        </ariaclient>
+      </xf:instance>
+      <xf:action ev:event="xforms-ready" podule:dummy="">
+        <xf:setvalue ref="instance('ariaclient')/config/endpoint" value="podule:guessAriaXMLUrl()"/>
+      </xf:action>
+      <!--START: aria2_addMetalink-->
+      <xf:instance xmlns="" id="aria2_addMetalink">
+        <aria2_addMetalink>
+          <methodCall>
+            <methodName>aria2.addMetalink</methodName>
+            <params>
+              <param name="secret">
+                <value>
+                  <string/>
+                </value>
+              </param>
+              <param name="metalink">
+                <value>
+                  <base64/>
+                </value>
+              </param>
+              <param name="options">
+                <value>
+                  <struct>
+                    <member>
+                      <name>dir</name>
+                      <value>
+                        <string/>
+                      </value>
+                    </member>
+                    <member>
+                      <name>allow-overwrite</name>
+                      <value>
+                        <string/>
+                      </value>
+                    </member>
+                    <member>
+                      <name>out</name>
+                      <value>
+                        <string/>
+                      </value>
+                    </member>
+                    <member>
+                      <name>gid</name>
+                      <value>
+                        <string/>
+                      </value>
+                    </member>
+                  </struct>
+                </value>
+              </param>
+            </params>
+          </methodCall>
+          <methodResponse/>
+        </aria2_addMetalink>
+      </xf:instance>
+      <xf:bind ref="instance('aria2_addMetalink')">
+        <xf:bind ref="methodCall">
+          <xf:bind ref="params/param[1]/value/string" type="xs:string" calculate="concat('token:',instance('ariaclient')/config/token)"/>
+          <xf:bind ref="params/param[2]/value/string" type="xs:base64Binary"/>
+        </xf:bind>
+      </xf:bind>
+      <xf:submission id="s_aria2_addMetalink" ref="instance('aria2_addMetalink')/methodCall" replace="instance" targetref="instance('aria2_addMetalink')/methodResponse" method="post">
+        <xf:resource value="instance('ariaclient')/config/endpoint"/>
+        <xf:action ev:event="xforms-submit">
+          <xf:message if="instance('portal')/actions/debug/@active=true()">Calling base64 encode function</xf:message>
+          <xf:setvalue ref="instance('aria2_addMetalink')/methodCall/params/param[2]/value/base64" value="podule:base64(serialize(instance('metalink')))" _value="podule:base64( transform(instance('feed')/rss,'xsl/rss2meta.xsl', false) )"/>
+        </xf:action>
+        <xf:action ev:event="xforms-submit-done">
+          <xf:message if="false()">
+            <xf:output value="concat( 's_aria2_addMetalink:', event('error-type'), ';', event('resource-uri'))"/>
+          </xf:message>
+        </xf:action>
+        <xf:action ev:event="xforms-submit-error">
+          <xf:message>
+            <xf:output value="concat( 's_aria2_addMetalink:', event('error-type'), ';', event('resource-uri'))"/>
+          </xf:message>
+        </xf:action>
+      </xf:submission>
+      <!--END: aria2_addMetalink-->
+      <!--START: system_listMethods-->
+      <xf:instance xmlns="" id="system_listMethods">
+        <system_listMethods>
+          <methodCall>
+            <methodName>system.listMethods</methodName>
+            <params/>
+          </methodCall>
+          <methodResponse/>
+        </system_listMethods>
+      </xf:instance>
+      <xf:bind ref="instance('system_listMethods')">
+        <xf:bind ref="methodCall"/>
+      </xf:bind>
+      <xf:submission id="s_system_listMethods" ref="instance('system_listMethods')/methodCall" replace="instance" targetref="instance('system_listMethods')/methodResponse" method="post">
+        <xf:resource value="instance('ariaclient')/config/endpoint"/>
+        <xf:action ev:event="xforms-submit"/>
+        <xf:action ev:event="xforms-submit-done">
+          <xf:message if="false()">
+            <xf:output value="concat( 's_system_listMethods:', event('error-type'), ';', event('resource-uri'))"/>
+          </xf:message>
+        </xf:action>
+        <xf:action ev:event="xforms-submit-error">
+          <xf:message>
+            <xf:output value="concat( 's_system_listMethods:', event('error-type'), ';', event('resource-uri'))"/>
+          </xf:message>
+        </xf:action>
+      </xf:submission>
+      <!--END: system_listMethods-->
+    </xf:model>
+    <xf:model id="audio">
+      <xf:instance xmlns="" id="player">
+        <player>
+          <url/>
+        </player>
+      </xf:instance>
+      <xf:bind ref="instance('player')">
+        <!-- Not sure: but I think 'index(x)' function not working from a bind.... -->
+        <!-- TBD: just calculate the position of the *first* item in the list - and then just add the index() from within the UI -->
+        <!--
+	<xf:bind
+		ref="url"
+		calculate="instance('feed')/rss/channel/item[index('r_episodes') + (instance('feed')/ui/currentPage * instance('feed')/ui/pageSize)]/enclosure/@url"/>
+-->
+      </xf:bind>
+    </xf:model>
+  </head>
+  <body lang="en">
+    <xf:group ref="instance('portal')">
+      <div style="min-height: 100vh" class="w3-container {actions/darkmode/@class}">
+        <aside class="w3-sidebar w3-bar-block {actions/darkmode/@class} w3-border-top w3-border-left w3-border-bottom w3-rightbar" style="width:{actions/sidebar/@width}%">
+          <!-- We have different types of behaviours for items on the sidebar:
+	- Things which alter the app state - like 'Dark/Light Mode', 'Collapse/Expand sidebar' 
+    - Things which change the 'case' - what is shown in the main 
+
+For the latter, we can indicate which we have currently selected with a CSS '.' marker, the former just change something but don't alter the case
+Hence two repeats - one for those things which don't have '@case' attributes and those that do
+TBD: we should probably formalize this a bit better.
+- We have 'case', 'dispatch' and just setvalue for active (calculate binds take care of some things as well.
+-->
+          <xf:repeat id="r_actions_no_mark" ref="actions/*[not(@case)]">
+            <xf:trigger appearance="minimal">
+              <xf:action ev:event="DOMActivate">
+                <xf:setvalue ref="@active" value="choose(.=true(), false(), true())"/>
+                <xf:dispatch if="@dispatch">
+                  <xf:name value="@dispatch"/>
+                  <xf:targetid value="@targetid"/>
+                </xf:dispatch>
+              </xf:action>
+              <div class="w3-button w3-flex" style="align-items: center; gap: 0.3em">
+                <span class="material-symbols-outlined">
+                  <xf:output ref="@icon"/>
+                </span>
+                <xf:output value="@label" class="{/portal/actions/sidebar/@class}"/>
+              </div>
+            </xf:trigger>
+          </xf:repeat>
+          <hr/>
+          <xf:repeat id="r_actions" ref="actions/*[@case]">
+            <xf:trigger appearance="minimal">
+              <xf:action ev:event="DOMActivate">
+                <xf:setvalue ref="@active" value="choose(.=true(), false(), true())"/>
+                <xf:toggle if="@case">
+                  <xf:case value="@case"/>
+                </xf:toggle>
+                <xf:dispatch if="@dispatch">
+                  <xf:name value="@dispatch"/>
+                  <xf:targetid value="@targetid"/>
+                </xf:dispatch>
+              </xf:action>
+              <div class="w3-button w3-flex" style="align-items: center; gap: 0.3em">
+                <span class="material-symbols-outlined">
+                  <xf:output ref="@icon"/>
+                </span>
+                <xf:output value="@label" class="{/portal/actions/sidebar/@class}"/>
+              </div>
+            </xf:trigger>
+          </xf:repeat>
+        </aside>
+        <main class="w3-container w3-border-top w3-border-right w3-border-bottom" style="margin-left:{actions/sidebar/@width}% ; min-height: 100vh">
+          <xf:switch>
+            <xf:case id="config">
+              <xf:group ref="instance('opml')" class="w3-container">
+                <xf:group ref="head" class="w3-container">
+                  <h2>
+                    <xf:output ref="title"/>
+                  </h2>
+                  <xf:trigger appearance="minimal">
+                    <xf:action ev:event="DOMActivate">
+                      <xf:send submission="s_opml"/>
+                    </xf:action>
+                    <div class="w3-button w3-flex" style="align-items: center; gap: 0.3em">
+                      <span class="material-symbols-outlined">refresh</span>
+                      <xf:output value="concat('Reload OPML file','')"/>
+                    </div>
+                  </xf:trigger>
+                  <div class="table">
+                    <div class="tr">
+                      <div class="td text">Date Created</div>
+                      <div class="td text">
+                        <xf:output ref="dateCreated"/>
+                      </div>
+                    </div>
+                    <div class="tr">
+                      <div class="td text">Date Modified</div>
+                      <div class="td text">
+                        <xf:output ref="dateModified"/>
+                      </div>
+                    </div>
+                    <div class="tr">
+                      <div class="td text">Owner Name</div>
+                      <div class="td text">
+                        <xf:output ref="ownerName"/>
+                      </div>
+                    </div>
+                    <div class="tr">
+                      <div class="td text">Filtered by</div>
+                      <div class="td text">
+                        <xf:select1 ref="instance('lku')/selectedOutline">
+                          <xf:itemset ref="instance('opml')/body/outline[1]/outline/@text">
+                            <xf:label>
+                              <xf:output value="concat(. ,' (', count(../outline), ' feeds)' )"/>
+                            </xf:label>
+                            <xf:value ref="."/>
+                          </xf:itemset>
+                        </xf:select1>
+                      </div>
+                    </div>
+                  </div>
+                </xf:group>
+                <br/>
+                <div class="table">
+                  <div class="tr">
+                    <div class="th text">Title</div>
+                    <div class="th url">URL</div>
+                  </div>
+                  <xf:repeat id="r_podcasts" ref="body/outline[1]/outline[@text=instance('lku')/selectedOutline]/outline">
+                    <div class="tr">
+                      <div class="td text">
+                        <xf:output value="@text"/>
+                      </div>
+                      <div class="td url">
+                        <xf:output value="@xmlUrl"/>
+                      </div>
+                    </div>
+                  </xf:repeat>
+                </div>
+              </xf:group>
+            </xf:case>
+            <xf:case id="downloader-config">
+              <xf:group ref="instance('ariaclient')" class="w3-container">
+                <h2>ARIA2 Download Configuration</h2>
+                <xf:group ref="config" class="w3-container">
+                  <xf:secret ref="token">
+                    <xf:label>token</xf:label>
+                  </xf:secret>
+                  <xf:input ref="endpoint">
+                    <xf:label>endpoint</xf:label>
+                  </xf:input>
+                  <!-- Not sure we need the following anymore - we aren't using them anyway.... -->
+                  <!--
+	<xf:input ref="dir">
+		<xf:label>dir</xf:label>
+	</xf:input>
+	<xf:input ref="allow-overwrite">
+		<xf:label>allow-overwrite</xf:label>
+	</xf:input>
+-->
+                </xf:group>
+                <xf:group>aria2_addMetalink<xf:group ref="instance('aria2_addMetalink')/methodCall"><h2>aria2_addMetalink</h2><xf:secret ref="params/param[1]/value/string"><xf:label>secret</xf:label></xf:secret><xf:label>options</xf:label><xf:input ref="params/param[3]/value/struct/member[1]/value/string"><xf:label>dir</xf:label></xf:input><xf:input ref="params/param[3]/value/struct/member[2]/value/string"><xf:label>allow-overwrite</xf:label></xf:input><xf:input ref="params/param[3]/value/struct/member[3]/value/string"><xf:label>out</xf:label></xf:input><xf:input ref="params/param[3]/value/struct/member[4]/value/string"><xf:label>gid</xf:label></xf:input><xf:trigger><xf:label>submit</xf:label><xf:send ev:event="DOMActivate" submission="s_aria2_addMetalink"/></xf:trigger></xf:group><xf:group ref="instance('aria2_addMetalink')/methodResponse"><xf:group ref="fault"><xf:output ref="value/struct/member[1]/value/int"><xf:label>faultCode</xf:label></xf:output><xf:output ref="value/struct/member[2]/value/string"><xf:label>faultString</xf:label></xf:output></xf:group><ul><xf:repeat ref="//array/data/value/string"><li><xf:output ref="."/></li></xf:repeat></ul></xf:group>system_listMethods<xf:group ref="instance('system_listMethods')/methodCall"><h2>system_listMethods</h2><xf:trigger><xf:label>submit</xf:label><xf:send ev:event="DOMActivate" submission="s_system_listMethods"/></xf:trigger></xf:group><xf:group ref="instance('system_listMethods')/methodResponse"><xf:group ref="fault"><xf:output ref="value/struct/member[1]/value/int"><xf:label>faultCode</xf:label></xf:output><xf:output ref="value/struct/member[2]/value/string"><xf:label>faultString</xf:label></xf:output></xf:group><ul><xf:repeat ref="//array/data/value/string"><li><xf:output ref="."/></li></xf:repeat></ul></xf:group></xf:group>
+              </xf:group>
+            </xf:case>
+            <xf:case id="download-list">
+              <xf:group ref="instance('metalink')" class="w3-container" metalink:dummy="" dcterms:dummy="">
+                <h2>Metalink Download List</h2>
+                <xf:output value="count(instance('metalink')/metalink:file)"/>
+                <div class="table">
+                  <div class="tr">
+                    <div class="th title">File</div>
+                    <div class="th url">URL</div>
+                  </div>
+                  <xf:repeat id="r_metalinks" ref="metalink:file">
+                    <div class="tr">
+                      <!--<div class="td title"><xf:output value="podule:shorten(string(@name))"/></div> -->
+                      <div class="td title">
+                        <xf:output value="podule:shorten(string(dcterms:title))"/>
+                      </div>
+                      <div class="td url">
+                        <xf:output value="podule:shorten(string(metalink:url[1]))"/>
+                      </div>
+                    </div>
+                  </xf:repeat>
+                </div>
+              </xf:group>
+            </xf:case>
+            <xf:case id="podcasts">
+              <div class="w3-container" podule:dummy="">
+                <xf:trigger>
+                  <xf:label>Add current RSS to metalink</xf:label>
+                  <xf:action ev:event="DOMActivate">
+                    <!-- TBD: DEBUG THIS - not getting the right files added to download (The page->position() calculation is wrong...)-->
+                    <xf:setnode ref="instance('metalink')" outer="transform(         instance('feed')/rss,         'xslt/rss2meta.xsl',         true,         'currentPage', instance('feed')/ui/currentPage,         'pageSize',  instance('feed')/ui/pageSize)"/>
+                  </xf:action>
+                </xf:trigger>
+                <xf:group ref="instance('opml')">
+                  <h3>
+                    <xf:output value="concat(       body/outline[1]/@text,' &gt; ',       instance('lku')/selectedOutline, ' &gt; ',       body/outline[1]/outline[@text=instance('lku')/selectedOutline]/outline[index('r_podcasts')]/@text)"/>
+                  </h3>
+                  <xf:group ref="body/outline[1]/outline[@text=instance('lku')/selectedOutline]/outline[index('r_podcasts')]">
+                    <div class="w3-container">
+                      <xf:trigger appearance="minimal">
+                        <xf:load ev:event="DOMActivate" show="new">
+                          <xf:resource value="@htmlUrl"/>
+                        </xf:load>
+                        <div class="w3-button w3-flex" style="align-items: center; gap: 0.3em">
+                          <span class="material-symbols-outlined">home</span>
+                          <span>Home Page</span>
+                        </div>
+                      </xf:trigger>
+                      <xf:trigger appearance="minimal">
+                        <xf:load ev:event="DOMActivate" show="new">
+                          <xf:resource value="@xmlUrl"/>
+                        </xf:load>
+                        <div class="w3-button w3-flex" style="align-items: center; gap: 0.3em">
+                          <span class="material-symbols-outlined">rss_feed</span>
+                          <span>RSS Feed</span>
+                        </div>
+                      </xf:trigger>
+                      <xf:trigger appearance="minimal">
+                        <xf:send submission="s_feed" ev:event="DOMActivate"/>
+                        <div class="w3-button w3-flex" style="align-items: center; gap: 0.3em">
+                          <span class="material-symbols-outlined">download</span>
+                          <span>Episode List</span>
+                        </div>
+                      </xf:trigger>
+                      <xf:trigger appearance="minimal">
+                        <xf:action ev:event="DOMActivate">
+                          <xf:setindex repeat="r_podcasts" index="index('r_podcasts')-1"/>
+                          <xf:send submission="s_feed"/>
+                        </xf:action>
+                        <div class="w3-button w3-flex" style="align-items: center; gap: 0.3em">
+                          <span class="material-symbols-outlined">arrow_circle_left</span>
+                          <span>Previous Feed</span>
+                        </div>
+                      </xf:trigger>
+                      <xf:trigger appearance="minimal">
+                        <xf:action ev:event="DOMActivate">
+                          <xf:setindex repeat="r_podcasts" index="index('r_podcasts')+1"/>
+                          <xf:send submission="s_feed"/>
+                        </xf:action>
+                        <div class="w3-button w3-flex" style="align-items: center; gap: 0.3em">
+                          <span class="material-symbols-outlined">arrow_circle_right</span>
+                          <span>Next Feed</span>
+                        </div>
+                      </xf:trigger>
+                      <div class="w3-card w3-padding">
+                        <div class="w3-row">
+                          <div class="w3-large">
+                            <xf:output ref="@text"/>
+                          </div>
+                          <div class="w3-col" style="width:224px;">
+                            <xf:output mediatype="image/*" class="thumbnail" ref="@imageHref"/>
+                            <div class="w3-small">
+                              <xf:output ref="@bbcgenres"/>
+                            </div>
+                          </div>
+                          <div class="w3-rest w3-padding-small">
+                            <div class="w3-medium">
+                              <xf:output ref="@description"/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </xf:group>
+                  <xf:group ref="instance('feed')/ui[count(../rss/channel/item) &gt; 0]">
+                    <div>
+                      <xf:trigger ref="instance('feed')/ui">
+                        <xf:label>Next</xf:label>
+                        <xf:action ev:event="DOMActivate">
+                          <xf:setvalue if="currentPage &lt; maxPage" ref="currentPage" value=". + 1"/>
+                        </xf:action>
+                      </xf:trigger>
+                      <xf:trigger ref="instance('feed')/ui/currentPage">
+                        <xf:label>Prev</xf:label>
+                        <xf:action ev:event="DOMActivate">
+                          <xf:setvalue if=". &gt; 1" ref="." value=". -1"/>
+                        </xf:action>
+                      </xf:trigger>
+                    </div>
+                    <xf:output value="concat(count(../rss/channel/item), ' Episodes, Page: ', currentPage, '/', maxPage)"/>
+                  </xf:group>
+                  <xf:group ref="instance('feed')/rss/channel">
+                    <div class="table">
+                      <div class="tr">
+                        <div class="th text">Title</div>
+                        <div class="th text">pubDate</div>
+                      </div>
+                      <xf:repeat id="r_episodes" ref="item[      position() &gt;= ((instance('feed')/ui/currentPage - 1) * instance('feed')/ui/pageSize + 1)            and      position() &lt;= (instance('feed')/ui/currentPage * instance('feed')/ui/pageSize)]">
+                        <div class="tr">
+                          <div class="td text">
+                            <xf:output ref="title"/>
+                          </div>
+                          <div class="td text">
+                            <xf:output ref="pubDate"/>
+                          </div>
+                        </div>
+                      </xf:repeat>
+                    </div>
+                  </xf:group>
+                </xf:group>
+              </div>
+            </xf:case>
+            <xf:case id="xforms-app">
+              <div class="w3-container">
+                <xf:group ref="instance('self')">
+                  <h1> About this XForms Application </h1>
+                  <ul>
+                    <li>Models:</li>
+                    <ul>
+                      <xf:repeat ref="ht:head/xf:model">
+                        <li>
+                          <xf:output ref="@id"/>
+                          <ul>
+                            <li>Instances:</li>
+                            <ul>
+                              <xf:repeat ref="xf:instance">
+                                <li>
+                                  <xf:output ref="@id"/>
+                                </li>
+                                <ul>
+                                  <xf:repeat ref="instance(@id)/*">
+                                    <li>
+                                      <xf:output value="name(.)"/>
+                                    </li>
+                                  </xf:repeat>
+                                </ul>
+                              </xf:repeat>
+                            </ul>
+                            <li>Submissions:</li>
+                            <ul>
+                              <xf:repeat ref="xf:submission">
+                                <li>
+                                  <xf:output ref="@id"/>
+                                </li>
+                              </xf:repeat>
+                            </ul>
+                            <li>Actions:</li>
+                            <ul>
+                              <xf:repeat ref="xf:action">
+                                <li>
+                                  <xf:output ref="@ev:event"/>
+                                </li>
+                              </xf:repeat>
+                            </ul>
+                          </ul>
+                        </li>
+                      </xf:repeat>
+                    </ul>
+                    <li>scripts</li>
+                    <ul>
+                      <xf:repeat ref="//ht:script">
+                        <li>
+                          <xf:output ref="@id"/>
+                        </li>
+                      </xf:repeat>
+                    </ul>
+                  </ul>
+                </xf:group>
+              </div>
+            </xf:case>
+            <xf:case id="play-screen">
+              <div class="w3-container" xlink:dummy="" podule:dummy="">
+                <xf:group ref="instance('feed')/rss/channel/item[index('r_episodes') + /feed/ui/firstItemInPage]">
+                  <h1>
+                    <xf:output ref="title"/>
+                  </h1>
+                  <xf:output value="podule:stripHTML(string(description))"/>
+                  <audio controls="true" id="audio_player" src="{enclosure/@url}"/>
+                </xf:group>
+              </div>
+            </xf:case>
+            <xf:case id="external-links">
+              <div class="w3-container" xlink:dummy="">
+                <xf:group ref="instance('links')">
+                  <h2>External Links</h2>
+                  <div class="table">
+                    <div class="tr">
+                      <div class="th title">Title</div>
+                      <div class="th url">URL</div>
+                    </div>
+                    <xf:repeat id="r_external_links" ref="link">
+                      <div class="tr">
+                        <div class="td title">
+                          <xf:output value="@xlink:title"/>
+                        </div>
+                        <div class="td url">
+                          <xf:output value="@xlink:href"/>
+                        </div>
+                      </div>
+                    </xf:repeat>
+                  </div>
+                  <xf:trigger appearance="minimal">
+                    <xf:load ev:event="DOMActivate" show="new">
+                      <xf:resource value="link[index('r_external_links')]/@xlink:href"/>
+                    </xf:load>
+                    <div class="w3-button w3-flex" style="align-items: center; gap: 0.3em">
+                      <span class="material-symbols-outlined">open_in_new</span>
+                      <xf:output value="concat('Open link: &quot;', link[index('r_external_links')]/@xlink:title, '&quot; in new window')"/>
+                    </div>
+                  </xf:trigger>
+                </xf:group>
+              </div>
+            </xf:case>
+          </xf:switch>
+        </main>
+      </div>
+    </xf:group>
+    <script type="text/javascript" id="js_util">
+// https://aria2.github.io/manual/en/html/aria2c.html#aria2.addMetalink
+// Requires the 'metalink' file to be included inline as base64-encoded string.
+XsltForms_xpathCoreFunctions["urn:podule:utils base64"] =
+   		new XsltForms_xpathFunction(
+			false,
+			XsltForms_xpathFunction.DEFAULT_STRING,
+			false,
+   			function(s){
+					return btoa(unescape(encodeURIComponent(s)));
+			}
+		);
+
+// Calculate a filename to assign for downloads
+// Generated by a friendly LLM.
+XsltForms_xpathCoreFunctions["urn:podule:utils urlToSafePath"] =
+   		new XsltForms_xpathFunction(
+			false,
+			XsltForms_xpathFunction.DEFAULT_STRING,
+			false,
+			function(url) {
+				const u = new URL(url);
+				const segments = [u.hostname, ...u.pathname.split('/').filter(Boolean)];
+				return segments.map(s =&gt; s.replace(/[\/\\:*?"&lt;&gt;|\0]/g, '_').replace(/\s+$/, '').replace(/\.+$/, '')).join('/');
+			}
+		);
+
+// Convenience function: use it in 'setvalue' in xforms-ready - base the aria URL based on the hostname of web host
+XsltForms_xpathCoreFunctions["urn:podule:utils guessAriaXMLUrl"] =
+   		new XsltForms_xpathFunction(
+			false,
+			false,
+			false,
+			function() {
+				const d = document.location;
+				return d.protocol + '//' + d.hostname + ':6800/rpc';
+			}
+		);
+
+// Santize filenames - so we can use them to download MP3s with human-readable names.
+XsltForms_xpathCoreFunctions["urn:podule:utils sanitizeFilename"] =
+        new XsltForms_xpathFunction(
+            false,
+			XsltForms_xpathFunction.DEFAULT_STRING,
+            false,
+            function(f) {
+				return f.replace(/[^\w_. -]/g, '_');
+            }
+		);
+
+XsltForms_xpathCoreFunctions["urn:podule:utils shorten"] =
+        new XsltForms_xpathFunction(
+            false,
+			XsltForms_xpathFunction.DEFAULT_STRING,
+            false,
+            function(s) {
+  				const ellipsis = '…';
+				const maxLength = 40;
+  				return s.length &gt; maxLength
+    			? s.slice(0, maxLength - 1) + ellipsis : s;
+            }
+		);
+
+
+XsltForms_xpathCoreFunctions["urn:podule:utils stripHTML"] =
+        new XsltForms_xpathFunction(
+            false,
+			XsltForms_xpathFunction.DEFAULT_STRING,
+            false,
+			function (s) {
+  				const parser = new DOMParser();
+  				const doc = parser.parseFromString(s, 'text/html');
+				return String(doc.body.textContent || '');
+			}
+		);
+
+</script>
+  </body>
+</html>
