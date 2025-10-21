@@ -120,7 +120,7 @@
       </xf:instance>
     </xf:model>
     <xf:model id="podule">
-      <xf:instance id="opml" _src="https://gpodder.net/toplist/30.opml" src="http://podcasts.files.bbci.co.uk/podcasts.opml">
+      <xf:instance id="opml" _src="https://gpodder.net/toplist/30.opml" src="https://api.cors.lol/?url=http://podcasts.files.bbci.co.uk/podcasts.opml">
         <!-- TBD: make this more generic : the BBC happen to use 3 levels (A 'wrapper' stationlist, then by-station wrapper and then the RSS feed) -->
         <!-- The gPodder list is just a flat top-level list -->
         <!--
