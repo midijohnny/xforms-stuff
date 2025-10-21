@@ -3,8 +3,10 @@
 <?xsltforms-options debug="no"?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ht="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:ppg="http://bbc.co.uk/2009/01/ppgRss" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:metalink="urn:ietf:params:xml:ns:metalink" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:podule="urn:podule:utils" ht:dummy="" xlink:dummy="" media:dummy="" atom:dummy="" ppg:dummy="" itunes:dummy="" metalink:dummy="" podule:dummy="" dcterms:dummy="" lang="en">
   <head lang="en">
+<!--
     <meta name="referrer" content="no-referrer"/>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css"/>
+-->
+   <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
     <title>Podule</title>
     <style type="text/css"><![CDATA[
@@ -110,7 +112,7 @@
       <xf:action ev:event="xforms-ready">
         <xf:message if="instance('portal')/actions/debug/@active=true()">xforms-ready</xf:message>
       </xf:action>
-      <xf:instance id="self" src="index.xhtml"/>
+      <xf:instance id="self" src="podule.xhtml"/>
       <xf:instance xmlns="" id="var">
         <var>
           <serialized/>
