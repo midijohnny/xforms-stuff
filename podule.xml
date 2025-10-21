@@ -112,7 +112,7 @@
       <xf:action ev:event="xforms-ready">
         <xf:message if="instance('portal')/actions/debug/@active=true()">xforms-ready</xf:message>
       </xf:action>
-      <xf:instance id="self" src="podule.xhtml"/>
+      <xf:instance id="self" src="podule.xml"/>
       <xf:instance xmlns="" id="var">
         <var>
           <serialized/>
