@@ -52,7 +52,7 @@ Screenshot:
 This is a simple readonly app for exploring WebDAV based system: basic functionality only.  
 Designed mostly for Mobile use.
 
-Code is here: [webdav code].
+Code is here: [webdav_code].
 
 Screenshot:
 ![][webdav_client_screenshot]
