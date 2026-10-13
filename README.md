@@ -51,7 +51,7 @@ Screenshot:
 ## Simple WebDAV client in XForms.
 
 Screenshot:
-![][webdav/WebDAVUI-01154463a7/WebDAVUI.png]
+![][webdav_client_screenshot]
 
 ### Update: 
 
@@ -615,6 +615,7 @@ Perhaps having a map of custom, app-specific events - based on the MQTT topics w
 
 [aria1]: img/aria1.png
 [aria2]: img/aria2.png
+[webdav_client_screenshot]: webdav/WebDAVUI-01154463a7/WebDAVUI.png
 [aria3]: img/aria3.png
 [aria4]: img/aria4.png
 [local_storage_demo]: img/local_storage_demo.png
