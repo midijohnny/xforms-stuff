@@ -1,0 +1,28 @@
+.icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.icon-home      { background-image: url("icons/house-door.svg"); }
+.icon-parent    { background-image: url("icons/arrow-90deg-up.svg"); }
+.icon-refresh   { background-image: url("icons/arrow-clockwise.svg"); }
+.icon-folder    { background-image: url("icons/folder.svg"); }
+.icon-file      { background-image: url("icons/file-earmark.svg"); }
+.icon-launch    { background-image: url("icons/rocket-takeoff.svg"); }
+.icon-settings  { background-image: url("icons/gear.svg"); }
+
+.icon-with-text {
+	padding: 8px;
+	vertical-align: -4px;
+}
+
+xforms-trigger[xf-readonly] .icon { opacity: 0.25; }
+
+
+/* r_folders > xforms-repeat-item[xf-selected='true']	{  background-color: Highlight; color: HighlightText; } */
+
+#r_files   > xforms-repeat-item[xf-selected='true']	{  background-color: Highlight; color: HighlightText; }

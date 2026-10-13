@@ -1,0 +1,28 @@
+<?xml
+	version="1.0"
+	encoding="UTF-8"?>
+<?xml-stylesheet
+	href="xsltforms-1.7/xsltforms.xsl"
+	type="text/xsl"?>
+<?xsltforms-options
+	debug="no"?>
+<html
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:svg="http://www.w3.org/2000/svg"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:d="DAV:"
+	xmlns:s="http://sabredav.org/ns"
+	svg:dummy=""
+	rdf:dummy=""
+	dc:dummy=""
+	d:dummy=""
+	s:dummy=""
+	lang="en">
+<xi:include href="head.xml"/>
+<xi:include href="body.xml"/>
+</html>

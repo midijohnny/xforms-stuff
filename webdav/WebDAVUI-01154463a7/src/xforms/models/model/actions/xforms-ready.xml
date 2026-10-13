@@ -1,0 +1,9 @@
+<xf:action ev:event="xforms-ready"
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+
+<xf:message if="/explorer/debug=true()">xforms-ready</xf:message>
+<xf:send submission="s_propfind"/>
+
+</xf:action>

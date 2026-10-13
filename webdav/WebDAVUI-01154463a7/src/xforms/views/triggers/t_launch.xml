@@ -1,0 +1,13 @@
+<xf:trigger
+	id="t_launch"
+	bind="b_launch"
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events">
+	<xf:label class="icon icon-launch"/>
+	<xf:action ev:event="DOMActivate">
+		<xf:message if="/explorer/debug=true()">t_launch clicked</xf:message>
+		<xf:load>
+			<xf:resource value="/explorer/cfile"/>
+		</xf:load>
+	</xf:action>
+</xf:trigger>

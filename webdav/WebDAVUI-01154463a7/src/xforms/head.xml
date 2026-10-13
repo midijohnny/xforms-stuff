@@ -1,0 +1,10 @@
+<head
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<xi:include href="models/model.xml"/>
+	<script src="js/udf.js"></script>
+	<link rel="stylesheet" href="css/style.css"/>
+</head>

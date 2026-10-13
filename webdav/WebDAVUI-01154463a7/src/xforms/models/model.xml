@@ -1,0 +1,15 @@
+<xf:model
+	id="model"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+
+	<xi:include href="model/instances/explorer.xml"/> 
+	<xi:include href="model/binds.xml"/>
+	<xi:include href="model/actions/xforms-ready.xml"/>
+	<xi:include href="model/actions/do-list-collection.xml"/>
+	<xi:include href="model/submissions/s_propfind.xml"/>
+
+</xf:model>

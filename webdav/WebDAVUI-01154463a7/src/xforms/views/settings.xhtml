@@ -1,0 +1,39 @@
+<xf:group
+	xf:model="model"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:d="DAV:"
+	xmlns:s="http://sabredav.org/ns">
+	<xf:trigger appearance="minimal">
+		<xf:label>&lt; back</xf:label>
+		<xf:toggle ev:event="DOMActivate" case="c_explorer"/>
+	</xf:trigger>
+	<hr/>
+	<h3>
+		<xf:label class="icon icon-settings icon-with-text"/>
+		Settings
+	</h3>
+
+	<hr/>
+
+	<xf:input ref="/explorer/debug">
+		<xf:label>debug?</xf:label>
+	</xf:input>
+
+	<hr/>
+
+	<xf:input ref="/explorer/cwd">
+		<xf:label>Current Folder</xf:label>
+	</xf:input>
+
+	<hr/>
+	
+	<xi:include href="triggers/t_submit.xml"/>
+	
+	<hr/>
+
+	<img src="/xsltforms-1.7/poweredbyXSLTForms.png"/>
+
+</xf:group>

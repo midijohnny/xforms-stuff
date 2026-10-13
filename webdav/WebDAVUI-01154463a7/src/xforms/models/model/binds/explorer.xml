@@ -1,0 +1,40 @@
+<xf:bind
+    ref="/explorer"
+    xmlns:xf="http://www.w3.org/2002/xforms"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <xf:bind ref="debug" type="xs:boolean"/>
+
+	<xf:bind ref="controls">
+		<xf:bind id="b_home"   ref="home"   readonly="/explorer/cwd='/'"/>
+		<xf:bind id="b_parent" ref="parent" readonly="/explorer/cwd='/'"/>
+		<xf:bind id="b_launch" ref="launch" readonly="not(/explorer/d:multistatus/d:response[d:propstat/d:prop/d:resourcetype[not(d:collection)]])"/>
+		<xf:bind id="b_settings" ref="settings" />
+	</xf:bind>
+
+
+	<xf:bind
+		id="b_selected_file"
+		ref="cfile"
+		calculate="../d:multistatus/d:response[d:propstat/d:prop/d:resourcetype[not(d:collection)]][index('r_files')]/d:href"/>
+
+	<xf:bind
+		id="b_nofiles"
+		ref="nofiles"
+		type="xs:boolean"
+		relevant="0=count(../d:multistatus/d:response[d:propstat/d:prop/d:resourcetype[not(d:collection)]])"/>
+
+	<xf:bind
+		id="b_nofolders"
+		ref="nofolders"
+		type="xs:boolean"
+       	relevant="0=count(../d:multistatus/d:response[d:propstat/d:prop/d:resourcetype/d:collection and d:href!=/explorer/cwd])"/>
+
+    <xf:bind
+      		id="b_folders"
+       		ref="d:multistatus/d:response[d:propstat/d:prop/d:resourcetype/d:collection and d:href!=/explorer/cwd]"/>
+
+	<xf:bind
+       		id="b_files"
+       		ref="d:multistatus/d:response[d:propstat/d:prop/d:resourcetype[not(d:collection)]]"/>
+</xf:bind>

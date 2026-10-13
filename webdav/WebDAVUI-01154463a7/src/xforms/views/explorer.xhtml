@@ -1,0 +1,39 @@
+<xf:group
+	xf:model="model"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:d="DAV:"
+	xmlns:s="http://sabredav.org/ns">
+
+	<xf:group id="g_controls">
+		<xi:include href="triggers/t_home.xml"/> 
+		<xi:include href="triggers/t_refresh.xml"/>
+		<xi:include href="triggers/t_parent.xml"/>
+		<xi:include href="triggers/t_launch.xml"/>
+		<xi:include href="triggers/t_settings.xml"/>
+	</xf:group>
+
+	<h3>
+		<xf:label class="icon icon-folder icon-with-text"/>
+		<xf:output value="baseName(/explorer/cwd)"/>
+	</h3>
+
+	<hr/>
+
+	<section id="folders">
+		<xf:group bind="b_nofolders">
+			no subfolders
+		</xf:group>
+		<xi:include href="repeats/r_folders.xml"/>
+	</section>
+	<hr/>
+	<section id="files">
+		<xf:group bind="b_nofiles">
+			no files
+		</xf:group>
+		<xi:include href="repeats/r_files.xml"/>
+	</section>
+
+</xf:group>

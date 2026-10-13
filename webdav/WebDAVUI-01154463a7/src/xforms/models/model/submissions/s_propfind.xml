@@ -1,0 +1,38 @@
+<xf:submission
+	id="s_propfind"
+	method="PROPFIND"
+	ref="/explorer/d:propfind"	
+	replace="instance"
+	targetref="/explorer/d:multistatus"
+	xmlns=""
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:d="DAV:"
+	xmlns:s="http://sabredav.org/ns">
+
+	<xf:resource value="/explorer/cwd"/>
+
+	<xf:action ev:event="xforms-submit">
+		<xf:message if="/explorer/debug=true()">xforms-submit</xf:message>
+	</xf:action>
+
+	<xf:action ev:event="xforms-submit-done">
+		<xf:message if="/explorer/debug=true()">xforms-submit-done</xf:message>
+		<!--
+		# Note:
+		The reason for this odd pair of 'setindex' calls :
+		
+		We have a bind which makes use of the 'index' function on the 'r_files' repeat.
+		However: the function doesn't return '1' immediately following the submit.
+		So: we manually nudge it - we have to change it to 2 (which might be invalid, but it doesn't matter) and then back to 1.
+		This causes the bind to perform the calculation.
+		-->
+		<xf:setindex repeat="r_files" index="2"/> 
+		<xf:setindex repeat="r_files" index="1"/> 
+	</xf:action>
+
+	<xf:action ev:event="xforms-submit-error">
+		<xf:message>xforms-submit-error</xf:message>
+	</xf:action>
+
+</xf:submission>

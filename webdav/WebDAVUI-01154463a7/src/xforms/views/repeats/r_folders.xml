@@ -1,0 +1,21 @@
+<xf:repeat
+	bind="b_folders"
+	id="r_folders"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:d="DAV:"
+	xmlns:s="http://sabredav.org/ns">
+		<xf:trigger id="t_navigate" appearance="minimal">
+			<xf:label class="icon icon-folder"/>
+ 			<xf:output value="substring( 
+								d:href,
+								1+string-length(/explorer/cwd) )"/>
+				<xf:action ev:event="DOMActivate">
+						<xf:setvalue ref="/explorer/cfile"/>
+						<xf:setvalue ref="/explorer/cwd" value="current()/d:href"/>
+						<xf:dispatch name="do-list-collection" targetid="model"/>
+					</xf:action>
+			</xf:trigger>
+</xf:repeat>

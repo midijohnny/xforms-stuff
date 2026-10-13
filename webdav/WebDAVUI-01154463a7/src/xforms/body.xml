@@ -1,0 +1,14 @@
+<body
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+	<xf:switch>
+		<xf:case id="c_explorer">
+			<xi:include href="views/explorer.xhtml"/>
+		</xf:case>
+		<xf:case id="c_settings">
+			<xi:include href="views/settings.xhtml"/>
+		</xf:case>
+	</xf:switch>
+</body>

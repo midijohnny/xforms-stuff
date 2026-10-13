@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:dcterms="http://purl.org/dc/terms/">
+
+    <rdf:Description rdf:about="https://icons.getbootstrap.com/">
+        <dcterms:title>Bootstrap Icons</dcterms:title>
+        <dcterms:creator>The Bootstrap Authors</dcterms:creator>
+        <dcterms:license rdf:resource="https://github.com/twbs/icons/blob/main/LICENSE"/>
+
+        <dcterms:hasPart rdf:resource="https://icons.getbootstrap.com/assets/icons/house-door.svg"/>
+        <dcterms:hasPart rdf:resource="https://icons.getbootstrap.com/assets/icons/file-earmark.svg"/>
+        <dcterms:hasPart rdf:resource="https://icons.getbootstrap.com/assets/icons/arrow-counterclockwise.svg"/>
+        <dcterms:hasPart rdf:resource="https://icons.getbootstrap.com/assets/icons/file-image.svg"/>
+        <dcterms:hasPart rdf:resource="https://icons.getbootstrap.com/assets/icons/folder.svg"/>
+        <dcterms:hasPart rdf:resource="https://icons.getbootstrap.com/assets/icons/filetype-xml.svg"/>
+        <dcterms:hasPart rdf:resource="https://icons.getbootstrap.com/assets/icons/arrow-clockwise.svg"/>
+        <dcterms:hasPart rdf:resource="https://icons.getbootstrap.com/assets/icons/arrow-90deg-up.svg"/>
+        <dcterms:hasPart rdf:resource="https://icons.getbootstrap.com/assets/icons/gear.svg"/>
+        <dcterms:hasPart rdf:resource="https://icons.getbootstrap.com/assets/icons/rocket-takeoff.svg"/>
+    </rdf:Description>
+
+</rdf:RDF>

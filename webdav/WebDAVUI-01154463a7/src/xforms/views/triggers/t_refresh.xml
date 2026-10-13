@@ -1,0 +1,9 @@
+<xf:trigger
+	id="t_refresh"
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events">
+	<xf:label class="icon icon-refresh"/>
+ 	<xf:action ev:event="DOMActivate">
+		<xf:send name="do-list-collection" targetid="model"/>
+	</xf:action>
+</xf:trigger>

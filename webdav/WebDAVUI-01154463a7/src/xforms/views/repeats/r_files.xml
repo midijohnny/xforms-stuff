@@ -1,0 +1,16 @@
+<xf:repeat
+	bind="b_files"
+	id="r_files"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:d="DAV:"
+	xmlns:s="http://sabredav.org/ns">
+		<xf:trigger id="t_navigate" appearance="minimal">
+			<xf:label class="icon icon-file"/>
+ 			<xf:output value="substring( 
+								d:href,
+								1+string-length(/explorer/cwd) )"/>
+		</xf:trigger>
+</xf:repeat>

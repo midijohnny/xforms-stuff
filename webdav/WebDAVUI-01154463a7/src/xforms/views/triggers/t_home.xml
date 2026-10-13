@@ -1,0 +1,11 @@
+<xf:trigger
+	id="t_home"
+	bind="b_home"
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events">
+	<xf:label class="icon icon-home"/>
+	<xf:action ev:event="DOMActivate">
+		<xf:setvalue ref="/explorer/cwd">/</xf:setvalue>
+		<xf:dispatch name="do-list-collection" targetid="model"/>
+	</xf:action>
+</xf:trigger>

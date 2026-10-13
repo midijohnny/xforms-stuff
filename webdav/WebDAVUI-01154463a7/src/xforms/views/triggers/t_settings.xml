@@ -1,0 +1,11 @@
+<xf:trigger
+	id="t_settings"
+	bind="b_settings"
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events">
+	<xf:label class="icon icon-settings"/>
+	<xf:action ev:event="DOMActivate">
+		<xf:message if="/explorer/debug=true()">t_settings clicked</xf:message>
+		<xf:toggle case="c_settings"/>
+	</xf:action>
+</xf:trigger>

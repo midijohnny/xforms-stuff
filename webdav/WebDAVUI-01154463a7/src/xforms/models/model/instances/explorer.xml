@@ -1,0 +1,26 @@
+<xf:instance
+	id="explorer"
+	xmlns=""
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:d="DAV:"
+	xmlns:s="http://sabredav.org/ns">
+	<explorer>
+		<debug>false</debug>
+		<cwd>/</cwd>
+		<cfile/>
+		<nofiles/>
+		<nofolders/>
+		<controls>
+			<home/>
+			<refresh/>
+			<parent/>
+			<launch/>
+			<settings/>
+		</controls>
+		<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns"/>
+		<d:propfind>
+			<d:allprop/>
+		</d:propfind>
+	</explorer>
+</xf:instance>
