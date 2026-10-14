@@ -48,14 +48,7 @@ Screenshot:
 
 ![][2-Level-Tree]
 
-## Simple WebDAV client in XForms.
-This is a simple readonly app for exploring WebDAV based system: basic functionality only.  
-Designed mostly for Mobile use.
 
-Code is here: [webdav_code].
-
-Screenshot:
-![][webdav_client_screenshot]
 
 ### Update: 
 
@@ -66,6 +59,15 @@ Using the XSLT stylesheet to do this requires using XSLTForms version 1.7 - whic
 
 The 'ui:dummy' and 'xlink:dummy' attributes defined on the 'html' element are to force Firefox to handle the namespaced attributes used in the instance documents.
 See: https://en.wikibooks.org/wiki/XRX/XSLTForms_and_eXist 
+
+## Simple WebDAV client in XForms.
+This is a simple readonly app for exploring WebDAV based system: basic functionality only.  
+Designed mostly for Mobile use.
+
+Code is here: [webdav_code].
+
+Screenshot:
+![][webdav_client_screenshot]
 
 ## Using Browser Local Storage to save app-state.
 
