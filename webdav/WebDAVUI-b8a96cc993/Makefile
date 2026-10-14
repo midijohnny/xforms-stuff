@@ -17,6 +17,7 @@ copy-js: dirs
 dirs: php
 	mkdir -p bld/data bld/public bld/public/css bld/public/js
 	mkdir -p bld/public/folder1/folder2/folder3
+	echo hello > bld/public/folder1/folder2/hello.txt
 	cp -r src bld/public
 	chmod -R a+rwx bld/data bld/public
 

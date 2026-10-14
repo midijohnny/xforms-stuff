@@ -1,0 +1,21 @@
+<xf:action
+	ev:event="do-set-current-file"
+	xmlns:xf="http://www.w3.org/2002/xforms" 
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+
+<xf:message if="/explorer/debug=true()">do-set-current-file</xf:message>
+
+<xf:setvalue
+	ref="/explorer/cfile"
+	value="../d:multistatus/d:response [
+								d:propstat/d:prop/d:resourcetype [
+									not(d:collection)
+								]
+							]
+							[
+								index('r_files')
+							]
+							/d:href"/>
+
+</xf:action>

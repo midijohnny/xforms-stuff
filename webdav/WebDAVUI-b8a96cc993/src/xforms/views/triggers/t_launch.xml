@@ -6,6 +6,7 @@
 	<xf:label class="icon icon-launch"/>
 	<xf:action ev:event="DOMActivate">
 		<xf:message if="/explorer/debug=true()">t_launch clicked</xf:message>
+		<xf:dispatch name="do-set-current-file" targetid="model"/>
 		<xf:load>
 			<xf:resource value="/explorer/cfile"/>
 		</xf:load>

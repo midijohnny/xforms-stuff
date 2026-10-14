@@ -12,12 +12,6 @@
 		<xf:bind id="b_settings" ref="settings" />
 	</xf:bind>
 
-
-	<xf:bind
-		id="b_selected_file"
-		ref="cfile"
-		calculate="../d:multistatus/d:response[d:propstat/d:prop/d:resourcetype[not(d:collection)]][index('r_files')]/d:href"/>
-
 	<xf:bind
 		id="b_nofiles"
 		ref="nofiles"

@@ -27,8 +27,12 @@
 		So: we manually nudge it - we have to change it to 2 (which might be invalid, but it doesn't matter) and then back to 1.
 		This causes the bind to perform the calculation.
 		-->
+		<xf:refresh/>
+		<!--
+		<xf:dispatch name="do-set-current-file" targetid="model"/>
 		<xf:setindex repeat="r_files" index="2"/> 
 		<xf:setindex repeat="r_files" index="1"/> 
+		-->
 	</xf:action>
 
 	<xf:action ev:event="xforms-submit-error">

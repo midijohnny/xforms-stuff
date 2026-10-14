@@ -10,6 +10,7 @@
 	<xi:include href="model/binds.xml"/>
 	<xi:include href="model/actions/xforms-ready.xml"/>
 	<xi:include href="model/actions/do-list-collection.xml"/>
+	<xi:include href="model/actions/do-set-current-file.xml"/>
 	<xi:include href="model/submissions/s_propfind.xml"/>
 
 </xf:model>
